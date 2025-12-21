@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,6 +23,36 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const { scrollYProgress: infoScrollProgress } = useScroll({
+    target: infoRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const { scrollYProgress: formScrollProgress } = useScroll({
+    target: formRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+
+  const infoX = useSpring(
+    useTransform(infoScrollProgress, [0, 1], [-60, 0]),
+    springConfig
+  );
+
+  const formX = useSpring(
+    useTransform(formScrollProgress, [0, 1], [60, 0]),
+    springConfig
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,77 +70,108 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
     (e.target as HTMLFormElement).reset();
   };
 
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'hello@janoshada.com',
+      href: 'mailto:hello@janoshada.com',
+    },
+    {
+      icon: Phone,
+      label: language === 'en' ? 'Phone' : 'Telefon',
+      value: '+40 722 123 456',
+      href: 'tel:+40722123456',
+    },
+    {
+      icon: MapPin,
+      label: language === 'en' ? 'Based in' : 'Locație',
+      value: 'Cluj-Napoca, Romania',
+      href: null,
+    },
+  ];
+
   return (
-    <section className={`section-padding ${isFullPage ? 'pt-32' : 'bg-card'}`}>
+    <section ref={sectionRef} className={`section-padding ${isFullPage ? 'pt-32' : 'bg-card'} overflow-hidden`}>
       <div className="container-wide">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            ref={infoRef}
+            style={{ x: infoX }}
           >
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl mb-6">
+            <motion.h2 
+              className="font-heading text-4xl md:text-5xl lg:text-6xl mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               {t('contact.title')}
-            </h2>
-            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground text-lg mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               {t('contact.intro')}
-            </p>
+            </motion.p>
 
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-secondary rounded-sm flex items-center justify-center">
-                  <Mail className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <a href="mailto:hello@janoshada.com" className="text-foreground hover:text-primary transition-colors">
-                    hello@janoshada.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-secondary rounded-sm flex items-center justify-center">
-                  <Phone className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{language === 'en' ? 'Phone' : 'Telefon'}</p>
-                  <a href="tel:+40722123456" className="text-foreground hover:text-primary transition-colors">
-                    +40 722 123 456
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-secondary rounded-sm flex items-center justify-center">
-                  <MapPin className="text-primary" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{language === 'en' ? 'Based in' : 'Locație'}</p>
-                  <p className="text-foreground">Cluj-Napoca, Romania</p>
-                </div>
-              </div>
+              {contactInfo.map((item, index) => (
+                <motion.div 
+                  key={index}
+                  className="flex items-center gap-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  whileHover={{ x: 5 }}
+                >
+                  <motion.div 
+                    className="w-12 h-12 bg-secondary rounded-sm flex items-center justify-center"
+                    whileHover={{ scale: 1.1, backgroundColor: 'hsl(var(--primary) / 0.1)' }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <item.icon className="text-primary" size={20} />
+                  </motion.div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                    {item.href ? (
+                      <a href={item.href} className="text-foreground hover:text-primary transition-colors">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="text-foreground">{item.value}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
           {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            ref={formRef}
+            style={{ x: formX }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
+              <motion.div 
+                className="grid sm:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 <div className="space-y-2">
                   <Label htmlFor="name">{t('contact.form.name')}</Label>
                   <Input
                     id="name"
                     name="name"
                     required
-                    className="bg-background"
+                    className="bg-background transition-all duration-300 focus:scale-[1.02]"
                   />
                 </div>
                 <div className="space-y-2">
@@ -120,19 +181,25 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                     name="email"
                     type="email"
                     required
-                    className="bg-background"
+                    className="bg-background transition-all duration-300 focus:scale-[1.02]"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <motion.div 
+                className="grid sm:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 <div className="space-y-2">
                   <Label htmlFor="phone">{t('contact.form.phone')}</Label>
                   <Input
                     id="phone"
                     name="phone"
                     type="tel"
-                    className="bg-background"
+                    className="bg-background transition-all duration-300 focus:scale-[1.02]"
                   />
                 </div>
                 <div className="space-y-2">
@@ -148,16 +215,22 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <motion.div 
+                className="grid sm:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 <div className="space-y-2">
                   <Label htmlFor="date">{t('contact.form.date')}</Label>
                   <Input
                     id="date"
                     name="date"
                     type="date"
-                    className="bg-background"
+                    className="bg-background transition-all duration-300 focus:scale-[1.02]"
                   />
                 </div>
                 <div className="space-y-2">
@@ -165,33 +238,46 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                   <Input
                     id="location"
                     name="location"
-                    className="bg-background"
+                    className="bg-background transition-all duration-300 focus:scale-[1.02]"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 <Label htmlFor="message">{t('contact.form.message')}</Label>
                 <Textarea
                   id="message"
                   name="message"
                   rows={5}
-                  className="bg-background resize-none"
+                  className="bg-background resize-none transition-all duration-300 focus:scale-[1.01]"
                 />
-              </div>
+              </motion.div>
 
-              <Button
-                type="submit"
-                variant="hero"
-                size="lg"
-                className="w-full"
-                disabled={isSubmitting}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
               >
-                {isSubmitting 
-                  ? (language === 'en' ? 'Sending...' : 'Se trimite...') 
-                  : t('contact.form.submit')
-                }
-              </Button>
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="lg"
+                  className="w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting 
+                    ? (language === 'en' ? 'Sending...' : 'Se trimite...') 
+                    : t('contact.form.submit')
+                  }
+                </Button>
+              </motion.div>
             </form>
           </motion.div>
         </div>

@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,6 +16,19 @@ interface FAQSectionProps {
 
 const FAQSection = ({ isFullPage = false }: FAQSectionProps) => {
   const { t, language } = useLanguage();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+
+  const headerY = useSpring(
+    useTransform(scrollYProgress, [0, 0.5], [40, 0]),
+    springConfig
+  );
 
   const faqs = [
     { q: t('faq.q1'), a: t('faq.a1') },
@@ -56,46 +70,57 @@ const FAQSection = ({ isFullPage = false }: FAQSectionProps) => {
   const allFaqs = isFullPage ? [...faqs, ...additionalFaqs] : faqs;
 
   return (
-    <section className={`section-padding ${isFullPage ? 'pt-32' : 'bg-background'}`}>
+    <section ref={sectionRef} className={`section-padding ${isFullPage ? 'pt-32' : 'bg-background'} overflow-hidden`}>
       <div className="container-narrow">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          style={{ y: headerY }}
           className="text-center mb-12"
         >
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4">
+          <motion.h2 
+            className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             {t('faq.title')}
-          </h2>
+          </motion.h2>
         </motion.div>
 
         {/* FAQ Accordion */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
           <Accordion type="single" collapsible className="w-full">
             {allFaqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-heading text-lg hover:text-primary">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {faq.a}
-                </AccordionContent>
-              </AccordionItem>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+              >
+                <AccordionItem value={`item-${index}`}>
+                  <AccordionTrigger className="text-left font-heading text-lg hover:text-primary">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
         </motion.div>
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
