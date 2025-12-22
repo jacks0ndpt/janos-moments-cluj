@@ -1,0 +1,46 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "filename": "portfolio-1.jpg",
+      "alt": "Bride getting ready by window",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 2,
+      "filename": "portfolio-2.jpg",
+      "alt": "First look moment",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 3,
+      "filename": "portfolio-3.jpg",
+      "alt": "Reception dancing",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 4,
+      "filename": "portfolio-4.jpg",
+      "alt": "Couple walking in autumn forest",
+      "category": "couples",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 5,
+      "filename": "portfolio-5.jpg",
+      "alt": "Wedding ceremony moment",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 6,
+      "filename": "portfolio-event.jpg",
+      "alt": "Corporate event",
+      "category": "events",
+      "aspectRatio": "landscape"
+    }
+  ]
+}

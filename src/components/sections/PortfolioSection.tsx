@@ -1,32 +1,16 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 
-import portfolio1 from '@/assets/portfolio-1.jpg';
-import portfolio2 from '@/assets/portfolio-2.jpg';
-import portfolio3 from '@/assets/portfolio-3.jpg';
-import portfolio4 from '@/assets/portfolio-4.jpg';
-import portfolio5 from '@/assets/portfolio-5.jpg';
-import portfolioEvent from '@/assets/portfolio-event.jpg';
-
 interface PortfolioImage {
   id: number;
-  src: string;
+  filename: string;
   alt: string;
   category: 'weddings' | 'events' | 'couples';
   aspectRatio: 'portrait' | 'landscape';
 }
-
-const portfolioImages: PortfolioImage[] = [
-  { id: 1, src: portfolio1, alt: 'Bride getting ready by window', category: 'weddings', aspectRatio: 'portrait' },
-  { id: 2, src: portfolio2, alt: 'First look moment', category: 'weddings', aspectRatio: 'landscape' },
-  { id: 3, src: portfolio3, alt: 'Reception dancing', category: 'weddings', aspectRatio: 'landscape' },
-  { id: 4, src: portfolio4, alt: 'Couple walking in autumn forest', category: 'couples', aspectRatio: 'portrait' },
-  { id: 5, src: portfolio5, alt: 'Wedding ceremony moment', category: 'weddings', aspectRatio: 'portrait' },
-  { id: 6, src: portfolioEvent, alt: 'Corporate event', category: 'events', aspectRatio: 'landscape' },
-];
 
 interface PortfolioSectionProps {
   showFilters?: boolean;
@@ -49,7 +33,6 @@ const PortfolioImageCard = ({
 
   const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
   
-  // Subtle parallax for each image
   const y = useSpring(
     useTransform(scrollYProgress, [0, 1], [30, -30]),
     springConfig
@@ -77,7 +60,7 @@ const PortfolioImageCard = ({
         style={{ y }}
       >
         <img
-          src={image.src}
+          src={`/portfolio/${image.filename}`}
           alt={image.alt}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
@@ -94,7 +77,23 @@ const PortfolioImageCard = ({
 const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'weddings' | 'events' | 'couples'>('all');
+  const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Load images from JSON config
+  useEffect(() => {
+    fetch('/portfolio/images.json')
+      .then(res => res.json())
+      .then(data => {
+        setPortfolioImages(data.images || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load portfolio images:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -178,11 +177,19 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
         )}
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {displayImages.map((image, index) => (
-            <PortfolioImageCard key={image.id} image={image} index={index} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="aspect-[4/3] bg-muted animate-pulse rounded-sm" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {displayImages.map((image, index) => (
+              <PortfolioImageCard key={image.id} image={image} index={index} />
+            ))}
+          </div>
+        )}
 
         {/* CTA */}
         {limit && (
