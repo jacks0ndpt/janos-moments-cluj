@@ -14,15 +14,15 @@ const Services = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Services & Pricing | Janos Hada Photography'
-            : 'Servicii & Prețuri | Janos Hada Photography'
+            ? 'Wedding Photography Pricing | Cluj-Napoca'
+            : 'Prețuri Fotograf Nuntă | Cluj-Napoca'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Wedding photography packages starting from 2,500 EUR. Documentary coverage, professional editing, online gallery. Limited availability.'
-            : 'Pachete fotografiere nuntă de la 2.500 EUR. Acoperire documentară, editare profesională, galerie online. Disponibilitate limitată.'
+            ? 'Wedding photography packages in Cluj-Napoca. Transparent pricing, documentary coverage, natural style. Request full details.'
+            : 'Pachete de fotografiere nuntă în Cluj-Napoca. Prețuri transparente, stil documentar. Solicită oferta completă.'
           }
         />
       </Helmet>
