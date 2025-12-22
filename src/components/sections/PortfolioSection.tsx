@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import Lightbox from '@/components/ui/lightbox';
+import { useLightbox } from '@/hooks/useLightbox';
 
 interface PortfolioImage {
   id: number;
@@ -20,10 +22,12 @@ interface PortfolioSectionProps {
 // Individual image component with parallax
 const PortfolioImageCard = ({ 
   image, 
-  index 
+  index,
+  onClick
 }: { 
   image: PortfolioImage; 
   index: number;
+  onClick: () => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -51,6 +55,7 @@ const PortfolioImageCard = ({
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
       style={{ scale }}
+      onClick={onClick}
       className={`group relative overflow-hidden rounded-sm cursor-pointer ${
         image.aspectRatio === 'portrait' ? 'row-span-2' : ''
       }`}
@@ -95,6 +100,19 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
       });
   }, []);
 
+  const filteredImages = activeFilter === 'all' 
+    ? portfolioImages 
+    : portfolioImages.filter(img => img.category === activeFilter);
+
+  const displayImages = limit ? filteredImages.slice(0, limit) : filteredImages;
+
+  const { isOpen, currentIndex, openLightbox, closeLightbox, nextImage, previousImage } = useLightbox(displayImages.length);
+
+  const lightboxImages = displayImages.map(img => ({
+    src: `/portfolio/${img.filename}`,
+    alt: img.alt
+  }));
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -112,101 +130,111 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
     { id: 'couples' as const, label: t('portfolio.filter.couples') },
   ];
 
-  const filteredImages = activeFilter === 'all' 
-    ? portfolioImages 
-    : portfolioImages.filter(img => img.category === activeFilter);
-
-  const displayImages = limit ? filteredImages.slice(0, limit) : filteredImages;
-
   return (
-    <section ref={sectionRef} className="section-padding bg-background">
-      <div className="container-wide">
-        {/* Header */}
-        <motion.div
-          style={{ y: headerY }}
-          className="text-center mb-12"
-        >
-          <motion.h2 
-            className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {t('portfolio.title')}
-          </motion.h2>
-          <motion.p 
-            className="text-muted-foreground max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {t('portfolio.intro')}
-          </motion.p>
-        </motion.div>
-
-        {/* Filters */}
-        {showFilters && (
+    <>
+      <section ref={sectionRef} className="section-padding bg-background">
+        <div className="container-wide">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap justify-center gap-2 mb-12"
+            style={{ y: headerY }}
+            className="text-center mb-12"
           >
-            {filters.map((filter, index) => (
-              <motion.button
-                key={filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`px-6 py-2 text-sm transition-all duration-300 rounded-sm ${
-                  activeFilter === filter.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
-              >
-                {filter.label}
-              </motion.button>
-            ))}
+            <motion.h2 
+              className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {t('portfolio.title')}
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              {t('portfolio.intro')}
+            </motion.p>
           </motion.div>
-        )}
 
-        {/* Gallery Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="aspect-[4/3] bg-muted animate-pulse rounded-sm" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {displayImages.map((image, index) => (
-              <PortfolioImageCard key={image.id} image={image} index={index} />
-            ))}
-          </div>
-        )}
+          {/* Filters */}
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-2 mb-12"
+            >
+              {filters.map((filter, index) => (
+                <motion.button
+                  key={filter.id}
+                  onClick={() => setActiveFilter(filter.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`px-6 py-2 text-sm transition-all duration-300 rounded-sm ${
+                    activeFilter === filter.id
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  }`}
+                >
+                  {filter.label}
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
 
-        {/* CTA */}
-        {limit && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-center mt-12"
-          >
-            <Button asChild variant="outline" size="lg">
-              <Link to="/portfolio">{t('portfolio.cta')}</Link>
-            </Button>
-          </motion.div>
-        )}
-      </div>
-    </section>
+          {/* Gallery Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="aspect-[4/3] bg-muted animate-pulse rounded-sm" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {displayImages.map((image, index) => (
+                <PortfolioImageCard 
+                  key={image.id} 
+                  image={image} 
+                  index={index} 
+                  onClick={() => openLightbox(index)}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* CTA */}
+          {limit && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-center mt-12"
+            >
+              <Button asChild variant="outline" size="lg">
+                <Link to="/portfolio">{t('portfolio.cta')}</Link>
+              </Button>
+            </motion.div>
+          )}
+        </div>
+      </section>
+
+      <Lightbox
+        images={lightboxImages}
+        currentIndex={currentIndex}
+        isOpen={isOpen}
+        onClose={closeLightbox}
+        onNext={nextImage}
+        onPrevious={previousImage}
+      />
+    </>
   );
 };
 
