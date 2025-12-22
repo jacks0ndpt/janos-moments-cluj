@@ -12,15 +12,15 @@ const Portfolio = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Portfolio | Janos Hada Photography'
-            : 'Portofoliu | Janos Hada Photography'
+            ? 'Wedding Photography Portfolio | Cluj-Napoca'
+            : 'Portofoliu Fotograf Nuntă | Cluj-Napoca'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Browse wedding and event photography portfolio. Documentary style, natural moments, authentic emotions captured in Transylvania.'
-            : 'Vezi portofoliul de fotografie de nuntă și evenimente. Stil documentar, momente naturale, emoții autentice surprinse în Transilvania.'
+            ? 'Explore documentary wedding and event photography from Cluj-Napoca. Real emotions, natural moments, honest storytelling.'
+            : 'Descoperă fotografii de nuntă și evenimente din Cluj-Napoca. Emoții reale, stil documentar, povești autentice.'
           }
         />
       </Helmet>

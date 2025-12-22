@@ -13,15 +13,15 @@ const About = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'About | Janos Hada Photography'
-            : 'Despre | Janos Hada Photography'
+            ? 'About Janos Hada | Wedding Photographer Cluj'
+            : 'Despre Janos Hada | Fotograf Nuntă Cluj'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Meet Janos Hada, a Cluj-based wedding photographer who values real moments over posed pictures. Documentary style, natural approach.'
-            : 'Cunoaște-l pe Janos Hada, fotograf de nuntă din Cluj-Napoca care prețuiește momentele reale mai mult decât pozele regizate.'
+            ? 'Meet Janos Hada, a Cluj-based wedding photographer focused on real moments, natural light and honest storytelling.'
+            : 'Janos Hada, fotograf de nuntă din Cluj-Napoca, specializat în momente reale și fotografie documentară.'
           }
         />
       </Helmet>

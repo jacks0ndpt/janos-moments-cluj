@@ -18,15 +18,15 @@ const Index = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Janos Hada Photography | Wedding & Event Photography in Cluj-Napoca'
-            : 'Janos Hada Photography | Fotografie de Nuntă & Evenimente în Cluj-Napoca'
+            ? 'Wedding Photographer Cluj-Napoca | Janos Hada Photography'
+            : 'Fotograf Nuntă Cluj-Napoca | Janos Hada Photography'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Documentary wedding and event photography in Cluj-Napoca, Transylvania. Real moments, honest emotions, natural light. Book your wedding photographer today.'
-            : 'Fotografie documentară de nuntă și evenimente în Cluj-Napoca, Transilvania. Momente reale, emoții autentice, lumină naturală. Rezervă-ți fotograful de nuntă.'
+            ? 'Documentary wedding & event photographer in Cluj-Napoca. Real moments, natural light, limited availability. Check your date now.'
+            : 'Fotograf de nuntă și evenimente în Cluj-Napoca. Stil documentar, momente reale, disponibilitate limitată. Verifică data.'
           }
         />
         <link rel="canonical" href="https://janoshada.com" />

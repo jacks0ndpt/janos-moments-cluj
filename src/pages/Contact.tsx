@@ -13,15 +13,15 @@ const Contact = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Contact | Janos Hada Photography'
-            : 'Contact | Janos Hada Photography'
+            ? 'Contact Wedding Photographer | Cluj-Napoca'
+            : 'Contact Fotograf Nuntă | Cluj-Napoca'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Get in touch to check availability for your wedding or event. Based in Cluj-Napoca, available throughout Transylvania.'
-            : 'Ia legătura pentru a verifica disponibilitatea pentru nunta sau evenimentul tău. Cu sediul în Cluj-Napoca, disponibil în toată Transilvania.'
+            ? 'Get in touch to check availability for your wedding or event in Cluj-Napoca. Limited dates available each year.'
+            : 'Contactează-mă pentru a verifica disponibilitatea pentru nunta sau evenimentul tău în Cluj-Napoca.'
           }
         />
       </Helmet>
