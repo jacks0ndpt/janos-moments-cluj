@@ -45,7 +45,7 @@ const HeroSection = () => {
       >
         <img
           src={heroImage}
-          alt="Wedding photography by Janos Hada"
+          alt={t('portfolio.imageAlt')}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 hero-gradient" />

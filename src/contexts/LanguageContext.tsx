@@ -33,6 +33,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.filter.weddings': 'Weddings',
     'portfolio.filter.events': 'Events',
     'portfolio.filter.couples': 'Couples',
+    'portfolio.imageAlt': 'Documentary wedding photography in Cluj-Napoca capturing real moments',
 
     // About
     'about.title': 'About',
@@ -123,6 +124,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.filter.weddings': 'Nunți',
     'portfolio.filter.events': 'Evenimente',
     'portfolio.filter.couples': 'Cupluri',
+    'portfolio.imageAlt': 'Fotografie documentară de nuntă în Cluj-Napoca, momente reale',
 
     // About
     'about.title': 'Despre mine',
