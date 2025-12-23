@@ -41,6 +41,13 @@
       "alt": "Corporate event",
       "category": "events",
       "aspectRatio": "landscape"
+    },
+    {
+      "id": 7,
+      "filename": "test.jpg",
+      "alt": "Test lorem ipsum",
+      "category": "weddings",
+      "aspectRatio": "landscape"
     }
   ]
 }
