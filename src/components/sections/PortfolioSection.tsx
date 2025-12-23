@@ -23,11 +23,13 @@ interface PortfolioSectionProps {
 const PortfolioImageCard = ({ 
   image, 
   index,
-  onClick
+  onClick,
+  altText
 }: { 
   image: PortfolioImage; 
   index: number;
   onClick: () => void;
+  altText: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -66,7 +68,7 @@ const PortfolioImageCard = ({
       >
         <img
           src={`/portfolio/${image.filename}`}
-          alt={image.alt}
+          alt={altText}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
@@ -106,11 +108,13 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
 
   const displayImages = limit ? filteredImages.slice(0, limit) : filteredImages;
 
+  const altText = t('portfolio.imageAlt');
+
   const { isOpen, currentIndex, openLightbox, closeLightbox, nextImage, previousImage } = useLightbox(displayImages.length);
 
   const lightboxImages = displayImages.map(img => ({
     src: `/portfolio/${img.filename}`,
-    alt: img.alt
+    alt: altText
   }));
 
   const { scrollYProgress } = useScroll({
@@ -204,6 +208,7 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
                   image={image} 
                   index={index} 
                   onClick={() => openLightbox(index)}
+                  altText={altText}
                 />
               ))}
             </div>

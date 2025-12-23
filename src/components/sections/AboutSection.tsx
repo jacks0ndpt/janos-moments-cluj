@@ -68,7 +68,7 @@ const AboutSection = ({ isFullPage = false }: AboutSectionProps) => {
               <motion.div style={{ y: imageY, scale: imageScale }}>
                 <img
                   src={aboutImage}
-                  alt="Janos Hada - Wedding Photographer"
+                  alt={t('portfolio.imageAlt')}
                   className="w-full rounded-sm shadow-lg"
                 />
               </motion.div>
