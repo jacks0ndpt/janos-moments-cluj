@@ -19,6 +19,11 @@ const Footer = () => {
               <MapPin size={16} />
               <span>Cluj-Napoca, Romania</span>
             </div>
+            <p className="text-muted-foreground text-sm leading-relaxed mt-4">
+              {t('footer.location.based')}
+              <br />
+              {t('footer.location.available')}
+            </p>
           </div>
 
           {/* Navigation */}

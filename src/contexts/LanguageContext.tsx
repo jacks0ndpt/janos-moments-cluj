@@ -92,6 +92,8 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacy': 'Privacy Policy',
     'footer.instagram': 'Instagram',
     'footer.email': 'Email',
+    'footer.location.based': 'Based in Cluj-Napoca.',
+    'footer.location.available': 'Available for weddings and events across Transylvania and Romania.',
 
     // Privacy
     'privacy.title': 'Privacy Policy',
@@ -180,6 +182,8 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacy': 'Politica de confidențialitate',
     'footer.instagram': 'Instagram',
     'footer.email': 'Email',
+    'footer.location.based': 'Cu baza în Cluj-Napoca.',
+    'footer.location.available': 'Disponibil pentru nunți și evenimente în Transilvania și în toată România.',
 
     // Privacy
     'privacy.title': 'Politica de confidențialitate',

@@ -9,9 +9,30 @@ import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import FAQSection from '@/components/sections/FAQSection';
 import ContactForm from '@/components/sections/ContactForm';
+import LocalTrustSection from '@/components/sections/LocalTrustSection';
 
 const Index = () => {
   const { language } = useLanguage();
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Photographer",
+    "name": "Janos Hada Photography",
+    "description": language === 'en' 
+      ? "Documentary wedding & event photographer based in Cluj-Napoca."
+      : "Fotograf documentar de nuntă și evenimente din Cluj-Napoca.",
+    "url": "https://janoshada.com",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Romania"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Cluj-Napoca",
+      "addressCountry": "RO"
+    },
+    "sameAs": []
+  };
 
   return (
     <>
@@ -30,6 +51,9 @@ const Index = () => {
           }
         />
         <link rel="canonical" href="https://janoshada.com" />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
       </Helmet>
 
       <Header />
@@ -48,6 +72,8 @@ const Index = () => {
         <FAQSection />
         
         <ContactForm />
+        
+        <LocalTrustSection />
       </main>
 
       <Footer />
