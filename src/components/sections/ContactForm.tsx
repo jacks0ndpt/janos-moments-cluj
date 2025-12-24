@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Phone } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ContactFormProps {
   isFullPage?: boolean;
@@ -23,6 +24,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [eventType, setEventType] = useState<string>('');
   const sectionRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -58,16 +60,52 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast({
-      title: language === 'en' ? 'Message sent!' : 'Mesaj trimis!',
-      description: t('contact.success'),
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+    const formData = new FormData(e.currentTarget);
+    const formValues = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      eventType: eventType,
+      date: formData.get('date') as string,
+      location: formData.get('location') as string,
+      message: formData.get('message') as string,
+      language: language,
+    };
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formValues,
+      });
+
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error(error.message || 'Failed to send message');
+      }
+
+      if (!data?.success) {
+        const errorMessage = data?.details?.join(', ') || data?.error || 'Failed to send message';
+        throw new Error(errorMessage);
+      }
+
+      toast({
+        title: language === 'en' ? 'Message sent!' : 'Mesaj trimis!',
+        description: t('contact.success'),
+      });
+      
+      (e.target as HTMLFormElement).reset();
+      setEventType('');
+    } catch (error: any) {
+      console.error('Form submission error:', error);
+      toast({
+        title: language === 'en' ? 'Error' : 'Eroare',
+        description: language === 'en' 
+          ? 'Failed to send your message. Please try again or contact us directly.'
+          : 'Mesajul nu a putut fi trimis. Vă rugăm încercați din nou sau contactați-ne direct.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -204,7 +242,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="eventType">{t('contact.form.eventType')}</Label>
-                  <Select name="eventType">
+                  <Select value={eventType} onValueChange={setEventType}>
                     <SelectTrigger className="bg-background">
                       <SelectValue placeholder={t('contact.form.eventType')} />
                     </SelectTrigger>
