@@ -305,7 +305,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification email to photographer
     const notificationEmail = await resend.emails.send({
       from: "Janos Hada Photography <onboarding@resend.dev>",
-      to: ["hello@janoshada.com"], // Replace with your actual email
+      to: ["janos.hada1@gmail.com"],
       subject: `New Inquiry: ${data.name} - ${getEventTypeLabel(data.eventType, "en")}`,
       html: generateNotificationEmail(data),
     });
