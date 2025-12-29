@@ -33,6 +33,19 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.filter.weddings': 'Weddings',
     'portfolio.filter.events': 'Events',
     'portfolio.filter.couples': 'Couples',
+    'portfolio.noImages': 'No images available in this category yet.',
+    
+    // Portfolio Weddings
+    'portfolio.weddings.title': 'Wedding Photography',
+    'portfolio.weddings.intro': 'Documentary wedding photography that captures the real emotions and authentic moments of your special day. Natural light, honest storytelling, no forced poses.',
+    'portfolio.weddings.cta.title': 'Planning Your Wedding?',
+    'portfolio.weddings.cta.body': 'I capture weddings throughout Cluj-Napoca and Transylvania. Let\'s discuss your vision and check availability.',
+    
+    // Portfolio Events
+    'portfolio.events.title': 'Event Photography',
+    'portfolio.events.intro': 'From corporate gatherings to private celebrations, I document events with the same unobtrusive, documentary approach. Real moments, authentic atmosphere.',
+    'portfolio.events.cta.title': 'Have an Event Coming Up?',
+    'portfolio.events.cta.body': 'Whether corporate or private, I bring the same documentary approach to every event. Get in touch to discuss your needs.',
     'portfolio.imageAlt': 'Documentary wedding photography in Cluj-Napoca capturing real moments',
 
     // About
@@ -125,6 +138,19 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.filter.events': 'Evenimente',
     'portfolio.filter.couples': 'Cupluri',
     'portfolio.imageAlt': 'Fotografie documentară de nuntă în Cluj-Napoca, momente reale',
+    'portfolio.noImages': 'Nu există imagini disponibile în această categorie momentan.',
+    
+    // Portfolio Weddings
+    'portfolio.weddings.title': 'Fotografie de Nuntă',
+    'portfolio.weddings.intro': 'Fotografie documentară de nuntă care surprinde emoțiile reale și momentele autentice ale zilei tale speciale. Lumină naturală, povești oneste, fără poze forțate.',
+    'portfolio.weddings.cta.title': 'Îți Planifici Nunta?',
+    'portfolio.weddings.cta.body': 'Fotografiez nunți în Cluj-Napoca și în toată Transilvania. Hai să discutăm viziunea ta și să verificăm disponibilitatea.',
+    
+    // Portfolio Events
+    'portfolio.events.title': 'Fotografie Evenimente',
+    'portfolio.events.intro': 'De la evenimente corporate la celebrări private, documentez fiecare eveniment cu aceeași abordare discretă, documentară. Momente reale, atmosferă autentică.',
+    'portfolio.events.cta.title': 'Ai un Eveniment în Curând?',
+    'portfolio.events.cta.body': 'Corporate sau privat, aduc aceeași abordare documentară la fiecare eveniment. Contactează-mă să discutăm.',
 
     // About
     'about.title': 'Despre mine',

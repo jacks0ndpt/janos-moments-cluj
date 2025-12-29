@@ -8,6 +8,8 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
+import PortfolioWeddings from "./pages/PortfolioWeddings";
+import PortfolioEvents from "./pages/PortfolioEvents";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
@@ -29,6 +31,8 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/portfolio/weddings" element={<PortfolioWeddings />} />
+                <Route path="/portfolio/events" element={<PortfolioEvents />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
