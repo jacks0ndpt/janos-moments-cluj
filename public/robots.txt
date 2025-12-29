@@ -1,3 +1,5 @@
+# Robots.txt for janoshada.com
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +14,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap location
+Sitemap: https://janoshada.com/sitemap.xml
+
+# Disallow admin and private paths
+Disallow: /api/
