@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-wedding.jpg';
+import heroImage from '@/assets/fotograf-nunta-cluj-emotii-miri.jpg';
 import { useRef } from 'react';
 
 const HeroSection = () => {
