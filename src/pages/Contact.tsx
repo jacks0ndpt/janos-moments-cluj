@@ -93,18 +93,6 @@ const Contact = () => {
       <Header />
       
       <main className="min-h-screen">
-        {/* SEO H1 Section */}
-        <section className="pt-28 pb-8 bg-background">
-          <div className="container-wide text-center">
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4">
-              {t('contact.title')}
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              {t('contact.intro')}
-            </p>
-          </div>
-        </section>
-        
         <ContactForm isFullPage={true} />
         <FAQSection />
       </main>

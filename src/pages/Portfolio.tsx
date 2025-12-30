@@ -1,10 +1,8 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PortfolioSection from '@/components/sections/PortfolioSection';
-import { Button } from '@/components/ui/button';
 
 const Portfolio = () => {
   const { language, t } = useLanguage();
@@ -90,28 +88,6 @@ const Portfolio = () => {
       <Header />
       
       <main className="pt-24 min-h-screen">
-        {/* SEO Intro Section */}
-        <section className="py-12 md:py-16 bg-background">
-          <div className="container-wide text-center">
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl mb-6">
-              {t('portfolio.title')}
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed mb-8">
-              {t('portfolio.intro')}
-            </p>
-            
-            {/* Category Links for SEO */}
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button asChild variant="outline">
-                <Link to="/portfolio/weddings">{t('portfolio.filter.weddings')}</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/portfolio/events">{t('portfolio.filter.events')}</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
         <PortfolioSection showFilters={true} />
       </main>
 
