@@ -50,10 +50,10 @@ const translations: Record<Language, Record<string, string>> = {
 
     // About
     'about.title': 'About',
-    'about.intro': "I'm Janos, a Cluj-based photographer who values real moments over posed pictures.",
-    'about.body': "I observe more than I direct and let your day unfold naturally. I believe the most meaningful images happen between the obvious ones.",
-    'about.philosophy.title': 'My Approach',
-    'about.philosophy.body': 'Documentary wedding photography is about being present without being intrusive. I capture the laughter, the tears, the stolen glances — the moments that make your day uniquely yours.',
+    'about.intro': "I’m Janos, a Cluj-based photographer with a documentary approach.",
+    'about.body': "I observe and let the day unfold naturally, stepping in when it matters. The most meaningful images often appear between the planned moments.",
+    'about.philosophy.title': 'How I Work',
+    'about.philosophy.body': 'I stay present throughout the day, stepping in when needed, without being intrusive. I focus on laughter, tears, and small gestures that often go unnoticed, but end up meaning the most.',
     'about.cta': 'See my work',
 
     // Services
@@ -86,6 +86,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Contact
     'contact.title': 'Get in Touch',
     'contact.intro': 'Ready to tell your story? Let\'s start a conversation.',
+    'contact.imageAlt': 'Documentary wedding photography moment in Cluj-Napoca',
     'contact.form.name': 'Your name',
     'contact.form.email': 'Email address',
     'contact.form.phone': 'Phone number',
@@ -124,8 +125,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero
     'hero.title': 'Fotografie de nuntă & evenimente în Cluj-Napoca',
-    'hero.subtitle': 'Momente reale. Emoții autentice. Fotografiate exact așa cum se întâmplă.',
-    'hero.body': 'Abordarea mea este documentară. Prioritizez lumina naturală, intervin doar când este necesar și evit cadrele forțate. Ziua voastră așa cum s-a simțit.',
+    'hero.subtitle': 'Momente reale. Emoții autentice. Fotografiate așa cum se întâmplă.',
+    'hero.body': 'O abordare documentară, cu lumină naturală și intervenții minime. Ziua voastră, așa cum s-a simțit.',
     'hero.cta.primary': 'Verifică disponibilitatea',
     'hero.cta.secondary': 'Vezi portofoliul',
 
@@ -154,10 +155,10 @@ const translations: Record<Language, Record<string, string>> = {
 
     // About
     'about.title': 'Despre mine',
-    'about.intro': 'Sunt Janos, fotograf din Cluj-Napoca, pentru care momentele reale contează mai mult decât cadrele artificiale.',
-    'about.body': 'Observ mai mult decât dirijez și las ziua să se desfășoare natural. Cred că cele mai puternice imagini apar între momentele evidente.',
+    'about.intro': 'Urmăresc momente autentice și evoluția naturală a unei zile. Sunt Janos, fotograf din Cluj-Napoca.',
+    'about.body': 'Observ și las ziua să se desfășoare natural. Cele mai puternice imagini apar, de multe ori, între momentele planificate.',
     'about.philosophy.title': 'Abordarea mea',
-    'about.philosophy.body': 'Fotografia documentară de nuntă înseamnă să fii prezent fără a fi intruziv. Surprind râsul, lacrimile, privirile furate — momentele care fac ziua voastră unică.',
+    'about.philosophy.body': 'Sunt prezent pe tot parcursul zilei și mă adaptez fiecărui moment, cu discreție. Mă concentrez pe râsete, emoții și gesturi mici care trec adesea neobservate, dar ajung să conteze cel mai mult.',
     'about.cta': 'Vezi portofoliul',
 
     // Services
@@ -190,6 +191,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Contact
     'contact.title': 'Contact',
     'contact.intro': 'Gata să-ți spui povestea? Hai să începem o conversație.',
+    'contact.imageAlt': 'Moment de fotografie documentară de nuntă în Cluj-Napoca',
     'contact.form.name': 'Numele tău',
     'contact.form.email': 'Adresa de email',
     'contact.form.phone': 'Număr de telefon',

@@ -100,7 +100,7 @@ const HeroSection = () => {
             </Button>
             <Button asChild variant="hero-outline" size="lg" className="border-background/30 text-background hover:bg-background hover:text-foreground">
               <Link to="/portfolio">{t('hero.cta.secondary')}</Link>
-            </Button>
+            </Button> 
           </motion.div>
         </motion.div>
       </motion.div>

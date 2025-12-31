@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import aboutImage from '@/assets/about-janos.jpg';
+import aboutImage from '@/assets/fotograf-nunta-cluj-emotii-miri-despre.jpg';
 
 interface AboutSectionProps {
   isFullPage?: boolean;

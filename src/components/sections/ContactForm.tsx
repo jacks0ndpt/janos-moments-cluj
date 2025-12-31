@@ -15,6 +15,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Phone } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import contactImage from '@/assets/fotograf-nunta-cluj-emotii-miri-contact.jpg';
 
 interface ContactFormProps {
   isFullPage?: boolean;
@@ -27,7 +28,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
   const [eventType, setEventType] = useState<string>('');
   const sectionRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
+  const showForm = false;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -39,20 +40,10 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
     offset: ['start end', 'center center'],
   });
 
-  const { scrollYProgress: formScrollProgress } = useScroll({
-    target: formRef,
-    offset: ['start end', 'center center'],
-  });
-
   const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
   const infoX = useSpring(
     useTransform(infoScrollProgress, [0, 1], [-60, 0]),
-    springConfig
-  );
-
-  const formX = useSpring(
-    useTransform(formScrollProgress, [0, 1], [60, 0]),
     springConfig
   );
 
@@ -113,13 +104,13 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
       icon: Mail,
       label: 'Email',
       value: 'hello@janoshada.com',
-      href: 'mailto:hello@janoshada.com',
+      href: 'mailto:janos.hada2@gmail.com',
     },
     {
       icon: Phone,
       label: language === 'en' ? 'Phone' : 'Telefon',
-      value: '+40 722 123 456',
-      href: 'tel:+40722123456',
+      value: '+40 747 447 701',
+      href: 'tel:+40747447701',
     },
     {
       icon: MapPin,
@@ -190,10 +181,10 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
             </div>
           </motion.div>
 
-          {/* Form */}
+          {/* Form / Image */}
+          {showForm ? (
           <motion.div
-            ref={formRef}
-            style={{ x: formX }}
+            style={{ x: infoX }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <motion.div 
@@ -318,6 +309,22 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
               </motion.div>
             </form>
           </motion.div>
+          ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative w-full h-full min-h-[500px] lg:min-h-[600px] rounded-lg overflow-hidden"
+          >
+            <img
+              src={contactImage}
+              alt={t('contact.imageAlt')}
+              className="w-full h-full object-cover"
+              style={{ opacity: 0.8 }}
+            />
+          </motion.div>
+          )}
         </div>
       </div>
     </section>
