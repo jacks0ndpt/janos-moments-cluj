@@ -2,51 +2,639 @@
   "images": [
     {
       "id": 1,
-      "filename": "portfolio-1.jpg",
-      "alt": "Bride getting ready by window",
+      "filename": "fotograf-nunta-cuplu-relaxat-cluj-napoca.jpg",
+      "alt": "Cuplu de miri stând relaxați împreună în ziua nunții, fotografiați documentar în Cluj-Napoca",
       "category": "weddings",
-      "aspectRatio": "portrait"
+      "aspectRatio": "landscape"
     },
     {
       "id": 2,
-      "filename": "portfolio-2.jpg",
-      "alt": "First look moment",
+      "filename": "fotograf-nunta-moment-intim-miri-cluj.jpg",
+      "alt": "Mireasa aranjând floarea de la reverul mirelui, un moment intim surprins documentar la o nuntă în Cluj",
       "category": "weddings",
       "aspectRatio": "landscape"
     },
     {
       "id": 3,
-      "filename": "portfolio-3.jpg",
-      "alt": "Reception dancing",
+      "filename": "fotograf-nunta-bucurie-miri-cluj-napoca.jpg",
+      "alt": "Mire și mireasă sărbătorind cu bucurie după ceremonie, fotografiați la o nuntă în Cluj-Napoca",
       "category": "weddings",
       "aspectRatio": "landscape"
     },
     {
       "id": 4,
-      "filename": "portfolio-4.jpg",
-      "alt": "Couple walking in autumn forest",
-      "category": "couples",
-      "aspectRatio": "portrait"
-    },
-    {
-      "id": 5,
-      "filename": "portfolio-5.jpg",
-      "alt": "Wedding ceremony moment",
+      "filename": "fotograf-nunta-iesire-ceremonie-cluj.jpg",
+      "alt": "Mire și mireasă ieșind de la ceremonie, surprinși într-o fotografie de nuntă documentară în Cluj",
       "category": "weddings",
       "aspectRatio": "portrait"
     },
     {
-      "id": 6,
-      "filename": "portfolio-event.jpg",
-      "alt": "Corporate event",
+      "id": 8,
+      "filename": "fotograf-nunta-cluj-1.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 9,
+      "filename": "fotograf-nunta-cluj-2.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 10,
+      "filename": "fotograf-nunta-cluj-3.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 11,
+      "filename": "fotograf-nunta-cluj-4.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 12,
+      "filename": "fotograf-nunta-cluj-5.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 13,
+      "filename": "fotograf-nunta-cluj-6.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 14,
+      "filename": "fotograf-nunta-cluj-7.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 15,
+      "filename": "fotograf-nunta-cluj-8.jpg",
+      "alt": "",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 16,
+      "filename": "fotograf-nunta-cluj-9.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 17,
+      "filename": "fotograf-nunta-cluj-10.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 18,
+      "filename": "fotograf-nunta-cluj-11.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 19,
+      "filename": "fotograf-nunta-cluj-12.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 20,
+      "filename": "fotograf-nunta-cluj-13.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 21,
+      "filename": "fotograf-nunta-cluj-14.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 22,
+      "filename": "fotograf-nunta-cluj-15.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 23,
+      "filename": "fotograf-nunta-cluj-16.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 24,
+      "filename": "fotograf-nunta-cluj-17.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 25,
+      "filename": "fotograf-nunta-cluj-18.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 26,
+      "filename": "fotograf-nunta-cluj-19.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 27,
+      "filename": "fotograf-nunta-cluj-20.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 28,
+      "filename": "fotograf-nunta-cluj-21.jpg",
+      "alt": "mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 29,
+      "filename": "fotograf-nunta-cluj-22.jpg",
+      "alt": "mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 30,
+      "filename": "fotograf-nunta-cluj-23.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 31,
+      "filename": "fotograf-nunta-cluj-24.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 32,
+      "filename": "fotograf-nunta-cluj-25.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 33,
+      "filename": "fotograf-nunta-cluj-26.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 34,
+      "filename": "fotograf-nunta-cluj-27.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 35,
+      "filename": "fotograf-nunta-cluj-28.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 36,
+      "filename": "fotograf-nunta-cluj-29.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 37,
+      "filename": "fotograf-nunta-cluj-30.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 38,
+      "filename": "fotograf-nunta-cluj-31.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 39,
+      "filename": "fotograf-nunta-cluj-32.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 40,
+      "filename": "fotograf-nunta-cluj-33.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 41,
+      "filename": "fotograf-nunta-cluj-34.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 42,
+      "filename": "fotograf-nunta-cluj-35.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 43,
+      "filename": "fotograf-nunta-cluj-36.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 44,
+      "filename": "fotograf-nunta-cluj-37.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 45,
+      "filename": "fotograf-nunta-cluj-38.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 46,
+      "filename": "fotograf-nunta-cluj-39.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 47,
+      "filename": "fotograf-nunta-cluj-40.jpg",
+      "alt": "mireasă și mire în timpul ceremoniei de cununie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 48,
+      "filename": "fotograf-nunta-cluj-41.jpg",
+      "alt": "ieșirea mirilor de la ceremonie",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 49,
+      "filename": "fotograf-nunta-cluj-42.jpg",
+      "alt": "ieșirea mirilor de la ceremonie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 50,
+      "filename": "fotograf-nunta-cluj-43.jpg",
+      "alt": "ieșirea mirilor de la ceremonie",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 51,
+      "filename": "fotograf-nunta-cluj-44.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 52,
+      "filename": "fotograf-nunta-cluj-45.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 53,
+      "filename": "fotograf-nunta-cluj-46.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 54,
+      "filename": "fotograf-nunta-cluj-47.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 55,
+      "filename": "fotograf-nunta-cluj-48.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 56,
+      "filename": "fotograf-nunta-cluj-49.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 57,
+      "filename": "fotograf-nunta-cluj-50.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 58,
+      "filename": "fotograf-nunta-cluj-51.jpg",
+      "alt": "detaliu discret surprins la o nuntă în Cluj",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 59,
+      "filename": "fotograf-nunta-cluj-52.jpg",
+      "alt": "mireasă și mire într-un moment intim în ziua nunții",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 60,
+      "filename": "fotograf-nunta-cluj-53.jpg",
+      "alt": "reacție a invitaților la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 61,
+      "filename": "fotograf-nunta-cluj-54.jpg",
+      "alt": "reacție a invitaților la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 62,
+      "filename": "fotograf-nunta-cluj-55.jpg",
+      "alt": "dansul mirilor la petrecerea de nuntă",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 63,
+      "filename": "fotograf-nunta-cluj-56.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 64,
+      "filename": "fotograf-nunta-cluj-57.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 65,
+      "filename": "fotograf-nunta-cluj-58.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 66,
+      "filename": "fotograf-nunta-cluj-59.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 67,
+      "filename": "fotograf-nunta-cluj-60.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 68,
+      "filename": "fotograf-nunta-cluj-61.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 69,
+      "filename": "fotograf-nunta-cluj-62.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 70,
+      "filename": "fotograf-nunta-cluj-63.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 71,
+      "filename": "fotograf-nunta-cluj-64.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 72,
+      "filename": "fotograf-nunta-cluj-65.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 73,
+      "filename": "fotograf-nunta-cluj-66.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 74,
+      "filename": "fotograf-nunta-cluj-67.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 75,
+      "filename": "fotograf-nunta-cluj-68.jpg",
+      "alt": "atmosferă de seară la o nuntă documentară",
+      "category": "weddings",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 76,
+      "filename": "fotograf-botez-cluj-1.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 77,
+      "filename": "fotograf-botez-cluj-2.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
       "category": "events",
       "aspectRatio": "landscape"
     },
     {
-      "id": 7,
-      "filename": "test.jpg",
-      "alt": "Test lorem ipsum",
-      "category": "weddings",
+      "id": 78,
+      "filename": "fotograf-botez-cluj-3.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – familie surprinsă natural",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 79,
+      "filename": "fotograf-botez-cluj-4.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 80,
+      "filename": "fotograf-botez-cluj-5.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – familie surprinsă natural",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 81,
+      "filename": "fotograf-botez-cluj-6.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 82,
+      "filename": "fotograf-botez-cluj-7.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 83,
+      "filename": "fotograf-botez-cluj-8.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 84,
+      "filename": "fotograf-botez-cluj-9.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – familie surprinsă natural",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 85,
+      "filename": "fotograf-botez-cluj-10.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – familie surprinsă natural",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 86,
+      "filename": "fotograf-botez-cluj-11.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
+      "category": "events",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 87,
+      "filename": "fotograf-botez-cluj-12.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 88,
+      "filename": "fotograf-botez-cluj-13.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 89,
+      "filename": "fotograf-botez-cluj-14.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 90,
+      "filename": "fotograf-botez-cluj-15.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 91,
+      "filename": "fotograf-botez-cluj-16.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "portrait"
+    },
+    {
+      "id": 92,
+      "filename": "fotograf-botez-cluj-17.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 93,
+      "filename": "fotograf-botez-cluj-18.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – atmosferă și emoții reale",
+      "category": "events",
+      "aspectRatio": "landscape"
+    },
+    {
+      "id": 94,
+      "filename": "fotograf-botez-cluj-19.jpg",
+      "alt": "Fotografie de botez în Cluj-Napoca – atmosferă și emoții reale",
+      "category": "events",
       "aspectRatio": "landscape"
     }
   ]

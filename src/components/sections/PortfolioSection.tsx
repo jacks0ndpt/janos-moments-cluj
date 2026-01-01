@@ -134,6 +134,9 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
     { id: 'couples' as const, label: t('portfolio.filter.couples') },
   ];
 
+  // Filters to display (hidden: couples)
+  const visibleFilters = filters.filter(f => f.id !== 'couples');
+
   return (
     <>
       <section ref={sectionRef} className="section-padding bg-background">
@@ -172,7 +175,7 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-wrap justify-center gap-2 mb-12"
             >
-              {filters.map((filter, index) => (
+              {visibleFilters.map((filter, index) => (
                 <motion.button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}

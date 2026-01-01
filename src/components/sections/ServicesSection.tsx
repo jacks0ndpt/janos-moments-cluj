@@ -49,10 +49,10 @@ const ServicesSection = ({ isFullPage = false }: ServicesSectionProps) => {
   ];
 
   const features = [
-    { icon: Image, label: language === 'en' ? 'Full day coverage' : 'Acoperire întreaga zi' },
-    { icon: Sparkles, label: language === 'en' ? 'Professional editing' : 'Editare profesională' },
-    { icon: Camera, label: language === 'en' ? 'Online gallery' : 'Galerie online' },
-    { icon: Clock, label: language === 'en' ? '6 weeks delivery' : 'Livrare în 6 săptămâni' },
+    { icon: Image, label: language === 'en' ? 'Full day, no rushing' : 'Povestea completă a zilei, fără grabă' },
+    { icon: Sparkles, label: language === 'en' ? 'Natural, carefully edited images' : 'Editare atentă, aspect natural' },
+    { icon: Camera, label: language === 'en' ? 'Easy sharing with family' : 'Galerie ușor de accesat' },
+    { icon: Clock, label: language === 'en' ? 'Delivery within 4 weeks' : 'Livrare în până la 4 săptămâni' },
   ];
 
   return (
@@ -98,7 +98,7 @@ const ServicesSection = ({ isFullPage = false }: ServicesSectionProps) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                {language === 'en' ? 'Wedding Photography' : 'Fotografiere Nuntă'}
+                {language === 'en' ? 'Wedding Photography' : 'Fotografie de Nuntă'}
               </motion.p>
               <motion.p 
                 className="font-heading text-3xl md:text-4xl"

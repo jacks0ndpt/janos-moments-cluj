@@ -31,7 +31,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.cta': 'View full wedding stories',
     'portfolio.filter.all': 'All',
     'portfolio.filter.weddings': 'Weddings',
-    'portfolio.filter.events': 'Events',
+    'portfolio.filter.events': 'Baptisms',
     'portfolio.filter.couples': 'Couples',
     'portfolio.noImages': 'No images available in this category yet.',
     
@@ -46,7 +46,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.events.intro': 'From corporate gatherings to private celebrations, I document events with the same unobtrusive, documentary approach. Real moments, authentic atmosphere.',
     'portfolio.events.cta.title': 'Have an Event Coming Up?',
     'portfolio.events.cta.body': 'Whether corporate or private, I bring the same documentary approach to every event. Get in touch to discuss your needs.',
-    'portfolio.imageAlt': 'Documentary wedding photography in Cluj-Napoca capturing real moments',
+    'portfolio.imageAlt': 'Wedding photography in Cluj-Napoca',
 
     // About
     'about.title': 'About',
@@ -58,14 +58,14 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Services
     'services.title': 'Services & Pricing',
-    'services.intro': 'Wedding photography starts from 2,500 EUR.',
-    'services.includes': 'Includes documentary coverage, editing, online gallery, delivery within 6 weeks.',
-    'services.extras.title': 'Optional Extras',
-    'services.extras.second': 'Second shooter',
-    'services.extras.hours': 'Extra hours',
+    'services.intro': 'Wedding photography from 700 EUR (full-day coverage)',
+    'services.includes': 'Full-day, natural coverage, carefully edited images, a private online gallery, delivered within 4 weeks.',
+    'services.extras.title': 'Optional add-ons (and more, on request)',
+    'services.extras.second': 'Videography',
+    'services.extras.hours': 'Second shooter',
     'services.extras.engagement': 'Engagement session',
-    'services.extras.album': 'Printed albums',
-    'services.cta': 'Request full pricing',
+    'services.extras.album': 'Trash the dress session',
+    'services.cta': 'Check availability + get pricing',
     'services.availability': 'Limited availability: 5-8 weddings per year',
 
     // Testimonials
@@ -136,9 +136,9 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.cta': 'Vezi povești complete',
     'portfolio.filter.all': 'Toate',
     'portfolio.filter.weddings': 'Nunți',
-    'portfolio.filter.events': 'Evenimente',
+    'portfolio.filter.events': 'Botezuri',
     'portfolio.filter.couples': 'Cupluri',
-    'portfolio.imageAlt': 'Fotografie documentară de nuntă în Cluj-Napoca, momente reale',
+    'portfolio.imageAlt': 'Fotografie de nuntă în Cluj-Napoca',
     'portfolio.noImages': 'Nu există imagini disponibile în această categorie momentan.',
     
     // Portfolio Weddings
@@ -163,14 +163,14 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Services
     'services.title': 'Servicii & Prețuri',
-    'services.intro': 'Fotografiere nuntă de la 2.500 EUR.',
-    'services.includes': 'Include acoperire documentară, editare, galerie online, livrare în 6 săptămâni.',
-    'services.extras.title': 'Opțional',
-    'services.extras.second': 'Al doilea fotograf',
-    'services.extras.hours': 'Ore suplimentare',
+    'services.intro': 'Fotografie de nuntă începând cu 700 EUR (ziua întreagă inclusă)',
+    'services.includes': 'Fotografiere pe tot parcursul zilei, imagini editate atent, o galerie online privată, livrate în maximum 4 săptămâni.',
+    'services.extras.title': 'Opțiuni suplimentare (și altele, la cerere)',
+    'services.extras.second': 'Videografie',
+    'services.extras.hours': 'Al doilea fotograf',
     'services.extras.engagement': 'Ședință de logodnă',
-    'services.extras.album': 'Albume tipărite',
-    'services.cta': 'Solicită oferta completă',
+    'services.extras.album': 'Ședință Trash the Dress',
+    'services.cta': 'Verifică disponibilitatea si solicită o oferta',
     'services.availability': 'Disponibilitate limitată: 5-8 nunți pe an',
 
     // Testimonials

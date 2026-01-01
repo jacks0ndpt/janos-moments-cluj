@@ -137,7 +137,7 @@ const AboutSection = ({ isFullPage = false }: AboutSectionProps) => {
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
                 <Button asChild variant="outline">
-                  <Link to="/about">{t('about.cta')}</Link>
+                  <Link to="/portfolio">{t('about.cta')}</Link>
                 </Button>
               </motion.div>
             )}
