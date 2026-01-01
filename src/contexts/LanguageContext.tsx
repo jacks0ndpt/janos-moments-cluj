@@ -28,7 +28,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Portfolio
     'portfolio.title': 'Portfolio',
     'portfolio.intro': 'A selection of weddings and events captured in a documentary, unobtrusive style. Focus on people, moments and emotion.',
-    'portfolio.cta': 'View full wedding stories',
+    'portfolio.cta': 'View Gallery',
     'portfolio.filter.all': 'All',
     'portfolio.filter.weddings': 'Weddings',
     'portfolio.filter.events': 'Baptisms',
@@ -47,6 +47,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.events.cta.title': 'Have an Event Coming Up?',
     'portfolio.events.cta.body': 'Whether corporate or private, I bring the same documentary approach to every event. Get in touch to discuss your needs.',
     'portfolio.imageAlt': 'Wedding photography in Cluj-Napoca',
+    'portfolio.backToTop': 'Back to top',
 
     // About
     'about.title': 'About',
@@ -133,12 +134,13 @@ const translations: Record<Language, Record<string, string>> = {
     // Portfolio
     'portfolio.title': 'Portofoliu',
     'portfolio.intro': 'O selecție de nunți și evenimente surprinse documentar, discret. Accent pe oameni, emoții și atmosferă.',
-    'portfolio.cta': 'Vezi povești complete',
+    'portfolio.cta': 'Vezi galeria',
     'portfolio.filter.all': 'Toate',
     'portfolio.filter.weddings': 'Nunți',
     'portfolio.filter.events': 'Botezuri',
     'portfolio.filter.couples': 'Cupluri',
     'portfolio.imageAlt': 'Fotografie de nuntă în Cluj-Napoca',
+    'portfolio.backToTop': 'La început',
     'portfolio.noImages': 'Nu există imagini disponibile în această categorie momentan.',
     
     // Portfolio Weddings
@@ -212,7 +214,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.privacy': 'Politica de confidențialitate',
     'footer.instagram': 'Instagram',
     'footer.email': 'Email',
-    'footer.location.based': 'Cu baza în Cluj-Napoca.',
+    'footer.location.based': 'Cluj-Napoca.',
     'footer.location.available': 'Disponibil pentru nunți și evenimente în Transilvania și în toată România.',
 
     // Privacy
