@@ -74,14 +74,14 @@ const translations: Record<Language, Record<string, string>> = {
 
     // FAQ
     'faq.title': 'Frequently Asked Questions',
-    'faq.q1': 'Do you pose couples?',
-    'faq.a1': 'Only when needed. Most guidance is natural and unobtrusive — I help you feel comfortable, not perform.',
-    'faq.q2': 'Do you use flash?',
-    'faq.a2': 'I prefer natural light unless flash is absolutely necessary. It keeps the atmosphere authentic.',
-    'faq.q3': 'How long until we receive photos?',
-    'faq.a3': 'Usually within 6 weeks. You\'ll receive a curated online gallery with download access.',
-    'faq.q4': 'Do you travel for weddings?',
-    'faq.a4': 'Yes, I photograph weddings throughout Transylvania and beyond. Travel fees may apply for distant locations.',
+    'faq.q1': 'What is your photography style?',
+    'faq.a1': 'Natural, story-driven photography focused on real moments, light, and atmosphere. I document the day as it unfolds, without forcing it.',
+    'faq.q2': 'Do you pose couples?',
+    'faq.a2': 'I guide when needed, especially during portraits, but most of the day is captured naturally. My goal is to help you feel comfortable, not to perform for the camera.',
+    'faq.q3': 'How long until we receive the photos?',
+    'faq.a3': 'You’ll receive a carefully curated online gallery within up to 4 weeks, often sooner depending on the season.',
+    'faq.q4': 'How do we book you?',
+    'faq.a4': 'Simply reach out through the contact form to check availability.',
     'faq.cta': 'Check availability',
 
     // Contact
@@ -180,14 +180,14 @@ const translations: Record<Language, Record<string, string>> = {
 
     // FAQ
     'faq.title': 'Întrebări frecvente',
-    'faq.q1': 'Poziționezi mirii?',
-    'faq.a1': 'Doar când e necesar. În rest, fotografiez natural — vă ajut să vă simțiți confortabil, nu să pozați.',
-    'faq.q2': 'Folosești blitz?',
-    'faq.a2': 'Prefer lumina naturală, blitzul doar dacă situația o cere. Păstrează atmosfera autentică.',
-    'faq.q3': 'Cât durează predarea fotografiilor?',
-    'faq.a3': 'De obicei în 6 săptămâni. Veți primi o galerie online curată cu acces la descărcare.',
-    'faq.q4': 'Călătorești pentru nunți?',
-    'faq.a4': 'Da, fotografiez nunți în toată Transilvania și nu numai. Pentru locații îndepărtate se pot aplica taxe de deplasare.',
+    'faq.q1': 'Care este stilul tău de fotografie?',
+    'faq.a1': 'Un stil natural, axat pe poveste, momente reale, lumină și atmosferă. Surprind ziua așa cum se întâmplă, fără cadre forțate.',
+    'faq.q2': 'Pozezi cuplurile?',
+    'faq.a2': 'Ofer ghidaj atunci când este nevoie, mai ales la portrete, dar în cea mai mare parte fotografiez natural. Important pentru mine este să vă simțiți confortabil, si sa va bucurati de eveniment.',
+    'faq.q3': 'În cât timp primim fotografiile?',
+    'faq.a3': 'Veți primi o galerie online atent selecționată în maximum 4 săptămâni, de multe ori chiar mai repede, în funcție de perioadă.',
+    'faq.q4': 'Cum te putem rezerva?',
+    'faq.a4': 'Ne puteți scrie prin formularul de contact pentru a verifica disponibilitatea. Data este confirmată după semnarea contractului și achitarea avansului.',
     'faq.cta': 'Verifică disponibilitatea',
 
     // Contact

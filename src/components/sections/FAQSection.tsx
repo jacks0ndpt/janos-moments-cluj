@@ -40,31 +40,32 @@ const FAQSection = ({ isFullPage = false }: FAQSectionProps) => {
   const additionalFaqs = language === 'en' 
     ? [
         { 
-          q: 'What if it rains on our wedding day?', 
-          a: 'Rain can create some of the most beautiful and intimate wedding photos. I always have backup plans and indoor options prepared. Some of my favorite images were captured during rainy days.' 
+          q: 'Do you offer other services (video, albums, prints)?', 
+          a: 'I focus exclusively on photography, but I’m happy to recommend trusted videographers. Albums, prints, and other options can be discussed on request.' 
         },
         { 
-          q: 'How many photos will we receive?', 
-          a: 'Typically 400-600 images for a full wedding day. I believe in quality over quantity — every image is carefully selected and edited.' 
+          q: 'What if we don’t feel comfortable in front of the camera?', 
+          a: 'That’s completely normal. Most couples aren’t used to being photographed. My role is to create a relaxed environment, without pressure or forced moments, so things can unfold naturally.' 
         },
         { 
-          q: 'Do you offer videography?', 
-          a: 'I work exclusively in photography, but I can recommend trusted videographers who share my documentary approach.' 
+          q: 'Do you photograph weddings outside of Cluj?', 
+          a: 'Yes. I photograph weddings in Cluj-Napoca, throughout Transylvania, and beyond. Travel fees may apply for more distant locations.' 
         },
       ]
     : [
         { 
-          q: 'Ce se întâmplă dacă plouă în ziua nunții?', 
-          a: 'Ploaia poate crea unele dintre cele mai frumoase și intime fotografii de nuntă. Am întotdeauna planuri de rezervă și opțiuni în interior pregătite. Unele dintre imaginile mele preferate au fost surprinse în zile ploioase.' 
+          q: 'Oferi și alte servicii (video, albume, printuri)?', 
+          a: 'Mă concentrez exclusiv pe fotografie, dar partea video este realizată de videografi de încredere, prieteni apropiați, cu care sunt obișnuit să lucrez. Albumele, printurile sau alte opțiuni pot fi discutate la cerere.' 
         },
         { 
-          q: 'Câte fotografii vom primi?', 
-          a: 'De obicei 400-600 de imagini pentru o zi completă de nuntă. Cred în calitate, nu în cantitate — fiecare imagine este atent selectată și editată.' 
+          q: 'Ce se întâmplă dacă nu ne simțim confortabil în fața camerei?', 
+          a: 'Este absolut normal. Majoritatea cuplurilor nu sunt obișnuite să fie fotografiate. Rolul meu este să creez un cadru relaxat, fără presiune sau momente forțate, astfel încât lucrurile să se întâmple natural.' 
         },
         { 
-          q: 'Oferi și videografie?', 
-          a: 'Lucrez exclusiv în fotografie, dar pot recomanda videografi de încredere care împărtășesc abordarea mea documentară.' 
+          q: 'Te deplasezi și în afara Clujului?', 
+          a: 'Da. Mă deplasez și în alte zone. Pentru locații mai îndepărtate pot apărea costuri de deplasare.' 
         },
+     
       ];
 
   const allFaqs = isFullPage ? [...faqs, ...additionalFaqs] : faqs;
