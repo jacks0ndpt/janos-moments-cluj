@@ -33,6 +33,15 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Google Analytics (replace G-XXXXXXXXXX with your GA4 Measurement ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Disable automatic page_view; we'll send page_view events manually from the app
+      gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+    </script>
     
     <!-- Canonical -->
     <link rel="canonical" href="https://janoshada.com" />

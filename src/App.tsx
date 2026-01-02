@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -19,6 +19,19 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
+  // GA listener component: sends page_view on route change (requires gtag snippet in index.html)
+  const GAListener: React.FC = () => {
+    const location = useLocation();
+    React.useEffect(() => {
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'page_view', {
+          page_path: location.pathname + location.search,
+        });
+      }
+    }, [location]);
+    return null;
+  };
+
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -28,6 +41,7 @@ const App = () => {
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
+              <GAListener />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/portfolio" element={<Portfolio />} />
