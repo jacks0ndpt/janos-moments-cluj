@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { MapPin, Mail, Phone } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import contactImage from '@/assets/fotograf-nunta-cluj-emotii-miri-contact.jpg';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ContactFormProps {
   isFullPage?: boolean;
@@ -29,6 +30,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const showForm = false;
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -37,13 +39,14 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
 
   const { scrollYProgress: infoScrollProgress } = useScroll({
     target: infoRef,
-    offset: ['start end', 'center center'],
+    offset: isMobile ? ['start 0.95', 'start 0.6'] : ['start end', 'center center'],
   });
 
   const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
 
+  // Reduce horizontal offset on mobile to prevent content being cut off
   const infoX = useSpring(
-    useTransform(infoScrollProgress, [0, 1], [-60, 0]),
+    useTransform(infoScrollProgress, [0, 1], [isMobile ? -20 : -60, 0]),
     springConfig
   );
 
@@ -131,18 +134,18 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
           >
             <motion.h2 
               className="font-heading text-4xl md:text-5xl lg:text-6xl mb-6"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: isMobile ? 15 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: isMobile ? "0px 0px -50px 0px" : "0px" }}
               transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             >
               {t('contact.title')}
             </motion.h2>
             <motion.p 
               className="text-muted-foreground text-lg mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: isMobile ? "0px 0px -50px 0px" : "0px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {t('contact.intro')}
@@ -153,9 +156,9 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                 <motion.div 
                   key={index}
                   className="flex items-center gap-4"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: isMobile ? -10 : -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: isMobile ? "0px 0px -30px 0px" : "0px" }}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   whileHover={{ x: 5 }}
                 >
