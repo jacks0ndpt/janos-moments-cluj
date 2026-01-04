@@ -242,18 +242,6 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
         onNext={nextImage}
         onPrevious={previousImage}
       />
-      {/* Mobile sticky back-to-top (mobile only) */}
-      <div className="md:hidden fixed bottom-6 right-4 z-50">
-        <Button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          variant="secondary"
-          size="sm"
-          aria-label={t('portfolio.backToTop')}
-          className="bg-foreground/10 backdrop-blur-sm hover:bg-foreground/10"
-        >
-          {t('portfolio.backToTop')}
-        </Button>
-      </div>
     </>
   );
 };

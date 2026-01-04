@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PortfolioCategorySection from '@/components/sections/PortfolioCategorySection';
+import BackToTopButton from '@/components/BackToTopButton';
 import { Button } from '@/components/ui/button';
 
 const PortfolioWeddings = () => {
@@ -120,6 +121,7 @@ const PortfolioWeddings = () => {
         </section>
       </main>
 
+      <BackToTopButton />
       <Footer />
     </>
   );
