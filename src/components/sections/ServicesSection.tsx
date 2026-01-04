@@ -146,13 +146,13 @@ const ServicesSection = ({ isFullPage = false }: ServicesSectionProps) => {
             </div>
 
             <motion.div 
-              className="text-center"
+              className="text-center px-4 md:px-0"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <Button asChild variant="hero" size="lg">
+              <Button asChild variant="hero" size="lg" className="w-full sm:w-auto whitespace-normal h-auto py-3">
                 <Link to="/contact">{t('services.cta')}</Link>
               </Button>
             </motion.div>
