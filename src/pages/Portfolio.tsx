@@ -3,6 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PortfolioSection from '@/components/sections/PortfolioSection';
+import BackToTopButton from '@/components/BackToTopButton';
 
 const Portfolio = () => {
   const { language, t } = useLanguage();
@@ -91,6 +92,7 @@ const Portfolio = () => {
         <PortfolioSection showFilters={true} />
       </main>
 
+      <BackToTopButton />
       <Footer />
     </>
   );
