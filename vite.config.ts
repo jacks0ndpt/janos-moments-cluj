@@ -25,9 +25,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [
-    react({
-      jsxruntime: "automatic",
-    }),
+    react(),
     mode === "development" && componentTagger(),
     Sitemap({
       hostname: 'https://janoshada.com',
