@@ -432,7 +432,7 @@
       "filename": "fotograf-nunta-cluj-58.jpg",
       "alt": "atmosferă de seară la o nuntă documentară",
       "category": "weddings",
-      "aspectRatio": "landscape"
+      "aspectRatio": "portrait"
     },
     {
       "id": 66,
@@ -453,7 +453,7 @@
       "filename": "fotograf-nunta-cluj-61.jpg",
       "alt": "atmosferă de seară la o nuntă documentară",
       "category": "weddings",
-      "aspectRatio": "landscape"
+      "aspectRatio": "portrait"
     },
     {
       "id": 69,
@@ -467,7 +467,7 @@
       "filename": "fotograf-nunta-cluj-63.jpg",
       "alt": "atmosferă de seară la o nuntă documentară",
       "category": "weddings",
-      "aspectRatio": "landscape"
+      "aspectRatio": "portrait"
     },
     {
       "id": 71,
@@ -509,14 +509,14 @@
       "filename": "fotograf-botez-cluj-1.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
       "category": "events",
-      "aspectRatio": "portrait"
+      "aspectRatio": "landscape"
     },
     {
       "id": 77,
       "filename": "fotograf-botez-cluj-2.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
       "category": "events",
-      "aspectRatio": "landscape"
+      "aspectRatio": "portrait"
     },
     {
       "id": 78,
@@ -579,14 +579,14 @@
       "filename": "fotograf-botez-cluj-11.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – legătura dintre părinți și copil",
       "category": "events",
-      "aspectRatio": "portrait"
+      "aspectRatio": "landscape"
     },
     {
       "id": 87,
       "filename": "fotograf-botez-cluj-12.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
       "category": "events",
-      "aspectRatio": "portrait"
+      "aspectRatio": "landscape"
     },
     {
       "id": 88,
@@ -614,7 +614,7 @@
       "filename": "fotograf-botez-cluj-16.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – moment emoționant din timpul ceremoniei",
       "category": "events",
-      "aspectRatio": "portrait"
+      "aspectRatio": "landscape"
     },
     {
       "id": 92,
@@ -628,7 +628,7 @@
       "filename": "fotograf-botez-cluj-18.jpg",
       "alt": "Fotografie de botez în Cluj-Napoca – atmosferă și emoții reale",
       "category": "events",
-      "aspectRatio": "landscape"
+      "aspectRatio": "portrait"
     },
     {
       "id": 94,
