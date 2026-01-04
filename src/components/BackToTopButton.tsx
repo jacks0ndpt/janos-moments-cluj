@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ChevronUp } from 'lucide-react';
@@ -35,16 +34,13 @@ const BackToTopButton = () => {
 
   return (
     <div className="fixed bottom-6 right-4 z-50 md:hidden">
-      <Button
+      <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        variant="secondary"
-        size="sm"
         aria-label={t('portfolio.backToTop')}
-        className="bg-foreground/10 backdrop-blur-sm hover:bg-foreground/20 gap-1"
+        className="h-10 w-10 rounded-full bg-foreground text-background shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95"
       >
-        <ChevronUp className="h-4 w-4" />
-        {t('portfolio.backToTop')}
-      </Button>
+        <ChevronUp className="h-5 w-5" />
+      </button>
     </div>
   );
 };
