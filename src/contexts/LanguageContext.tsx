@@ -187,7 +187,7 @@ const translations: Record<Language, Record<string, string>> = {
     'faq.q3': 'În cât timp primim fotografiile?',
     'faq.a3': 'Veți primi o galerie online atent selecționată în maximum 4 săptămâni, de multe ori chiar mai repede, în funcție de perioadă.',
     'faq.q4': 'Cum te putem rezerva?',
-    'faq.a4': 'Ne puteți scrie prin formularul de contact pentru a verifica disponibilitatea. Data este confirmată după semnarea contractului și achitarea avansului.',
+    'faq.a4': 'Imi puteți scrie prin formularul de contact pentru a verifica disponibilitatea. Data este confirmată după semnarea contractului și achitarea avansului.',
     'faq.cta': 'Verifică disponibilitatea',
 
     // Contact
