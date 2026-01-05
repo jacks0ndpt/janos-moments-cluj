@@ -14,15 +14,15 @@ const PortfolioEvents = () => {
     "@context": "https://schema.org",
     "@type": "ImageGallery",
     "name": language === 'en' 
-      ? "Event Photography Gallery | Janos Hada"
-      : "Galerie Fotografie Evenimente | Janos Hada",
+      ? "Event Photography Gallery | Jimmy Hada"
+      : "Galerie Fotografie Evenimente | Jimmy Hada",
     "description": language === 'en'
       ? "Documentary event photography from Cluj-Napoca capturing authentic moments and real emotions."
       : "Fotografie documentară de evenimente din Cluj-Napoca, surprinzând momente autentice și emoții reale.",
-    "url": "https://janoshada.com/portfolio/events",
+    "url": "https://jimmyhada.com/portfolio/events",
     "author": {
       "@type": "Person",
-      "name": "Janos Hada"
+      "name": "Jimmy Hada"
     }
   };
 
@@ -31,8 +31,8 @@ const PortfolioEvents = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Event Photography Gallery | Cluj-Napoca | Janos Hada'
-            : 'Galerie Fotografie Evenimente | Cluj-Napoca | Janos Hada'
+            ? 'Event Photography Gallery | Cluj-Napoca | Jimmy Hada'
+            : 'Galerie Fotografie Evenimente | Cluj-Napoca | Jimmy Hada'
           }
         </title>
         <meta 
@@ -42,16 +42,16 @@ const PortfolioEvents = () => {
             : 'Fotografie documentară de evenimente în Cluj-Napoca. Evenimente corporate, celebrări și momente speciale în lumină naturală.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com/portfolio/events" />
+        <link rel="canonical" href="https://jimmyhada.com/portfolio/events" />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://janoshada.com/portfolio/events" />
+        <meta property="og:url" content="https://jimmyhada.com/portfolio/events" />
         <meta 
           property="og:title" 
           content={language === 'en'
-            ? 'Event Photography Gallery | Janos Hada Cluj-Napoca'
-            : 'Galerie Fotografie Evenimente | Janos Hada Cluj-Napoca'
+            ? 'Event Photography Gallery | Jimmy Hada Cluj-Napoca'
+            : 'Galerie Fotografie Evenimente | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -61,8 +61,8 @@ const PortfolioEvents = () => {
             : 'Fotografie documentară de evenimente, momente autentice în Cluj-Napoca și Transilvania.'
           }
         />
-        <meta property="og:image" content="https://janoshada.com/portfolio/portfolio-event.jpg" />
-        <meta property="og:image:alt" content="Event photography by Janos Hada in Cluj-Napoca" />
+        <meta property="og:image" content="https://jimmyhada.com/portfolio/portfolio-event.jpg" />
+        <meta property="og:image:alt" content="Event photography by Jimmy Hada in Cluj-Napoca" />
         <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ro_RO'} />
         
         {/* Twitter */}
@@ -70,8 +70,8 @@ const PortfolioEvents = () => {
         <meta 
           name="twitter:title" 
           content={language === 'en'
-            ? 'Event Photography Gallery | Janos Hada Cluj-Napoca'
-            : 'Galerie Fotografie Evenimente | Janos Hada Cluj-Napoca'
+            ? 'Event Photography Gallery | Jimmy Hada Cluj-Napoca'
+            : 'Galerie Fotografie Evenimente | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -81,7 +81,7 @@ const PortfolioEvents = () => {
             : 'Fotografie documentară de evenimente, momente autentice în Cluj-Napoca.'
           }
         />
-        <meta name="twitter:image" content="https://janoshada.com/portfolio/portfolio-event.jpg" />
+        <meta name="twitter:image" content="https://jimmyhada.com/portfolio/portfolio-event.jpg" />
         
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

@@ -12,15 +12,15 @@ const Portfolio = () => {
     "@context": "https://schema.org",
     "@type": "ImageGallery",
     "name": language === 'en' 
-      ? "Wedding & Event Photography Portfolio | Janos Hada"
-      : "Portofoliu Fotografie Nuntă & Evenimente | Janos Hada",
+      ? "Wedding & Event Photography Portfolio | Jimmy Hada"
+      : "Portofoliu Fotografie Nuntă & Evenimente | Jimmy Hada",
     "description": language === 'en'
       ? "Documentary wedding and event photography gallery from Cluj-Napoca. Real emotions, natural moments, honest storytelling."
       : "Galerie fotografie documentară de nuntă și evenimente din Cluj-Napoca. Emoții reale, momente naturale, povești autentice.",
-    "url": "https://janoshada.com/portfolio",
+    "url": "https://jimmyhada.com/portfolio",
     "author": {
       "@type": "Person",
-      "name": "Janos Hada"
+      "name": "Jimmy Hada"
     }
   };
 
@@ -29,8 +29,8 @@ const Portfolio = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Wedding Photography Portfolio | Cluj-Napoca | Janos Hada'
-            : 'Portofoliu Fotograf Nuntă | Cluj-Napoca | Janos Hada'
+            ? 'Wedding Photography Portfolio | Cluj-Napoca | Jimmy Hada'
+            : 'Portofoliu Fotograf Nuntă | Cluj-Napoca | Jimmy Hada'
           }
         </title>
         <meta 
@@ -40,16 +40,16 @@ const Portfolio = () => {
             : 'Fotografie documentară de nuntă și evenimente din Cluj-Napoca. Emoții reale, stil documentar, povești autentice. Vezi portofoliul complet.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com/portfolio" />
+        <link rel="canonical" href="https://jimmyhada.com/portfolio" />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://janoshada.com/portfolio" />
+        <meta property="og:url" content="https://jimmyhada.com/portfolio" />
         <meta 
           property="og:title" 
           content={language === 'en'
-            ? 'Wedding Photography Portfolio | Janos Hada Cluj-Napoca'
-            : 'Portofoliu Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Wedding Photography Portfolio | Jimmy Hada Cluj-Napoca'
+            : 'Portofoliu Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -59,8 +59,8 @@ const Portfolio = () => {
             : 'Fotografie documentară de nuntă și evenimente, emoții reale în Cluj-Napoca și Transilvania.'
           }
         />
-        <meta property="og:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
-        <meta property="og:image:alt" content="Wedding photography by Janos Hada in Cluj-Napoca" />
+        <meta property="og:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
+        <meta property="og:image:alt" content="Wedding photography by Jimmy Hada in Cluj-Napoca" />
         <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ro_RO'} />
         
         {/* Twitter */}
@@ -68,8 +68,8 @@ const Portfolio = () => {
         <meta 
           name="twitter:title" 
           content={language === 'en'
-            ? 'Wedding Photography Portfolio | Janos Hada Cluj-Napoca'
-            : 'Portofoliu Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Wedding Photography Portfolio | Jimmy Hada Cluj-Napoca'
+            : 'Portofoliu Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -79,7 +79,7 @@ const Portfolio = () => {
             : 'Fotografie documentară de nuntă, emoții reale în Cluj-Napoca.'
           }
         />
-        <meta name="twitter:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
+        <meta name="twitter:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
         
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

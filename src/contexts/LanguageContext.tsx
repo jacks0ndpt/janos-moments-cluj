@@ -51,7 +51,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // About
     'about.title': 'About',
-    'about.intro': "I’m Janos, a Cluj-based photographer with a documentary approach.",
+    'about.intro': "I'm Jimmy, a Cluj-based photographer with a documentary approach.",
     'about.body': "I observe and let the day unfold naturally, stepping in when it matters. The most meaningful images often appear between the planned moments.",
     'about.philosophy.title': 'How I Work',
     'about.philosophy.body': 'I stay present throughout the day, stepping in when needed, without being intrusive. I focus on laughter, tears, and small gestures that often go unnoticed, but end up meaning the most.',
@@ -79,7 +79,7 @@ const translations: Record<Language, Record<string, string>> = {
     'faq.q2': 'Do you pose couples?',
     'faq.a2': 'I guide when needed, especially during portraits, but most of the day is captured naturally. My goal is to help you feel comfortable, not to perform for the camera.',
     'faq.q3': 'How long until we receive the photos?',
-    'faq.a3': 'You’ll receive a carefully curated online gallery within up to 4 weeks, often sooner depending on the season.',
+    'faq.a3': "You'll receive a carefully curated online gallery within up to 4 weeks, often sooner depending on the season.",
     'faq.q4': 'How do we book you?',
     'faq.a4': 'Simply reach out through the contact form to check availability.',
     'faq.cta': 'Check availability',
@@ -104,7 +104,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Footer
     'footer.tagline': 'Documentary wedding photography in Cluj-Napoca & Transylvania',
-    'footer.copyright': '© 2024 Janos Hada Photography. All rights reserved.',
+    'footer.copyright': '© 2024 Jimmy Hada Photography. All rights reserved.',
     'footer.privacy': 'Privacy Policy',
     'footer.instagram': 'Instagram',
     'footer.email': 'Email',
@@ -157,7 +157,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // About
     'about.title': 'Despre mine',
-    'about.intro': 'Urmăresc momente autentice și evoluția naturală a unei zile. Sunt Janos, fotograf din Cluj-Napoca.',
+    'about.intro': 'Urmăresc momente autentice și evoluția naturală a unei zile. Sunt Jimmy, fotograf din Cluj-Napoca.',
     'about.body': 'Observ și las ziua să se desfășoare natural. Cele mai puternice imagini apar, de multe ori, între momentele planificate.',
     'about.philosophy.title': 'Abordarea mea',
     'about.philosophy.body': 'Sunt prezent pe tot parcursul zilei și mă adaptez fiecărui moment, cu discreție. Mă concentrez pe râsete, emoții și gesturi mici care trec adesea neobservate, dar ajung să conteze cel mai mult.',
@@ -210,7 +210,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Footer
     'footer.tagline': 'Fotografie documentară de nuntă în Cluj-Napoca & Transilvania',
-    'footer.copyright': '© 2024 Janos Hada Photography. Toate drepturile rezervate.',
+    'footer.copyright': '© 2024 Jimmy Hada Photography. Toate drepturile rezervate.',
     'footer.privacy': 'Politica de confidențialitate',
     'footer.instagram': 'Instagram',
     'footer.email': 'Email',

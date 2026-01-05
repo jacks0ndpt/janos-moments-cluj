@@ -26,7 +26,7 @@ const Privacy = () => {
       },
       {
         title: 'Your Rights',
-        content: 'Under GDPR, you have the right to access, correct, or delete your personal data. You can also object to processing or request data portability. To exercise these rights, please contact me at hello@janoshada.com.'
+        content: 'Under GDPR, you have the right to access, correct, or delete your personal data. You can also object to processing or request data portability. To exercise these rights, please contact me at hello@jimmyhada.com.'
       },
       {
         title: 'Photo Usage',
@@ -38,7 +38,7 @@ const Privacy = () => {
       },
       {
         title: 'Contact',
-        content: 'For any privacy-related questions, please contact me at hello@janoshada.com.'
+        content: 'For any privacy-related questions, please contact me at hello@jimmyhada.com.'
       }
     ]
   } : {
@@ -60,7 +60,7 @@ const Privacy = () => {
       },
       {
         title: 'Drepturile tale',
-        content: 'Conform GDPR, ai dreptul de a accesa, corecta sau șterge datele tale personale. De asemenea, poți obiecta la procesare sau solicita portabilitatea datelor. Pentru a exercita aceste drepturi, te rog să mă contactezi la hello@janoshada.com.'
+        content: 'Conform GDPR, ai dreptul de a accesa, corecta sau șterge datele tale personale. De asemenea, poți obiecta la procesare sau solicita portabilitatea datelor. Pentru a exercita aceste drepturi, te rog să mă contactezi la hello@jimmyhada.com.'
       },
       {
         title: 'Utilizarea fotografiilor',
@@ -72,7 +72,7 @@ const Privacy = () => {
       },
       {
         title: 'Contact',
-        content: 'Pentru orice întrebări legate de confidențialitate, te rog să mă contactezi la hello@janoshada.com.'
+        content: 'Pentru orice întrebări legate de confidențialitate, te rog să mă contactezi la hello@jimmyhada.com.'
       }
     ]
   };
@@ -82,15 +82,15 @@ const Privacy = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Privacy Policy | Janos Hada Photography'
-            : 'Politica de Confidențialitate | Janos Hada Photography'
+            ? 'Privacy Policy | Jimmy Hada Photography'
+            : 'Politica de Confidențialitate | Jimmy Hada Photography'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Privacy policy for Janos Hada Photography. Learn how your personal data is collected, used, and protected.'
-            : 'Politica de confidențialitate pentru Janos Hada Photography. Află cum sunt colectate, folosite și protejate datele tale personale.'
+            ? 'Privacy policy for Jimmy Hada Photography. Learn how your personal data is collected, used, and protected.'
+            : 'Politica de confidențialitate pentru Jimmy Hada Photography. Află cum sunt colectate, folosite și protejate datele tale personale.'
           }
         />
       </Helmet>

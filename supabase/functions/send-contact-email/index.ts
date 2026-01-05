@@ -178,7 +178,7 @@ function generateNotificationEmail(data: ContactFormData): string {
     </div>
     
     <p style="text-align: center; font-size: 12px; color: #999; margin-top: 24px;">
-      Janos Hada Photography | Cluj-Napoca, Romania
+      Jimmy Hada Photography | Cluj-Napoca, Romania
     </p>
   </div>
 </body>
@@ -192,14 +192,14 @@ function generateConfirmationEmail(data: ContactFormData): string {
   const content = isRomanian ? {
     title: "Mulțumim pentru mesaj!",
     greeting: `Dragă ${data.name},`,
-    body: "Mulțumim că m-ai contactat! Am primit cererea ta și îți voi răspunde în maxim 48 de ore.",
+    body: "Mulțumesc că m-ai contactat! Am primit cererea ta și îți voi răspunde în maxim 48 de ore.",
     details: "Detaliile cererii tale:",
     eventType: "Tip eveniment",
     date: "Data",
     location: "Locație",
     closing: "Abia aștept să discutăm despre ziua ta specială!",
     signature: "Cu drag,",
-    name: "Janos Hada",
+    name: "Jimmy Hada",
     tagline: "Fotograf documentarist de nunți",
   } : {
     title: "Thank you for your message!",
@@ -211,7 +211,7 @@ function generateConfirmationEmail(data: ContactFormData): string {
     location: "Location",
     closing: "I look forward to discussing your special day!",
     signature: "Warm regards,",
-    name: "Janos Hada",
+    name: "Jimmy Hada",
     tagline: "Documentary Wedding Photographer",
   };
 
@@ -265,7 +265,7 @@ function generateConfirmationEmail(data: ContactFormData): string {
     </div>
     
     <p style="text-align: center; font-size: 12px; color: #999; margin-top: 24px;">
-      © 2024 Janos Hada Photography | Cluj-Napoca, Romania
+      © 2024 Jimmy Hada Photography | Cluj-Napoca, Romania
     </p>
   </div>
 </body>
@@ -304,8 +304,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email to photographer
     const notificationEmail = await resend.emails.send({
-      from: "Janos Hada Photography <onboarding@resend.dev>",
-      to: ["janos.hada1@gmail.com"],
+      from: "Jimmy Hada Photography <onboarding@resend.dev>",
+      to: ["jimmy.hada@gmail.com"],
       subject: `New Inquiry: ${data.name} - ${getEventTypeLabel(data.eventType, "en")}`,
       html: generateNotificationEmail(data),
     });
@@ -314,11 +314,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to client
     const confirmationEmail = await resend.emails.send({
-      from: "Janos Hada Photography <onboarding@resend.dev>",
+      from: "Jimmy Hada Photography <onboarding@resend.dev>",
       to: [data.email],
       subject: data.language === "ro" 
-        ? "Mulțumim pentru mesaj! | Janos Hada Photography" 
-        : "Thank you for your message! | Janos Hada Photography",
+        ? "Mulțumim pentru mesaj! | Jimmy Hada Photography" 
+        : "Thank you for your message! | Jimmy Hada Photography",
       html: generateConfirmationEmail(data),
     });
 

@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <h3 className="font-heading text-2xl mb-4">Janos Hada</h3>
+            <h3 className="font-heading text-2xl mb-4">Jimmy Hada</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t('footer.tagline')}
             </p>
@@ -57,20 +57,20 @@ const Footer = () => {
             </h4>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:hello@janoshada.com"
+                href="mailto:hello@jimmyhada.com"
                 className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors"
               >
                 <Mail size={16} />
-                hello@janoshada.com
+                hello@jimmyhada.com
               </a>
               <a
-                href="https://instagram.com/janoshadaphoto"
+                href="https://instagram.com/jimmyhadaphoto"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors"
               >
                 <Instagram size={16} />
-                @janoshadaphoto
+                @jimmyhadaphoto
               </a>
             </div>
           </div>

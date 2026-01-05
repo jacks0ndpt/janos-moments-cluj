@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     Sitemap({
-      hostname: 'https://janoshada.com',
+      hostname: 'https://jimmyhada.com',
       dynamicRoutes: routes,
       readable: true,
       changefreq: 'weekly',
