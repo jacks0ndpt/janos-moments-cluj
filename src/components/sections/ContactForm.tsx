@@ -106,8 +106,8 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'hello@janoshada.com',
-      href: 'mailto:janos.hada2@gmail.com',
+      value: 'hello@jimmyhada.com',
+      href: 'mailto:jimmy.hada@gmail.com',
     },
     {
       icon: Phone,

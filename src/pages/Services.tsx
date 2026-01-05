@@ -18,7 +18,7 @@ const Services = () => {
       : "Pachete de fotografiere nuntă în Cluj-Napoca. Prețuri transparente, stil natural, disponibilitate limitată.",
     "provider": {
       "@type": "Person",
-      "name": "Janos Hada"
+      "name": "Jimmy Hada"
     },
     "areaServed": ["Cluj-Napoca", "Transylvania", "Romania"],
     "priceRange": "€€€"
@@ -29,8 +29,8 @@ const Services = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Wedding Photography Pricing | Cluj-Napoca | Janos Hada'
-            : 'Prețuri Fotograf Nuntă | Cluj-Napoca | Janos Hada'
+            ? 'Wedding Photography Pricing | Cluj-Napoca | Jimmy Hada'
+            : 'Prețuri Fotograf Nuntă | Cluj-Napoca | Jimmy Hada'
           }
         </title>
         <meta 
@@ -40,16 +40,16 @@ const Services = () => {
             : 'Pachete fotografie nuntă în Cluj-Napoca de la 2.500 EUR. Stil documentar, abordare naturală. Solicită detalii prețuri.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com/services" />
+        <link rel="canonical" href="https://jimmyhada.com/services" />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://janoshada.com/services" />
+        <meta property="og:url" content="https://jimmyhada.com/services" />
         <meta 
           property="og:title" 
           content={language === 'en'
-            ? 'Wedding Photography Pricing | Janos Hada Cluj-Napoca'
-            : 'Prețuri Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Wedding Photography Pricing | Jimmy Hada Cluj-Napoca'
+            : 'Prețuri Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -59,8 +59,8 @@ const Services = () => {
             : 'Pachete fotografie documentară de nuntă în Cluj-Napoca. Prețuri transparente, disponibilitate limitată.'
           }
         />
-        <meta property="og:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
-        <meta property="og:image:alt" content="Wedding photography services by Janos Hada" />
+        <meta property="og:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
+        <meta property="og:image:alt" content="Wedding photography services by Jimmy Hada" />
         <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ro_RO'} />
         
         {/* Twitter */}
@@ -68,8 +68,8 @@ const Services = () => {
         <meta 
           name="twitter:title" 
           content={language === 'en'
-            ? 'Wedding Photography Pricing | Janos Hada Cluj-Napoca'
-            : 'Prețuri Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Wedding Photography Pricing | Jimmy Hada Cluj-Napoca'
+            : 'Prețuri Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -79,7 +79,7 @@ const Services = () => {
             : 'Pachete fotografie documentară de nuntă în Cluj-Napoca.'
           }
         />
-        <meta name="twitter:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
+        <meta name="twitter:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
         
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

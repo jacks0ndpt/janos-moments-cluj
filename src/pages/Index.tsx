@@ -17,11 +17,11 @@ const Index = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Photographer",
-    "name": "Janos Hada Photography",
+    "name": "Jimmy Hada Photography",
     "description": language === 'en' 
       ? "Documentary wedding & event photographer based in Cluj-Napoca."
       : "Fotograf documentar de nuntă și evenimente din Cluj-Napoca.",
-    "url": "https://janoshada.com",
+    "url": "https://jimmyhada.com",
     "areaServed": {
       "@type": "Country",
       "name": "Romania"
@@ -39,8 +39,8 @@ const Index = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Wedding Photographer Cluj-Napoca | Janos Hada Photography'
-            : 'Fotograf Nuntă Cluj-Napoca | Janos Hada Photography'
+            ? 'Wedding Photographer Cluj-Napoca | Jimmy Hada Photography'
+            : 'Fotograf Nuntă Cluj-Napoca | Jimmy Hada Photography'
           }
         </title>
         <meta 
@@ -50,7 +50,7 @@ const Index = () => {
             : 'Fotograf de nuntă și evenimente în Cluj-Napoca. Stil documentar, momente reale, disponibilitate limitată. Verifică data.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com" />
+        <link rel="canonical" href="https://jimmyhada.com" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

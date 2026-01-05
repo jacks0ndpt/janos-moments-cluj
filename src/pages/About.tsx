@@ -11,12 +11,12 @@ const About = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Janos Hada",
+    "name": "Jimmy Hada",
     "jobTitle": language === 'en' ? "Wedding Photographer" : "Fotograf de Nuntă",
     "description": language === 'en'
       ? "Documentary wedding photographer based in Cluj-Napoca, specializing in authentic moments and natural light photography."
       : "Fotograf documentar de nuntă din Cluj-Napoca, specializat în momente autentice și fotografie cu lumină naturală.",
-    "url": "https://janoshada.com/about",
+    "url": "https://jimmyhada.com/about",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Cluj-Napoca",
@@ -30,27 +30,27 @@ const About = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'About Janos Hada | Wedding Photographer Cluj-Napoca'
-            : 'Despre Janos Hada | Fotograf Nuntă Cluj-Napoca'
+            ? 'About Jimmy Hada | Wedding Photographer Cluj-Napoca'
+            : 'Despre Jimmy Hada | Fotograf Nuntă Cluj-Napoca'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Janos Hada is a documentary wedding photographer in Cluj-Napoca. Focused on real moments, natural light, and authentic storytelling.'
-            : 'Janos Hada, fotograf documentar de nuntă din Cluj-Napoca. Specializat în momente reale, lumină naturală și povești autentice.'
+            ? 'Jimmy Hada is a documentary wedding photographer in Cluj-Napoca. Focused on real moments, natural light, and authentic storytelling.'
+            : 'Jimmy Hada, fotograf documentar de nuntă din Cluj-Napoca. Specializat în momente reale, lumină naturală și povești autentice.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com/about" />
+        <link rel="canonical" href="https://jimmyhada.com/about" />
         
         {/* Open Graph */}
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://janoshada.com/about" />
+        <meta property="og:url" content="https://jimmyhada.com/about" />
         <meta 
           property="og:title" 
           content={language === 'en'
-            ? 'About Janos Hada | Wedding Photographer Cluj-Napoca'
-            : 'Despre Janos Hada | Fotograf Nuntă Cluj-Napoca'
+            ? 'About Jimmy Hada | Wedding Photographer Cluj-Napoca'
+            : 'Despre Jimmy Hada | Fotograf Nuntă Cluj-Napoca'
           }
         />
         <meta 
@@ -60,8 +60,8 @@ const About = () => {
             : 'Fotograf documentar de nuntă din Cluj-Napoca, specializat în momente reale și lumină naturală.'
           }
         />
-        <meta property="og:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
-        <meta property="og:image:alt" content="Janos Hada - Wedding Photographer in Cluj-Napoca" />
+        <meta property="og:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
+        <meta property="og:image:alt" content="Jimmy Hada - Wedding Photographer in Cluj-Napoca" />
         <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ro_RO'} />
         
         {/* Twitter */}
@@ -69,8 +69,8 @@ const About = () => {
         <meta 
           name="twitter:title" 
           content={language === 'en'
-            ? 'About Janos Hada | Wedding Photographer Cluj-Napoca'
-            : 'Despre Janos Hada | Fotograf Nuntă Cluj-Napoca'
+            ? 'About Jimmy Hada | Wedding Photographer Cluj-Napoca'
+            : 'Despre Jimmy Hada | Fotograf Nuntă Cluj-Napoca'
           }
         />
         <meta 
@@ -80,7 +80,7 @@ const About = () => {
             : 'Fotograf documentar de nuntă, momente reale în Cluj-Napoca.'
           }
         />
-        <meta name="twitter:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
+        <meta name="twitter:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
         
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

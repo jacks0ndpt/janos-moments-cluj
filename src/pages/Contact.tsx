@@ -11,14 +11,14 @@ const Contact = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    "name": language === 'en' ? "Contact Janos Hada Photography" : "Contact Janos Hada Photography",
+    "name": language === 'en' ? "Contact Jimmy Hada Photography" : "Contact Jimmy Hada Photography",
     "description": language === 'en'
       ? "Get in touch to check availability for your wedding or event in Cluj-Napoca."
       : "Contactează-mă pentru a verifica disponibilitatea pentru nunta sau evenimentul tău.",
-    "url": "https://janoshada.com/contact",
+    "url": "https://jimmyhada.com/contact",
     "mainEntity": {
       "@type": "Person",
-      "name": "Janos Hada",
+      "name": "Jimmy Hada",
       "jobTitle": "Wedding Photographer",
       "address": {
         "@type": "PostalAddress",
@@ -33,27 +33,27 @@ const Contact = () => {
       <Helmet>
         <title>
           {language === 'en' 
-            ? 'Contact Wedding Photographer | Cluj-Napoca | Janos Hada'
-            : 'Contact Fotograf Nuntă | Cluj-Napoca | Janos Hada'
+            ? 'Contact Wedding Photographer | Cluj-Napoca | Jimmy Hada'
+            : 'Contact Fotograf Nuntă | Cluj-Napoca | Jimmy Hada'
           }
         </title>
         <meta 
           name="description" 
           content={language === 'en'
-            ? 'Contact Janos Hada to check availability for your wedding in Cluj-Napoca. Documentary photography, limited dates each year.'
+            ? 'Contact Jimmy Hada to check availability for your wedding in Cluj-Napoca. Documentary photography, limited dates each year.'
             : 'Contactează-mă pentru a verifica disponibilitatea pentru nunta ta în Cluj-Napoca. Fotografie documentară, date limitate.'
           }
         />
-        <link rel="canonical" href="https://janoshada.com/contact" />
+        <link rel="canonical" href="https://jimmyhada.com/contact" />
         
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://janoshada.com/contact" />
+        <meta property="og:url" content="https://jimmyhada.com/contact" />
         <meta 
           property="og:title" 
           content={language === 'en'
-            ? 'Contact Wedding Photographer | Janos Hada Cluj-Napoca'
-            : 'Contact Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Contact Wedding Photographer | Jimmy Hada Cluj-Napoca'
+            : 'Contact Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -63,8 +63,8 @@ const Contact = () => {
             : 'Contactează-mă pentru a verifica disponibilitatea pentru nunta ta în Cluj-Napoca.'
           }
         />
-        <meta property="og:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
-        <meta property="og:image:alt" content="Contact Janos Hada - Wedding Photographer Cluj-Napoca" />
+        <meta property="og:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
+        <meta property="og:image:alt" content="Contact Jimmy Hada - Wedding Photographer Cluj-Napoca" />
         <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ro_RO'} />
         
         {/* Twitter */}
@@ -72,8 +72,8 @@ const Contact = () => {
         <meta 
           name="twitter:title" 
           content={language === 'en'
-            ? 'Contact Wedding Photographer | Janos Hada Cluj-Napoca'
-            : 'Contact Fotograf Nuntă | Janos Hada Cluj-Napoca'
+            ? 'Contact Wedding Photographer | Jimmy Hada Cluj-Napoca'
+            : 'Contact Fotograf Nuntă | Jimmy Hada Cluj-Napoca'
           }
         />
         <meta 
@@ -83,7 +83,7 @@ const Contact = () => {
             : 'Contactează-mă pentru fotografie de nuntă în Cluj-Napoca.'
           }
         />
-        <meta name="twitter:image" content="https://janoshada.com/portfolio/portfolio-1.jpg" />
+        <meta name="twitter:image" content="https://jimmyhada.com/portfolio/portfolio-1.jpg" />
         
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

@@ -47,7 +47,7 @@ const Header = () => {
             to="/"
             className="font-heading text-xl md:text-2xl tracking-wide text-foreground hover:text-primary transition-colors"
           >
-            Janos Hada
+            Jimmy Hada
           </Link>
 
           {/* Desktop Navigation */}
