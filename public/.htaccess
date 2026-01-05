@@ -1,10 +1,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Force SPA routes to index.html (even if directory exists)
+  # This handles /portfolio, /about, /services, /contact, /privacy
+  RewriteRule ^(portfolio|about|services|contact|privacy)/?$ index.html [L]
+  RewriteRule ^portfolio/(weddings|events)/?$ index.html [L]
   
-  # If the requested resource exists as a file or directory, serve it
+  # If the requested resource exists as a file, serve it
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
   
   # Otherwise, redirect all requests to index.html for SPA routing
   RewriteRule ^ index.html [L]
