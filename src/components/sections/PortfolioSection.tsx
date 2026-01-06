@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import Lightbox from '@/components/ui/lightbox';
@@ -19,8 +19,8 @@ interface PortfolioSectionProps {
   limit?: number;
 }
 
-// Individual image component with parallax
-const PortfolioImageCard = ({ 
+// Optimized image component - no per-image scroll listeners
+const PortfolioImageCard = memo(({ 
   image, 
   index,
   onClick,
@@ -31,62 +31,81 @@ const PortfolioImageCard = ({
   onClick: () => void;
   altText: string;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
-  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-  
-  const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], [30, -30]),
-    springConfig
-  );
-  
-  const scale = useSpring(
-    useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.98]),
-    springConfig
-  );
+  // Use native IntersectionObserver for better performance
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px', threshold: 0.01 }
+    );
+
+    const element = document.getElementById(`portfolio-img-${image.id}`);
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [image.id]);
+
+  // Stagger animation within batches of 6 for faster perceived load
+  const batchIndex = index % 6;
+  const animationDelay = batchIndex * 0.05;
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      style={{ scale }}
+      id={`portfolio-img-${image.id}`}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.4, delay: animationDelay, ease: 'easeOut' }}
       onClick={onClick}
       className={`group relative overflow-hidden rounded-sm cursor-pointer ${
         image.aspectRatio === 'portrait' ? 'row-span-2' : ''
       }`}
     >
-      <motion.div 
-        className={`relative ${image.aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}
-        style={{ y }}
+      {/* Fixed aspect ratio container prevents CLS */}
+      <div 
+        className={`relative ${image.aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'} bg-muted`}
       >
-        <img
-          src={`/portfolio/${image.filename}`}
-          alt={altText}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <motion.div 
-          className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-500" 
-          whileHover={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
-        />
-      </motion.div>
+        {/* Placeholder skeleton */}
+        {!isLoaded && (
+          <div className="absolute inset-0 bg-muted animate-pulse" />
+        )}
+        
+        {isInView && (
+          <img
+            src={`/portfolio/${image.filename}`}
+            alt={altText}
+            width={image.aspectRatio === 'portrait' ? 600 : 800}
+            height={image.aspectRatio === 'portrait' ? 800 : 600}
+            onLoad={() => setIsLoaded(true)}
+            decoding="async"
+            className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            loading="lazy"
+            fetchPriority={index < 6 ? 'high' : 'low'}
+          />
+        )}
+        
+        {/* Hover overlay - CSS only, no motion */}
+        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-300" />
+      </div>
     </motion.div>
   );
-};
+});
+
+PortfolioImageCard.displayName = 'PortfolioImageCard';
 
 const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<'all' | 'weddings' | 'events' | 'couples'>('all');
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const sectionRef = useRef<HTMLElement>(null);
 
   // Load images from JSON config
   useEffect(() => {
@@ -117,15 +136,9 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
     alt: altText
   }));
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const headerY = useSpring(
-    useTransform(scrollYProgress, [0, 0.3], [50, 0]),
-    { stiffness: 100, damping: 30 }
-  );
+  const handleFilterClick = useCallback((filterId: 'all' | 'weddings' | 'events' | 'couples') => {
+    setActiveFilter(filterId);
+  }, []);
 
   const filters = [
     { id: 'all' as const, label: t('portfolio.filter.all') },
@@ -139,61 +152,45 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
 
   return (
     <>
-      <section ref={sectionRef} className="section-padding bg-background">
+      <section className="section-padding bg-background">
         <div className="container-wide">
-          {/* Header */}
-          <motion.div
-            style={{ y: headerY }}
-            className="text-center mb-12"
-          >
+          {/* Header - simplified animation */}
+          <div className="text-center mb-12">
             <motion.h2 
               className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
               {t('portfolio.title')}
             </motion.h2>
             <motion.p 
               className="text-muted-foreground max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               {t('portfolio.intro')}
             </motion.p>
-          </motion.div>
+          </div>
 
-          {/* Filters */}
+          {/* Filters - simplified, no per-button animation */}
           {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-2 mb-12"
-            >
-              {visibleFilters.map((filter, index) => (
-                <motion.button
+            <div className="flex flex-wrap justify-center gap-2 mb-12">
+              {visibleFilters.map((filter) => (
+                <button
                   key={filter.id}
-                  onClick={() => setActiveFilter(filter.id)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`px-6 py-2 text-sm transition-all duration-300 rounded-sm ${
+                  onClick={() => handleFilterClick(filter.id)}
+                  className={`px-6 py-2 text-sm transition-all duration-200 rounded-sm hover:scale-105 active:scale-95 ${
                     activeFilter === filter.id
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                   }`}
                 >
                   {filter.label}
-                </motion.button>
+                </button>
               ))}
-            </motion.div>
+            </div>
           )}
 
           {/* Gallery Grid */}
@@ -220,10 +217,9 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
           {/* CTA */}
           {limit && (
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
               className="text-center mt-12"
             >
               <Button asChild variant="outline" size="lg">

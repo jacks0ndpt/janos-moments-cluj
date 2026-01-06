@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -11,7 +11,9 @@ interface LightboxProps {
   onPrevious: () => void;
 }
 
-const Lightbox = ({ images, currentIndex, isOpen, onClose, onNext, onPrevious }: LightboxProps) => {
+const Lightbox = memo(({ images, currentIndex, isOpen, onClose, onNext, onPrevious }: LightboxProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+  
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
     if (e.key === 'ArrowRight') onNext();
@@ -22,12 +24,33 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onNext, onPrevious }:
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
+      setIsLoading(true);
     }
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, handleKeyDown]);
+
+  // Reset loading state when image changes
+  useEffect(() => {
+    setIsLoading(true);
+  }, [currentIndex]);
+
+  // Preload adjacent images
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const preloadIndices = [
+      (currentIndex + 1) % images.length,
+      (currentIndex - 1 + images.length) % images.length
+    ];
+    
+    preloadIndices.forEach(idx => {
+      const img = new Image();
+      img.src = images[idx]?.src;
+    });
+  }, [isOpen, currentIndex, images]);
 
   const currentImage = images[currentIndex];
 
@@ -38,7 +61,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onNext, onPrevious }:
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
           onClick={onClose}
         >
@@ -62,25 +85,33 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onNext, onPrevious }:
             </button>
           )}
 
-          {/* Image */}
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="relative max-w-[90vw] max-h-[90vh]"
+          {/* Image container with loading state */}
+          <div
+            className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Loading spinner */}
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+            
             <img
+              key={currentIndex}
               src={currentImage.src}
               alt={currentImage.alt}
-              className="max-w-full max-h-[90vh] object-contain rounded-sm"
+              onLoad={() => setIsLoading(false)}
+              decoding="async"
+              className={`max-w-full max-h-[90vh] object-contain rounded-sm transition-opacity duration-200 ${
+                isLoading ? 'opacity-0' : 'opacity-100'
+              }`}
             />
+            
             <p className="absolute bottom-0 left-0 right-0 text-center py-3 text-sm text-muted-foreground bg-gradient-to-t from-background/80 to-transparent">
               {currentImage.alt}
             </p>
-          </motion.div>
+          </div>
 
           {/* Navigation - Next */}
           {images.length > 1 && (
@@ -103,6 +134,8 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onNext, onPrevious }:
       )}
     </AnimatePresence>
   );
-};
+});
+
+Lightbox.displayName = 'Lightbox';
 
 export default Lightbox;
