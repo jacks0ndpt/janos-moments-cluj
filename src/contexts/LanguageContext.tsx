@@ -231,9 +231,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const saved = localStorage.getItem('language') as Language;
       if (saved) return saved;
       const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith('ro')) return 'ro';
+      if (browserLang.startsWith('en')) return 'en';
     }
-    return 'en';
+    return 'ro';
   });
 
   useEffect(() => {
