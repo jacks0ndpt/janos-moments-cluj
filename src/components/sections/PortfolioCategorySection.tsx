@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useState, useEffect, memo } from 'react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Lightbox from '@/components/ui/lightbox';
 import { useLightbox } from '@/hooks/useLightbox';
@@ -16,8 +16,8 @@ interface PortfolioCategorySectionProps {
   category: 'weddings' | 'events' | 'couples';
 }
 
-// Individual image component with parallax
-const PortfolioImageCard = ({ 
+// Optimized image component - no per-image scroll listeners
+const PortfolioImageCard = memo(({ 
   image, 
   index,
   onClick,
@@ -28,61 +28,80 @@ const PortfolioImageCard = ({
   onClick: () => void;
   altText: string;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
-  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-  
-  const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], [30, -30]),
-    springConfig
-  );
-  
-  const scale = useSpring(
-    useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.98]),
-    springConfig
-  );
+  // Use native IntersectionObserver for better performance
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px', threshold: 0.01 }
+    );
+
+    const element = document.getElementById(`category-img-${image.id}`);
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [image.id]);
+
+  // Stagger animation within batches of 6 for faster perceived load
+  const batchIndex = index % 6;
+  const animationDelay = batchIndex * 0.05;
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      style={{ scale }}
+      id={`category-img-${image.id}`}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.4, delay: animationDelay, ease: 'easeOut' }}
       onClick={onClick}
       className={`group relative overflow-hidden rounded-sm cursor-pointer ${
         image.aspectRatio === 'portrait' ? 'row-span-2' : ''
       }`}
     >
-      <motion.div 
-        className={`relative ${image.aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}
-        style={{ y }}
+      {/* Fixed aspect ratio container prevents CLS */}
+      <div 
+        className={`relative ${image.aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'} bg-muted`}
       >
-        <img
-          src={`/portfolio/${image.filename}`}
-          alt={altText}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <motion.div 
-          className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-500" 
-          whileHover={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
-        />
-      </motion.div>
+        {/* Placeholder skeleton */}
+        {!isLoaded && (
+          <div className="absolute inset-0 bg-muted animate-pulse" />
+        )}
+        
+        {isInView && (
+          <img
+            src={`/portfolio/${image.filename}`}
+            alt={altText}
+            width={image.aspectRatio === 'portrait' ? 600 : 800}
+            height={image.aspectRatio === 'portrait' ? 800 : 600}
+            onLoad={() => setIsLoaded(true)}
+            decoding="async"
+            className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            loading="lazy"
+            fetchPriority={index < 6 ? 'high' : 'low'}
+          />
+        )}
+        
+        {/* Hover overlay - CSS only, no motion */}
+        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-300" />
+      </div>
     </motion.div>
   );
-};
+});
+
+PortfolioImageCard.displayName = 'PortfolioImageCard';
 
 const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) => {
   const { t } = useLanguage();
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const sectionRef = useRef<HTMLElement>(null);
 
   // Load images from JSON config
   useEffect(() => {
@@ -112,7 +131,7 @@ const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) =
 
   return (
     <>
-      <section ref={sectionRef} className="section-padding bg-background">
+      <section className="section-padding bg-background">
         <div className="container-wide">
           {/* Gallery Grid */}
           {loading ? (
