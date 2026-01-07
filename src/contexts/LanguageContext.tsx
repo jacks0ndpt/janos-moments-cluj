@@ -230,9 +230,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('language') as Language;
       if (saved) return saved;
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith('en')) return 'en';
     }
+    // Romanian is always the default for new devices
     return 'ro';
   });
 
