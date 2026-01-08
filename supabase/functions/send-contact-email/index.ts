@@ -304,9 +304,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email to photographer
     const notificationEmail = await resend.emails.send({
-      from: "Jimmy Hada Photography <onboarding@resend.dev>",
-      to: ["jimmy.hada@gmail.com"],
-      subject: `New Inquiry: ${data.name} - ${getEventTypeLabel(data.eventType, "en")}`,
+      from: "Janos Hada Photography <hello@jimmyhada.com>",
+      to: ["hello@jimmyhada.com"],
+      reply_to: data.email,
+      subject: `🎉 Cerere Nouă: ${data.name} - ${getEventTypeLabel(data.eventType, "ro")}`,
       html: generateNotificationEmail(data),
     });
 
@@ -314,11 +315,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to client
     const confirmationEmail = await resend.emails.send({
-      from: "Jimmy Hada Photography <onboarding@resend.dev>",
+      from: "Janos Hada Photography <hello@jimmyhada.com>",
       to: [data.email],
       subject: data.language === "ro" 
-        ? "Mulțumim pentru mesaj! | Jimmy Hada Photography" 
-        : "Thank you for your message! | Jimmy Hada Photography",
+        ? "Mulțumim pentru mesaj! | Janos Hada Photography" 
+        : "Thank you for your message! | Janos Hada Photography",
       html: generateConfirmationEmail(data),
     });
 
