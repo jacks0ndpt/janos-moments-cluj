@@ -98,8 +98,8 @@ function getEventTypeLabel(eventType: string | undefined, language: "en" | "ro")
   
   const labels: Record<string, Record<string, string>> = {
     wedding: { en: "Wedding", ro: "Nuntă" },
-    event: { en: "Event", ro: "Eveniment" },
-    couples: { en: "Couples Session", ro: "Sesiune cupluri" },
+    baptism: { en: "Baptism", ro: "Botez" },
+    other: { en: "Other Events", ro: "Alte evenimente" },
   };
 
   return labels[eventType]?.[language] || eventType;

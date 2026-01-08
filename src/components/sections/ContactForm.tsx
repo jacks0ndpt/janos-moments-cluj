@@ -198,7 +198,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <div className="space-y-2">
-                  <Label htmlFor="name">{t('contact.form.name')}</Label>
+                  <Label htmlFor="name">{t('contact.form.name')} *</Label>
                   <Input
                     id="name"
                     name="name"
@@ -207,7 +207,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t('contact.form.email')}</Label>
+                  <Label htmlFor="email">{t('contact.form.email')} *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -242,8 +242,8 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="wedding">{t('contact.form.eventType.wedding')}</SelectItem>
-                      <SelectItem value="event">{t('contact.form.eventType.event')}</SelectItem>
-                      <SelectItem value="couples">{t('contact.form.eventType.couples')}</SelectItem>
+                      <SelectItem value="baptism">{t('contact.form.eventType.baptism')}</SelectItem>
+                      <SelectItem value="other">{t('contact.form.eventType.other')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -282,11 +282,13 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Label htmlFor="message">{t('contact.form.message')}</Label>
+                <Label htmlFor="message">{t('contact.form.message')} *</Label>
                 <Textarea
                   id="message"
                   name="message"
                   rows={5}
+                  required
+                  placeholder={t('contact.form.messagePlaceholder')}
                   className="bg-background resize-none transition-all duration-300 focus:scale-[1.01]"
                 />
               </motion.div>
