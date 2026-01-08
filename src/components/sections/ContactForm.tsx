@@ -29,7 +29,7 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
   const [eventType, setEventType] = useState<string>('');
   const sectionRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
-  const showForm = false;
+  const showForm = true;
   const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({

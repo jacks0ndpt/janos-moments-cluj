@@ -200,7 +200,7 @@ function generateConfirmationEmail(data: ContactFormData): string {
     closing: "Abia aștept să discutăm despre ziua ta specială!",
     signature: "Cu drag,",
     name: "Jimmy Hada",
-    tagline: "Fotograf documentarist de nunți",
+    tagline: "Fotograf",
   } : {
     title: "Thank you for your message!",
     greeting: `Dear ${data.name},`,
@@ -212,7 +212,7 @@ function generateConfirmationEmail(data: ContactFormData): string {
     closing: "I look forward to discussing your special day!",
     signature: "Warm regards,",
     name: "Jimmy Hada",
-    tagline: "Documentary Wedding Photographer",
+    tagline: "Wedding Photographer",
   };
 
   const eventTypeLabel = getEventTypeLabel(data.eventType, data.language);
