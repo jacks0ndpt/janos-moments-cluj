@@ -17,7 +17,13 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
 
 const App = () => {
   // GA listener component: sends page_view on route change (requires gtag snippet in index.html)
