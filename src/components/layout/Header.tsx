@@ -97,7 +97,7 @@ const Header = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background border-t border-border"
+            className="lg:hidden bg-background border-t border-border overflow-hidden"
           >
             <div className="container-wide px-6 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
