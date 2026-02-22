@@ -1,7 +1,13 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+const supabaseAdmin = createClient(
+  Deno.env.get("SUPABASE_URL") ?? "",
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -280,6 +286,43 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting: max 5 submissions per IP per hour
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    const rateLimitKey = `contact_form_${clientIp}`;
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+
+    // Clean old entries and check current count
+    await supabaseAdmin
+      .from("rate_limits")
+      .delete()
+      .lt("window_start", oneHourAgo);
+
+    const { data: rateData } = await supabaseAdmin
+      .from("rate_limits")
+      .select("count, window_start")
+      .eq("key", rateLimitKey)
+      .single();
+
+    if (rateData && rateData.count >= 5) {
+      console.warn("Rate limit exceeded for:", rateLimitKey);
+      return new Response(
+        JSON.stringify({ success: false, error: "Too many requests. Please try again later." }),
+        { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Upsert rate limit counter
+    if (rateData) {
+      await supabaseAdmin
+        .from("rate_limits")
+        .update({ count: rateData.count + 1 })
+        .eq("key", rateLimitKey);
+    } else {
+      await supabaseAdmin
+        .from("rate_limits")
+        .insert({ key: rateLimitKey, count: 1, window_start: new Date().toISOString() });
+    }
+
     const rawData = await req.json();
     console.log("Received form data:", JSON.stringify(rawData, null, 2));
 
