@@ -64,13 +64,13 @@ const Footer = () => {
                 hello@jimmyhada.com
               </a>
               <a
-                href="https://instagram.com/jimmyhadaphoto"
+                href="https://instagram.com/jimmyhada.studio"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors"
               >
                 <Instagram size={16} />
-                @jimmyhadaphoto
+                @jimmyhada.studio
               </a>
             </div>
           </div>
