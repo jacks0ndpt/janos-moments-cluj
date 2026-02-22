@@ -108,7 +108,7 @@ const Lightbox = memo(({ images, currentIndex, isOpen, onClose, onNext, onPrevio
               }`}
             />
             
-            <p className="absolute bottom-0 left-0 right-0 text-center py-3 text-sm text-muted-foreground bg-gradient-to-t from-background/80 to-transparent">
+            <p className="sr-only">
               {currentImage.alt}
             </p>
           </div>
