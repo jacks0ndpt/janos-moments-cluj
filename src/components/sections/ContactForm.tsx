@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { MapPin, Mail, Phone } from 'lucide-react';
+import { MapPin, Mail, Phone, Instagram } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import contactImage from '@/assets/fotograf-nunta-cluj-emotii-miri-contact.jpg';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -116,6 +116,13 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
       href: 'tel:+40747447701',
     },
     {
+      icon: Instagram,
+      label: 'Instagram',
+      value: '@jimmyhada.studio',
+      href: 'https://instagram.com/jimmyhada.studio',
+      external: true,
+    },
+    {
       icon: MapPin,
       label: language === 'en' ? 'Based in' : 'Locație',
       value: 'Cluj-Napoca, Romania',
@@ -172,7 +179,11 @@ const ContactForm = ({ isFullPage = false }: ContactFormProps) => {
                   <div>
                     <p className="text-sm text-muted-foreground">{item.label}</p>
                     {item.href ? (
-                      <a href={item.href} className="text-foreground hover:text-primary transition-colors">
+                      <a 
+                        href={item.href} 
+                        className="text-foreground hover:text-primary transition-colors"
+                        {...('external' in item && item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      >
                         {item.value}
                       </a>
                     ) : (
