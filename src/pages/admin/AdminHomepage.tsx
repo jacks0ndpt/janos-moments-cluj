@@ -28,7 +28,7 @@ export default function AdminHomepage() {
   useEffect(() => { load(); }, []);
 
   async function add(id: string) {
-    const pos = (featured.at(-1)?.position ?? 0) + 1000;
+    const pos = (featured.length ? featured[featured.length - 1].position : 0) + 1000;
     const { error } = await supabase.from("homepage_featured").insert({ image_id: id, position: pos });
     if (error) return toast.error(error.message);
     load();
