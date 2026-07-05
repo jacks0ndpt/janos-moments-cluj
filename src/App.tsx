@@ -16,6 +16,16 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import { AdminAuthProvider } from "@/hooks/useAdminAuth";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminUpload from "./pages/admin/AdminUpload";
+import AdminGallery from "./pages/admin/AdminGallery";
+import AdminHomepage from "./pages/admin/AdminHomepage";
+import AdminStories from "./pages/admin/AdminStories";
+import AdminCategories from "./pages/admin/AdminCategories";
+import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
+import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +53,7 @@ const App = () => {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <LanguageProvider>
+         <AdminAuthProvider>
           <TooltipProvider>
             <Toaster />
             <Sonner />
@@ -58,10 +69,21 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<Navigate to="/admin/upload" replace />} />
+                  <Route path="upload" element={<AdminUpload />} />
+                  <Route path="gallery" element={<AdminGallery />} />
+                  <Route path="homepage" element={<AdminHomepage />} />
+                  <Route path="stories" element={<AdminStories />} />
+                  <Route path="categories" element={<AdminCategories />} />
+                  <Route path="alt-templates" element={<AdminAltTemplates />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </TooltipProvider>
+         </AdminAuthProvider>
         </LanguageProvider>
       </QueryClientProvider>
     </HelmetProvider>
