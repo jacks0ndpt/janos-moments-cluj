@@ -208,10 +208,8 @@ export default function AdminUpload() {
   }
 
   async function updateAlt(id: string, field: "alt_ro" | "alt_en", value: string) {
-    const { error } = await supabase
-      .from("gallery_images")
-      .update({ [field]: value })
-      .eq("id", id);
+    const patch = field === "alt_ro" ? { alt_ro: value } : { alt_en: value };
+    const { error } = await supabase.from("gallery_images").update(patch).eq("id", id);
     if (error) return toast.error(error.message);
     setBatch((prev) => prev.map((b) => (b.id === id ? { ...b, [field]: value } : b)));
   }
