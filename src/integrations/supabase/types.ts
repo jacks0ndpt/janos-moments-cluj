@@ -14,6 +14,243 @@ export type Database = {
   }
   public: {
     Tables: {
+      alt_templates: {
+        Row: {
+          body: string
+          category_id: string | null
+          created_at: string
+          id: string
+          key: string
+          label: string
+          language: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          key: string
+          label: string
+          language: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          key?: string
+          label?: string
+          language?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alt_templates_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_system: boolean
+          name_en: string
+          name_ro: string
+          position: number
+          slug: string
+          status: Database["public"]["Enums"]["gallery_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name_en: string
+          name_ro: string
+          position?: number
+          slug: string
+          status?: Database["public"]["Enums"]["gallery_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name_en?: string
+          name_ro?: string
+          position?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["gallery_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gallery_images: {
+        Row: {
+          alt_en: string | null
+          alt_ro: string | null
+          created_at: string
+          file_size: number | null
+          height: number | null
+          id: string
+          is_favorite: boolean
+          orientation: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename: string | null
+          position: number
+          status: Database["public"]["Enums"]["gallery_status"]
+          storage_path: string
+          story_id: string
+          updated_at: string
+          uploaded_by: string | null
+          width: number | null
+        }
+        Insert: {
+          alt_en?: string | null
+          alt_ro?: string | null
+          created_at?: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          is_favorite?: boolean
+          orientation?: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename?: string | null
+          position?: number
+          status?: Database["public"]["Enums"]["gallery_status"]
+          storage_path: string
+          story_id: string
+          updated_at?: string
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Update: {
+          alt_en?: string | null
+          alt_ro?: string | null
+          created_at?: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          is_favorite?: boolean
+          orientation?: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename?: string | null
+          position?: number
+          status?: Database["public"]["Enums"]["gallery_status"]
+          storage_path?: string
+          story_id?: string
+          updated_at?: string
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_stories: {
+        Row: {
+          category_id: string
+          cover_image_id: string | null
+          created_at: string
+          event_date: string | null
+          id: string
+          is_featured: boolean
+          is_system: boolean
+          location: string | null
+          position: number
+          slug: string
+          status: Database["public"]["Enums"]["gallery_status"]
+          title_en: string
+          title_ro: string
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          cover_image_id?: string | null
+          created_at?: string
+          event_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_system?: boolean
+          location?: string | null
+          position?: number
+          slug: string
+          status?: Database["public"]["Enums"]["gallery_status"]
+          title_en: string
+          title_ro: string
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          cover_image_id?: string | null
+          created_at?: string
+          event_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_system?: boolean
+          location?: string | null
+          position?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["gallery_status"]
+          title_en?: string
+          title_ro?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_stories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gallery_stories_cover_image_fk"
+            columns: ["cover_image_id"]
+            isOneToOne: false
+            referencedRelation: "gallery_images"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      homepage_featured: {
+        Row: {
+          created_at: string
+          id: string
+          image_id: string
+          position: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_id: string
+          position?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_id?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "homepage_featured_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: true
+            referencedRelation: "gallery_images"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rate_limits: {
         Row: {
           count: number
@@ -38,15 +275,48 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      move_image: {
+        Args: { _image_id: string; _new_position: number }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      gallery_status: "draft" | "published" | "archived"
+      image_orientation: "landscape" | "portrait" | "square"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -173,6 +443,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      gallery_status: ["draft", "published", "archived"],
+      image_orientation: ["landscape", "portrait", "square"],
+    },
   },
 } as const
