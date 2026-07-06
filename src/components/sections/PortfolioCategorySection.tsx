@@ -3,14 +3,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Lightbox from '@/components/ui/lightbox';
 import { useLightbox } from '@/hooks/useLightbox';
-
-interface PortfolioImage {
-  id: number;
-  filename: string;
-  alt: string;
-  category: 'weddings' | 'events' | 'couples';
-  aspectRatio: 'portrait' | 'landscape';
-}
+import { loadCategoryImages, type PortfolioImage } from '@/lib/portfolioSource';
 
 interface PortfolioCategorySectionProps {
   category: 'weddings' | 'events' | 'couples';
@@ -75,7 +68,7 @@ const PortfolioImageCard = memo(({
         
         {isInView && (
           <img
-            src={`/portfolio/${image.filename}`}
+            src={image.src}
             alt={altText}
             width={image.aspectRatio === 'portrait' ? 600 : 800}
             height={image.aspectRatio === 'portrait' ? 800 : 600}
@@ -103,18 +96,14 @@ const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) =
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load images from JSON config
+  // Load images from the active data source (JSON or DB).
   useEffect(() => {
-    fetch('/portfolio/images.json')
-      .then(res => res.json())
-      .then(data => {
-        const filtered = (data.images || []).filter(
-          (img: PortfolioImage) => img.category === category
-        );
-        setPortfolioImages(filtered);
+    loadCategoryImages(category)
+      .then((imgs) => {
+        setPortfolioImages(imgs);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Failed to load portfolio images:', err);
         setLoading(false);
       });
@@ -125,7 +114,7 @@ const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) =
   const { isOpen, currentIndex, openLightbox, closeLightbox, nextImage, previousImage } = useLightbox(portfolioImages.length);
 
   const lightboxImages = portfolioImages.map(img => ({
-    src: `/portfolio/${img.filename}`,
+    src: img.src,
     alt: altText
   }));
 

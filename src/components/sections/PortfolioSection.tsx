@@ -5,14 +5,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import Lightbox from '@/components/ui/lightbox';
 import { useLightbox } from '@/hooks/useLightbox';
-
-interface PortfolioImage {
-  id: number;
-  filename: string;
-  alt: string;
-  category: 'weddings' | 'events' | 'couples';
-  aspectRatio: 'portrait' | 'landscape';
-}
+import {
+  loadAllImages,
+  loadFeaturedImages,
+  type PortfolioImage,
+} from '@/lib/portfolioSource';
 
 interface PortfolioSectionProps {
   showFilters?: boolean;
@@ -78,7 +75,7 @@ const PortfolioImageCard = memo(({
         
         {isInView && (
           <img
-            src={`/portfolio/${image.filename}`}
+            src={image.src}
             alt={altText}
             width={image.aspectRatio === 'portrait' ? 600 : 800}
             height={image.aspectRatio === 'portrait' ? 800 : 600}
@@ -107,19 +104,20 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load images from JSON config
+  // Load images from the active data source (JSON or DB).
   useEffect(() => {
-    fetch('/portfolio/images.json')
-      .then(res => res.json())
-      .then(data => {
-        setPortfolioImages(data.images || []);
+    const featuredMode = !showFilters && typeof limit === 'number';
+    const loader = featuredMode ? loadFeaturedImages(limit) : loadAllImages();
+    loader
+      .then((imgs) => {
+        setPortfolioImages(imgs);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Failed to load portfolio images:', err);
         setLoading(false);
       });
-  }, []);
+  }, [showFilters, limit]);
 
   const filteredImages = activeFilter === 'all' 
     ? portfolioImages 
@@ -132,7 +130,7 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
   const { isOpen, currentIndex, openLightbox, closeLightbox, nextImage, previousImage } = useLightbox(displayImages.length);
 
   const lightboxImages = displayImages.map(img => ({
-    src: `/portfolio/${img.filename}`,
+    src: img.src,
     alt: altText
   }));
 

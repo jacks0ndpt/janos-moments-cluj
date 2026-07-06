@@ -25,6 +25,7 @@ import AdminHomepage from "./pages/admin/AdminHomepage";
 import AdminStories from "./pages/admin/AdminStories";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
+import AdminImport from "./pages/admin/AdminImport";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
@@ -78,6 +79,7 @@ const App = () => {
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />
+                  <Route path="import" element={<AdminImport />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
