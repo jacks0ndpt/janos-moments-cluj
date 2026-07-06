@@ -28,6 +28,7 @@ export default function AdminLayout() {
         <NavLink to="/admin/stories" className={link}>Stories</NavLink>
         <NavLink to="/admin/categories" className={link}>Categories</NavLink>
         <NavLink to="/admin/alt-templates" className={link}>Alt templates</NavLink>
+        <NavLink to="/admin/import" className={link}>Import</NavLink>
         <div className="mt-auto pt-4 border-t text-xs text-muted-foreground">
           <div className="px-3 mb-2 break-all">{user?.email}</div>
           <Button variant="outline" size="sm" className="w-full" onClick={signOut}>Sign out</Button>
