@@ -86,7 +86,7 @@ async function loadDbAll(): Promise<PortfolioImage[]> {
   const { data, error } = await supabase
     .from("gallery_images")
     .select(
-      "id, storage_path, alt_ro, alt_en, width, height, position, gallery_stories!inner(position, status, gallery_categories!inner(slug, status, position))"
+      "id, storage_path, alt_ro, alt_en, width, height, position, gallery_stories!gallery_images_story_id_fkey!inner(position, status, gallery_categories!inner(slug, status, position))"
     )
     .eq("status", "published")
     .eq("gallery_stories.status", "published")
@@ -130,7 +130,7 @@ export async function loadFeaturedImages(limit = 4): Promise<PortfolioImage[]> {
   const { data, error } = await supabase
     .from("homepage_featured")
     .select(
-      "position, gallery_images!inner(id, storage_path, alt_ro, alt_en, width, height, status, gallery_stories!inner(status, gallery_categories!inner(slug, status)))"
+      "position, gallery_images!inner(id, storage_path, alt_ro, alt_en, width, height, status, gallery_stories!gallery_images_story_id_fkey!inner(status, gallery_categories!inner(slug, status)))"
     )
     .order("position", { ascending: true });
   if (error) throw error;
