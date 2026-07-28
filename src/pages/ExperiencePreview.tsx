@@ -37,7 +37,7 @@ const copy: Record<Lang, {
       'For much of the day, your photographer will be only a few steps away.',
       'Present during the nerves before the ceremony, the embraces afterwards, the family photographs, the unexpected delays, the quiet pauses and the energy of the dance floor.',
       'That closeness comes with responsibility.',
-      'An experienced photographer does more than document a finished plan. He works within it, adapting to changing light, delayed schedules, family dynamics, weather and the natural unpredictability of a wedding.',
+      'An experienced photographer does not simply document a plan already made. He works within it, adapting to changing light, delayed schedules, family dynamics, weather and the natural unpredictability of a wedding.',
     ],
     blocksHeading: 'What experience changes',
     blocks: [
@@ -104,9 +104,9 @@ const copy: Record<Lang, {
     },
     intro: [
       'Pe parcursul unei mari p\u0103r\u021bi din zi, fotograful vostru va fi la doar c\u00e2\u021biva pa\u0219i distan\u021b\u0103.',
-      'Va fi prezent \u00een emo\u021biile dinaintea ceremoniei, \u00een \u00eembr\u0103\u021bi\u0219\u0103rile de dup\u0103, \u00een timpul fotografiilor de familie, al \u00eent\u00e2rzierilor nea\u0219teptate, al momentelor lini\u0219tite \u0219i al energiei de pe ringul de dans.',
+      'Va fi aproape \u00een momentele \u00eenc\u0103rcate de emo\u021bie dinaintea ceremoniei, \u00een \u00eembr\u0103\u021bi\u0219\u0103rile de dup\u0103, \u00een timpul fotografiilor de familie, al \u00eent\u00e2rzierilor nea\u0219teptate, al momentelor lini\u0219tite \u0219i al energiei de pe ringul de dans.',
       'Aceast\u0103 apropiere vine cu responsabilitate.',
-      'Un fotograf cu experien\u021b\u0103 nu doar documenteaz\u0103 un plan deja f\u0103cut. El lucreaz\u0103 \u00een interiorul lui, adapt\u00e2ndu-se luminii, \u00eent\u00e2rzierilor, dinamicii familiei, vremii \u0219i imprevizibilului firesc al unei nun\u021bi.',
+      'Un fotograf cu experien\u021b\u0103 nu vine doar s\u0103 documenteze un program deja stabilit. Lucreaz\u0103 \u00een interiorul lui, adapt\u00e2ndu-se luminii, \u00eent\u00e2rzierilor, dinamicii familiei, vremii \u0219i imprevizibilului firesc al unei nun\u021bi.',
     ],
     blocksHeading: 'Ce schimb\u0103 experien\u021ba',
     blocks: [
