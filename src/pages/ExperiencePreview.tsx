@@ -250,8 +250,9 @@ const ExperiencePreview = () => {
       <Header />
 
       <main className="min-h-screen bg-background">
-        {/* Hero */}
-        <section className="relative h-[90vh] min-h-[600px] flex items-end overflow-hidden">
+        {/* Hero — desktop: overlay text on image; mobile: text then image */}
+        {/* Desktop hero */}
+        <section className="relative hidden md:flex h-[90vh] min-h-[600px] items-end overflow-hidden">
           <div className="absolute inset-0 z-0">
             <ImgOrSlot img={heroImg} alt={c.alts[0]} priority />
             <div className="absolute inset-0 hero-gradient" />
@@ -286,27 +287,66 @@ const ExperiencePreview = () => {
           </motion.div>
         </section>
 
-        {/* Intro editorial */}
-        <section className="py-24 md:py-32">
+        {/* Mobile hero — text above image, image as responsive 4/5 portrait */}
+        <section className="md:hidden">
+          <div className="container-wide px-6 pt-16 pb-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-muted-foreground text-xs tracking-[0.25em] mb-5">
+                {c.hero.label}
+              </p>
+              <h1 className="font-heading text-3xl leading-tight mb-5 text-foreground">
+                {c.hero.heading}
+              </h1>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                {c.hero.body}
+              </p>
+            </motion.div>
+          </div>
+          <div className="px-6">
+            <div className="aspect-[4/5] w-full overflow-hidden">
+              {heroImg ? (
+                <img
+                  src={heroImg.src}
+                  alt={c.alts[0]}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: '50% 35%' }}
+                />
+              ) : (
+                <ImgOrSlot img={heroImg} alt={c.alts[0]} priority />
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Intro editorial — one coherent two-column composition */}
+        <section className="py-20 md:py-32">
           <div className="container-wide px-6 lg:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
-              <motion.div {...fade} className="md:col-span-7 md:col-start-1">
-                <div className="max-w-xl space-y-6 font-heading text-xl md:text-2xl leading-relaxed text-foreground">
-                  {c.intro.slice(0, 2).map((p, i) => (
-                    <p key={i}>{p}</p>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+              <motion.div {...fade} className="md:col-span-7">
+                <div className="max-w-xl space-y-6 text-foreground">
+                  {c.intro.map((p, i) => (
+                    <p
+                      key={i}
+                      className={
+                        i < 2
+                          ? 'font-heading text-xl md:text-2xl leading-relaxed'
+                          : 'text-base md:text-lg leading-relaxed text-muted-foreground'
+                      }
+                    >
+                      {p}
+                    </p>
                   ))}
                 </div>
               </motion.div>
-              <motion.div {...fade} className="md:col-span-5 md:col-start-8">
-                <div className="aspect-[3/4] w-full overflow-hidden">
+              <motion.div {...fade} className="md:col-span-5">
+                <div className="aspect-[4/5] w-full overflow-hidden">
                   <ImgOrSlot img={introImg} alt={c.alts[1]} />
-                </div>
-              </motion.div>
-              <motion.div {...fade} className="md:col-span-8 md:col-start-3 mt-4">
-                <div className="max-w-2xl space-y-6 text-base md:text-lg leading-relaxed text-muted-foreground">
-                  {c.intro.slice(2).map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
                 </div>
               </motion.div>
             </div>
