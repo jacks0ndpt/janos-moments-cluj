@@ -16,6 +16,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import ExperiencePreview from "./pages/ExperiencePreview";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -70,6 +71,9 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/experience-preview" element={<ExperiencePreview />} />
+                <Route path="/en/experience-preview" element={<ExperiencePreview />} />
+                <Route path="/ro/experience-preview" element={<ExperiencePreview />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Navigate to="/admin/upload" replace />} />
