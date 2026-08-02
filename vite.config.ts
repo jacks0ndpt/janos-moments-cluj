@@ -10,6 +10,7 @@ const routes = [
   '/portfolio',
   '/portfolio/weddings',
   '/portfolio/events',
+  '/experience',
   '/about',
   '/services',
   '/contact',
