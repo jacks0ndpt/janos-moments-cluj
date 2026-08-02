@@ -10,6 +10,7 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import FAQSection from '@/components/sections/FAQSection';
 import ContactForm from '@/components/sections/ContactForm';
 import LocalTrustSection from '@/components/sections/LocalTrustSection';
+import ExperienceTeaser from '@/components/sections/ExperienceTeaser';
 
 const Index = () => {
   const { language } = useLanguage();
@@ -63,7 +64,9 @@ const Index = () => {
         <HeroSection />
         
         <PortfolioSection showFilters={false} limit={4} />
-        
+
+        <ExperienceTeaser />
+
         <AboutSection />
         
         <ServicesSection />
