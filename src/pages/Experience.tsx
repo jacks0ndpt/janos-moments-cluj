@@ -122,7 +122,7 @@ const Experience = () => {
     { key: 'before' as ExperienceSlotKey, ...c.blocks.before },
     { key: 'during' as ExperienceSlotKey, ...c.blocks.during },
     { key: 'plansChange' as ExperienceSlotKey, ...c.blocks.plansChange },
-    { key: 'closing' as ExperienceSlotKey, ...c.blocks.present },
+    { key: 'before' as ExperienceSlotKey, ...c.blocks.present },
   ];
 
   return (
