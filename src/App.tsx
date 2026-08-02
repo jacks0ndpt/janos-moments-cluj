@@ -16,7 +16,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
-import ExperiencePreview from "./pages/ExperiencePreview";
+import Experience from "./pages/Experience";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -27,6 +27,7 @@ import AdminStories from "./pages/admin/AdminStories";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
 import AdminImport from "./pages/admin/AdminImport";
+import AdminExperience from "./pages/admin/AdminExperience";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
@@ -71,15 +72,20 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
-                <Route path="/experience-preview" element={<ExperiencePreview />} />
-                <Route path="/en/experience-preview" element={<ExperiencePreview />} />
-                <Route path="/ro/experience-preview" element={<ExperiencePreview />} />
+                <Route path="/experience" element={<Experience />} />
+                <Route path="/en/experience" element={<Experience />} />
+                <Route path="/ro/experience" element={<Experience />} />
+                {/* Permanent redirects from the old preview routes */}
+                <Route path="/experience-preview" element={<Navigate to="/experience" replace />} />
+                <Route path="/en/experience-preview" element={<Navigate to="/en/experience" replace />} />
+                <Route path="/ro/experience-preview" element={<Navigate to="/ro/experience" replace />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Navigate to="/admin/upload" replace />} />
                   <Route path="upload" element={<AdminUpload />} />
                   <Route path="gallery" element={<AdminGallery />} />
                   <Route path="homepage" element={<AdminHomepage />} />
+                  <Route path="experience" element={<AdminExperience />} />
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />
