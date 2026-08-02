@@ -69,9 +69,9 @@ const ExperienceTeaser = () => {
   return (
     <section className="py-20 md:py-32 bg-card" aria-labelledby="experience-teaser-heading">
       <div className="container-wide px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center">
-          {/* Image — desktop left, mobile after the paragraph */}
-          <motion.div {...fade} className="md:col-span-6 order-3 md:order-1">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-16 md:gap-y-8 md:items-center">
+          {/* Image — desktop left column, mobile after the paragraph */}
+          <motion.div {...fade} className="order-2 md:order-none md:col-span-6 md:row-span-2 md:self-center">
             <div className="aspect-[4/5] w-full overflow-hidden bg-muted">
               {desktopSrc && (
                 <>
@@ -96,24 +96,28 @@ const ExperienceTeaser = () => {
             </div>
           </motion.div>
 
-          <motion.div {...fade} className="md:col-span-6 md:col-start-8 order-1 md:order-2 contents md:block">
-            <div className="order-1 md:order-none">
-              <p className="text-xs tracking-[0.25em] text-muted-foreground mb-5">{c.label}</p>
-              <h2
-                id="experience-teaser-heading"
-                className="font-heading text-3xl md:text-4xl leading-tight mb-6 max-w-lg"
-              >
-                {c.heading}
-              </h2>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">{c.body}</p>
-            </div>
+          <motion.div
+            {...fade}
+            className="order-1 md:order-none md:col-span-5 md:col-start-8 md:row-start-1 md:self-end"
+          >
+            <p className="text-xs tracking-[0.25em] text-muted-foreground mb-5">{c.label}</p>
+            <h2
+              id="experience-teaser-heading"
+              className="font-heading text-3xl md:text-4xl leading-tight mb-6 max-w-lg"
+            >
+              {c.heading}
+            </h2>
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg">{c.body}</p>
           </motion.div>
 
-          <div className="order-4 md:order-3 md:col-span-6 md:col-start-8">
+          <motion.div
+            {...fade}
+            className="order-3 md:order-none md:col-span-5 md:col-start-8 md:row-start-2 md:self-start"
+          >
             <Button asChild variant="outline" size="lg">
               <Link to="/experience">{c.cta}</Link>
             </Button>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
