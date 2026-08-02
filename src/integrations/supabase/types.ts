@@ -55,6 +55,42 @@ export type Database = {
           },
         ]
       }
+      experience_page: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          is_enabled: boolean
+          seo: Json
+          singleton: boolean
+          slots: Json
+          teaser_enabled: boolean
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          seo?: Json
+          singleton?: boolean
+          slots?: Json
+          teaser_enabled?: boolean
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          seo?: Json
+          singleton?: boolean
+          slots?: Json
+          teaser_enabled?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_categories: {
         Row: {
           created_at: string
