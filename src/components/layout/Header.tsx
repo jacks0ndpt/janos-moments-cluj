@@ -27,6 +27,7 @@ const Header = () => {
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/portfolio', label: t('nav.portfolio') },
+    { to: '/experience', label: t('nav.experience') },
     { to: '/about', label: t('nav.about') },
     { to: '/services', label: t('nav.services') },
     { to: '/contact', label: t('nav.contact') },
