@@ -139,9 +139,9 @@ export async function saveExperienceConfig(config: ExperienceConfig): Promise<Ex
   const payload = {
     is_enabled: config.isEnabled,
     teaser_enabled: config.teaserEnabled,
-    content: config.content as unknown as Record<string, unknown>,
-    seo: config.seo as unknown as Record<string, unknown>,
-    slots: config.slots as unknown as Record<string, unknown>,
+    content: JSON.parse(JSON.stringify(config.content)),
+    seo: JSON.parse(JSON.stringify(config.seo)),
+    slots: JSON.parse(JSON.stringify(config.slots)),
     updated_at: new Date().toISOString(),
   };
   if (config.id) {
