@@ -133,3 +133,32 @@ export function slotAlt(slot: ExperienceSlot, language: Lang) {
 export function experiencePath(language: Lang) {
   return language === "ro" ? "/experience" : "/experience";
 }
+
+/** Admin: persist the singleton Experience page record. */
+export async function saveExperienceConfig(config: ExperienceConfig): Promise<ExperienceConfig> {
+  const payload = {
+    is_enabled: config.isEnabled,
+    teaser_enabled: config.teaserEnabled,
+    content: config.content as unknown as Record<string, unknown>,
+    seo: config.seo as unknown as Record<string, unknown>,
+    slots: config.slots as unknown as Record<string, unknown>,
+    updated_at: new Date().toISOString(),
+  };
+  if (config.id) {
+    const { data, error } = await supabase
+      .from("experience_page")
+      .update(payload)
+      .eq("id", config.id)
+      .select("id, updated_at")
+      .single();
+    if (error) throw error;
+    return { ...config, id: data.id, updatedAt: data.updated_at };
+  }
+  const { data, error } = await supabase
+    .from("experience_page")
+    .insert(payload)
+    .select("id, updated_at")
+    .single();
+  if (error) throw error;
+  return { ...config, id: data.id, updatedAt: data.updated_at };
+}
