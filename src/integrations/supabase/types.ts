@@ -337,6 +337,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ensure_default_story: { Args: { _category_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -346,6 +347,10 @@ export type Database = {
       }
       move_image: {
         Args: { _image_id: string; _new_position: number }
+        Returns: undefined
+      }
+      set_image_positions: {
+        Args: { _ids: string[]; _positions: number[] }
         Returns: undefined
       }
     }
