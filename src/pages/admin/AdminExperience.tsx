@@ -25,7 +25,7 @@ import {
   type Lang,
 } from '@/content/experience';
 
-const PAGE_SLOTS: ExperienceSlotKey[] = ['hero', 'intro', 'before', 'during', 'plansChange', 'closing'];
+const PAGE_SLOTS: ExperienceSlotKey[] = ['hero', 'intro', 'before', 'during', 'plansChange', 'present', 'closing'];
 
 type Target = { slot: ExperienceSlotKey; variant: 'desktop' | 'mobile' } | null;
 
