@@ -28,6 +28,7 @@ export const EXPERIENCE_SLOTS = [
   'before',
   'during',
   'plansChange',
+  'present',
   'closing',
   'teaser',
 ] as const;
@@ -39,6 +40,7 @@ export const SLOT_LABELS: Record<ExperienceSlotKey, { en: string; ro: string }> 
   before: { en: 'Before the wedding image', ro: 'Imagine „Înainte de nuntă”' },
   during: { en: 'During the wedding image', ro: 'Imagine „În timpul nunții”' },
   plansChange: { en: 'When plans change image', ro: 'Imagine „Când planurile se schimbă”' },
+  present: { en: 'So you can remain present image', ro: 'Imagine „Ca voi să puteți rămâne prezenți”' },
   closing: { en: 'Closing image', ro: 'Imagine final' },
   teaser: { en: 'Homepage teaser image', ro: 'Imagine teaser homepage' },
 };
@@ -84,6 +86,10 @@ export const DEFAULT_SLOT_ALTS: Record<ExperienceSlotKey, { en: string; ro: stri
   plansChange: {
     en: 'Observed moment on the wedding dance floor',
     ro: 'Moment observat pe ringul de dans',
+  },
+  present: {
+    en: 'Bride enjoying a calm moment before the ceremony',
+    ro: 'Mireasă într-un moment liniștit înainte de ceremonie',
   },
   closing: {
     en: 'Wedding day light and atmosphere',

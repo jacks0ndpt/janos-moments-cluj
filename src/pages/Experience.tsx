@@ -67,7 +67,7 @@ const Experience = () => {
   const c = config.content[lang];
   const seo = config.seo[lang];
 
-  const slotOrder: ExperienceSlotKey[] = ['hero', 'intro', 'before', 'during', 'plansChange', 'closing'];
+  const slotOrder: ExperienceSlotKey[] = ['hero', 'intro', 'before', 'during', 'plansChange', 'present', 'closing'];
 
   const srcFor = (key: ExperienceSlotKey, variant: 'desktop' | 'mobile') => {
     const slot = config.slots[key];
@@ -122,7 +122,7 @@ const Experience = () => {
     { key: 'before' as ExperienceSlotKey, ...c.blocks.before },
     { key: 'during' as ExperienceSlotKey, ...c.blocks.during },
     { key: 'plansChange' as ExperienceSlotKey, ...c.blocks.plansChange },
-    { key: 'before' as ExperienceSlotKey, ...c.blocks.present },
+    { key: 'present' as ExperienceSlotKey, ...c.blocks.present },
   ];
 
   return (
