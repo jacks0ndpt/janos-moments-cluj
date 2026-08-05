@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ServicesHero = ({ copy, lang, imageSrc, imageAlt }: Props) => (
-  <section className="pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden">
+  <section className="px-6 md:px-12 lg:px-20 pt-28 md:pt-36 pb-16 md:pb-24 overflow-hidden">
     <div className="container-wide">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div className="max-w-xl">
