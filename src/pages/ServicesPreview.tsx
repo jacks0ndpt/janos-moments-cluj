@@ -56,7 +56,6 @@ const ServicesPreview = () => {
       <Header />
 
       <main className="min-h-screen">
-        <h1 className="sr-only">{copy.seo.title}</h1>
         <ServicesHero
           copy={copy.hero}
           lang={lang}
