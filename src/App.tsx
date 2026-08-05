@@ -17,6 +17,7 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Experience from "./pages/Experience";
+import ServicesPreview from "./pages/ServicesPreview";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -73,6 +74,9 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/experience" element={<Experience />} />
+                {/* Hidden preview of the redesigned Services page (noindex, unlinked) */}
+                <Route path="/services-preview" element={<ServicesPreview />} />
+                <Route path="/servicii-preview" element={<ServicesPreview />} />
                 <Route path="/en/experience" element={<Experience />} />
                 <Route path="/ro/experience" element={<Experience />} />
                 {/* Permanent redirects from the old preview routes */}
