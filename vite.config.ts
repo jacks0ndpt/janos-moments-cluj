@@ -19,8 +19,8 @@ const routes = [
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Use root-relative assets in dev, relative paths in production
-  base: mode === "development" ? "/" : "./",
+  //// Use root-relative asset paths in all environments
+  base: "/",
   server: {
     host: "::",
     port: 8080,
