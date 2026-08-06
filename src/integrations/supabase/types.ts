@@ -311,6 +311,42 @@ export type Database = {
         }
         Relationships: []
       }
+      services_page: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          is_enabled: boolean
+          media: Json
+          section_order: Json
+          seo: Json
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          media?: Json
+          section_order?: Json
+          seo?: Json
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          media?: Json
+          section_order?: Json
+          seo?: Json
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
