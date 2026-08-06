@@ -29,6 +29,7 @@ import AdminCategories from "./pages/admin/AdminCategories";
 import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
 import AdminImport from "./pages/admin/AdminImport";
 import AdminExperience from "./pages/admin/AdminExperience";
+import AdminServices from "./pages/admin/AdminServices";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
@@ -90,6 +91,7 @@ const App = () => {
                   <Route path="gallery" element={<AdminGallery />} />
                   <Route path="homepage" element={<AdminHomepage />} />
                   <Route path="experience" element={<AdminExperience />} />
+                  <Route path="services" element={<AdminServices />} />
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />

@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 import { GalleryImagePicker } from '@/components/admin/GalleryImagePicker';
+import { publicUrl } from '@/lib/portfolioSource';
 import { objectPosition, resolveImages, type ResolvedImage } from '@/lib/experiencePage';
 import {
   defaultServicesConfig,
@@ -608,7 +609,7 @@ export default function AdminServices() {
             const next = new Map(m);
             next.set(img.id, {
               id: img.id,
-              src: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/gallery/${img.storagePath}`,
+              src: publicUrl(img.storagePath),
               width: null,
               height: null,
               available: true,

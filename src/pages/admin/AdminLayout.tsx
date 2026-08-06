@@ -26,6 +26,7 @@ export default function AdminLayout() {
         <NavLink to="/admin/gallery" end className={link}>Gallery</NavLink>
         <NavLink to="/admin/homepage" className={link}>Homepage</NavLink>
         <NavLink to="/admin/experience" className={link}>Experience Page</NavLink>
+        <NavLink to="/admin/services" className={link}>Services Page</NavLink>
         <NavLink to="/admin/stories" className={link}>Stories</NavLink>
         <NavLink to="/admin/categories" className={link}>Categories</NavLink>
         <NavLink to="/admin/alt-templates" className={link}>Alt templates</NavLink>
