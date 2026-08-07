@@ -293,7 +293,8 @@ export default function AdminImport() {
           <div>
             <div className="font-medium">Public gallery source</div>
             <div className="text-xs text-muted-foreground">
-              Controls where the site reads images from. Stored in your browser.
+              The database is the default for every visitor. JSON is a rollback/testing
+              option and only applies to your own browser when selected here.
             </div>
           </div>
           <div className="flex gap-2">
