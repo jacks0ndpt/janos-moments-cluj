@@ -136,6 +136,7 @@ export type Database = {
           height: number | null
           id: string
           is_favorite: boolean
+          mime_type: string | null
           orientation: Database["public"]["Enums"]["image_orientation"] | null
           original_filename: string | null
           position: number
@@ -154,6 +155,7 @@ export type Database = {
           height?: number | null
           id?: string
           is_favorite?: boolean
+          mime_type?: string | null
           orientation?: Database["public"]["Enums"]["image_orientation"] | null
           original_filename?: string | null
           position?: number
@@ -172,6 +174,7 @@ export type Database = {
           height?: number | null
           id?: string
           is_favorite?: boolean
+          mime_type?: string | null
           orientation?: Database["public"]["Enums"]["image_orientation"] | null
           original_filename?: string | null
           position?: number
