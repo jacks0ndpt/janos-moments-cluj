@@ -786,6 +786,7 @@ function ImageCard({
     disabled: !dragEnabled,
   });
   const missing = img.status === "published" && (!img.alt_ro || !img.alt_en);
+  const oversize = needsOptimization(img);
 
   return (
     <div
@@ -802,6 +803,7 @@ function ImageCard({
         <Badge variant="secondary">{img.status}</Badge>
         {onHome && <Badge>homepage</Badge>}
         {missing && <Badge variant="destructive">alt</Badge>}
+        {oversize && <Badge variant="destructive">Needs optimization</Badge>}
       </div>
       <div className="absolute top-2 right-2 flex flex-col gap-1">
         <Tooltip>
@@ -848,6 +850,9 @@ function ImageCard({
       </div>
       <div className="p-2 space-y-1">
         <div className="text-xs truncate">{img.original_filename ?? img.storage_path}</div>
+        <div className="text-[11px] text-muted-foreground truncate">
+          {formatDimensions(img.width, img.height)} · {formatBytes(img.file_size)}
+        </div>
         <div className="text-[11px] text-muted-foreground truncate">
           {categoryName}
           {storyName ? ` · ${storyName}` : ""}
