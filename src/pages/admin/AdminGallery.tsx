@@ -225,6 +225,38 @@ export default function AdminGallery() {
     await bulk(lang === "ro" ? { alt_ro: body } : { alt_en: body });
   }
 
+  /* ---------------- optimization ---------------- */
+
+  const oversized = useMemo(() => images.filter((i) => needsOptimization(i)), [images]);
+
+  async function runOptimize(rows: ImageRow[]) {
+    if (!rows.length) return;
+    setOptSummary(null);
+    setOptimizing({ done: 0, total: rows.length });
+    let before = 0;
+    let after = 0;
+    let count = 0;
+    const failures: string[] = [];
+    for (const row of rows) {
+      try {
+        const res = await optimizeStoredImage(row);
+        before += res.original.size;
+        after += res.optimized.size;
+        count += 1;
+      } catch (err: any) {
+        failures.push(`${row.original_filename ?? row.storage_path}: ${err?.message ?? err}`);
+      } finally {
+        setOptimizing((p) => (p ? { ...p, done: p.done + 1 } : p));
+      }
+    }
+    setOptimizing(null);
+    setOptSummary({ count, failed: failures.length, before, after });
+    if (failures.length) toast.error(`Kept originals for ${failures.length}: ${failures[0]}`);
+    if (count) toast.success(`Optimized ${count} image${count === 1 ? "" : "s"}`);
+    setSelection(new Set());
+    await load();
+  }
+
   /* ---------------- drag & drop ordering ---------------- */
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
@@ -515,6 +547,10 @@ export default function AdminGallery() {
             <Checkbox checked={missingAltOnly} onCheckedChange={(v) => setMissingAltOnly(!!v)} />
             Missing alt
           </label>
+          <label className="flex items-center gap-2 text-sm">
+            <Checkbox checked={oversizedOnly} onCheckedChange={(v) => setOversizedOnly(!!v)} />
+            Needs optimization
+          </label>
           <div className="ml-auto flex items-center gap-2">
             <Checkbox
               checked={allSelected}
@@ -529,6 +565,38 @@ export default function AdminGallery() {
 
         <p className="text-xs text-muted-foreground">{dragHint}</p>
 
+        <div className="flex flex-wrap items-center gap-3 p-3 border rounded-md">
+          <div className="text-sm">
+            <span className="font-medium">Image optimization</span>{" "}
+            <span className="text-muted-foreground">
+              — {oversized.length} image{oversized.length === 1 ? "" : "s"} exceed 2000 px or 1.2 MB
+            </span>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={!oversized.length || !!optimizing}
+            onClick={() => runOptimize(oversized)}
+          >
+            Optimize all oversized
+          </Button>
+          {optimizing && (
+            <span className="text-sm text-muted-foreground">
+              Optimizing {optimizing.done}/{optimizing.total}…
+            </span>
+          )}
+          {optSummary && !optimizing && (
+            <span className="text-sm">
+              {optSummary.count} optimized: {formatBytes(optSummary.before)} →{" "}
+              {formatBytes(optSummary.after)}{" "}
+              <span className="text-primary font-medium">
+                ({savedPercent(optSummary.before, optSummary.after)}% saved)
+              </span>
+              {optSummary.failed ? ` · ${optSummary.failed} kept unchanged` : ""}
+            </span>
+          )}
+        </div>
+
         {selection.size > 0 && (
           <div className="flex flex-wrap items-center gap-2 p-3 border rounded-md bg-muted">
             <span className="text-sm font-medium">{selection.size} selected</span>
@@ -539,6 +607,20 @@ export default function AdminGallery() {
             <Button size="sm" variant="outline" onClick={() => bulk({ is_favorite: false })}>Unfavorite</Button>
             <Button size="sm" variant="outline" onClick={() => bulkHomepage(true)}>+ Homepage</Button>
             <Button size="sm" variant="outline" onClick={() => bulkHomepage(false)}>− Homepage</Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={!!optimizing}
+              onClick={() =>
+                runOptimize(
+                  [...selection]
+                    .map((id) => images.find((r) => r.id === id))
+                    .filter((r): r is ImageRow => !!r),
+                )
+              }
+            >
+              Optimize
+            </Button>
             <Select onValueChange={(v) => requestCategoryChange("bulk", v)}>
               <SelectTrigger className="w-44 h-8"><SelectValue placeholder="Change category…" /></SelectTrigger>
               <SelectContent>
