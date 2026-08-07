@@ -42,6 +42,10 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // the mozjpeg wasm binary must be served as-is, not pre-bundled
+  optimizeDeps: {
+    exclude: ["@jsquash/jpeg"],
+  },
   build: {
     rollupOptions: {
       input: {
