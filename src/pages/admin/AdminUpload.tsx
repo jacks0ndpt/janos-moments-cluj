@@ -2,7 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { detectOrientation, extOf, readImageDimensions } from "@/lib/gallery";
+import {
+  formatBytes,
+  formatDimensions,
+  optimizeImage,
+  savedPercent,
+  detectOrientationFrom,
+} from "@/lib/imageOptimizer";
 import { GalleryImage } from "@/components/admin/GalleryImage";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -28,6 +34,12 @@ type ImageRow = Database["public"]["Tables"]["gallery_images"]["Row"];
 
 type StatusChoice = "draft" | "published" | "archived";
 
+type UploadStat = {
+  name: string;
+  original: { width: number; height: number; size: number };
+  optimized: { width: number; height: number; size: number };
+};
+
 export default function AdminUpload() {
   const { user } = useAdminAuth();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -42,6 +54,8 @@ export default function AdminUpload() {
   const [addToHomepage, setAddToHomepage] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [batch, setBatch] = useState<ImageRow[]>([]);
+  const [stats, setStats] = useState<UploadStat[]>([]);
+  const [progress, setProgress] = useState<{ done: number; total: number }>({ done: 0, total: 0 });
 
   useEffect(() => {
     (async () => {
@@ -120,6 +134,7 @@ export default function AdminUpload() {
     if (!files.length) return;
     if (!categoryId) return toast.error("Pick a category first");
     setUploading(true);
+    setProgress({ done: 0, total: files.length });
     try {
       const storyId = await resolveStoryId();
       // find current max position in that story
@@ -135,17 +150,18 @@ export default function AdminUpload() {
       const altRo = templateBody(altRoKey, "ro");
       const altEn = templateBody(altEnKey, "en");
       const uploadedRows: ImageRow[] = [];
+      const newStats: UploadStat[] = [];
 
       for (const file of files) {
         try {
-          const dims = await readImageDimensions(file);
-          const orientation = detectOrientation(dims.width, dims.height);
-          const ext = extOf(file.name);
-          const path = `${crypto.randomUUID()}.${ext}`;
+          // optimize first — only the optimized JPEG is ever stored
+          const opt = await optimizeImage(file, file.name);
+          const orientation = detectOrientationFrom(opt.optimized.width, opt.optimized.height);
+          const path = `${crypto.randomUUID()}.jpg`;
 
           const up = await supabase.storage
             .from("gallery")
-            .upload(path, file, { contentType: file.type });
+            .upload(path, opt.blob, { contentType: "image/jpeg" });
           if (up.error) throw up.error;
 
           const { data: row, error: insErr } = await supabase
@@ -154,10 +170,11 @@ export default function AdminUpload() {
               story_id: storyId,
               storage_path: path,
               original_filename: file.name,
-              width: dims.width,
-              height: dims.height,
+              width: opt.optimized.width,
+              height: opt.optimized.height,
               orientation,
-              file_size: file.size,
+              file_size: opt.optimized.size,
+              mime_type: "image/jpeg",
               position: pos,
               status,
               alt_ro: altRo,
@@ -168,6 +185,11 @@ export default function AdminUpload() {
             .single();
           if (insErr) throw insErr;
           uploadedRows.push(row);
+          newStats.push({
+            name: file.name,
+            original: { ...opt.original, size: file.size },
+            optimized: opt.optimized,
+          });
           pos += 1000;
 
           if (addToHomepage) {
@@ -178,9 +200,12 @@ export default function AdminUpload() {
           }
         } catch (err: any) {
           toast.error(`Failed: ${file.name} — ${err.message ?? err}`);
+        } finally {
+          setProgress((p) => ({ ...p, done: p.done + 1 }));
         }
       }
       setBatch((prev) => [...uploadedRows, ...prev]);
+      setStats((prev) => [...newStats, ...prev]);
       toast.success(`Uploaded ${uploadedRows.length} image(s)`);
     } catch (err: any) {
       toast.error(err.message ?? "Upload failed");
@@ -191,7 +216,7 @@ export default function AdminUpload() {
 
   const dz = useDropzone({
     onDrop,
-    accept: { "image/*": [] },
+    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] },
     disabled: uploading,
   });
 
