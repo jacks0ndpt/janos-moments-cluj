@@ -26,6 +26,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { GripVertical } from "lucide-react";
 import { toast } from "sonner";
 import {
+  formatBytes,
+  formatDimensions,
+  needsOptimization,
+  savedPercent,
+} from "@/lib/imageOptimizer";
+import { optimizeStoredImage } from "@/lib/optimizeStored";
+import {
   DndContext,
   DragEndEvent,
   PointerSensor,
@@ -60,6 +67,14 @@ export default function AdminGallery() {
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [homepageOnly, setHomepageOnly] = useState(false);
   const [missingAltOnly, setMissingAltOnly] = useState(false);
+  const [oversizedOnly, setOversizedOnly] = useState(false);
+  const [optimizing, setOptimizing] = useState<null | { done: number; total: number }>(null);
+  const [optSummary, setOptSummary] = useState<null | {
+    count: number;
+    failed: number;
+    before: number;
+    after: number;
+  }>(null);
   const [selection, setSelection] = useState<Set<string>>(new Set());
   const [deleteMode, setDeleteMode] = useState<null | "single" | "bulk">(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
@@ -119,6 +134,7 @@ export default function AdminGallery() {
       if (homepageOnly && !homepageIds.has(img.id)) return false;
       if (missingAltOnly && img.status === "published" && img.alt_ro && img.alt_en) return false;
       if (missingAltOnly && img.status !== "published") return false;
+      if (oversizedOnly && !needsOptimization(img)) return false;
       return true;
     });
     const sorted = [...rows];
@@ -147,13 +163,14 @@ export default function AdminGallery() {
     favoritesOnly,
     homepageOnly,
     missingAltOnly,
+    oversizedOnly,
     homepageIds,
     storyById,
     sort,
   ]);
 
   const secondaryFilterActive =
-    favoritesOnly || homepageOnly || missingAltOnly || status !== "all";
+    favoritesOnly || homepageOnly || missingAltOnly || oversizedOnly || status !== "all";
   const dragEnabled = sort === "custom" && categoryId !== "all" && !secondaryFilterActive;
   const dragHint = !dragEnabled
     ? sort !== "custom"
