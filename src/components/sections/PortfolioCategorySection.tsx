@@ -95,16 +95,20 @@ const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) =
   const { t } = useLanguage();
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   // Load images from the active data source (JSON or DB).
   useEffect(() => {
     loadCategoryImages(category)
       .then((imgs) => {
         setPortfolioImages(imgs);
+        setLoadError(false);
         setLoading(false);
       })
       .catch((err) => {
+        // Never fall back to JSON silently — surface the failure instead.
         console.error('Failed to load portfolio images:', err);
+        setLoadError(true);
         setLoading(false);
       });
   }, [category]);
@@ -128,6 +132,10 @@ const PortfolioCategorySection = ({ category }: PortfolioCategorySectionProps) =
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="aspect-[4/3] bg-muted animate-pulse rounded-sm" />
               ))}
+            </div>
+          ) : loadError ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">{t('portfolio.loadError')}</p>
             </div>
           ) : portfolioImages.length === 0 ? (
             <div className="text-center py-12">
