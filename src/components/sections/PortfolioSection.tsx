@@ -202,6 +202,10 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
                 <div key={i} className="aspect-[4/3] bg-muted animate-pulse rounded-sm" />
               ))}
             </div>
+          ) : loadError ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">{t('portfolio.loadError')}</p>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {displayImages.map((image, index) => (
