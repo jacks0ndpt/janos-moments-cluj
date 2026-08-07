@@ -341,13 +341,56 @@ export default function AdminUpload() {
           >
             <input {...dz.getInputProps()} />
             {uploading
-              ? "Uploading…"
+              ? `Optimizing & uploading… ${progress.done}/${progress.total}`
               : dz.isDragActive
               ? "Drop the images here"
               : "Drag & drop images, or click to select"}
+            <div className="mt-2 text-xs text-muted-foreground">
+              JPEG / PNG / WebP. Every image is resized to max 2000 px, converted to progressive
+              sRGB JPEG (quality 82) and stripped of metadata before upload. Originals are not stored.
+            </div>
           </div>
         </CardContent>
       </Card>
+
+      {stats.length > 0 && (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Optimization results</CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setStats([])}>Clear</Button>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {(() => {
+              const before = stats.reduce((a, s) => a + s.original.size, 0);
+              const after = stats.reduce((a, s) => a + s.optimized.size, 0);
+              return (
+                <div className="text-sm">
+                  Total: {formatBytes(before)} → {formatBytes(after)}{" "}
+                  <span className="text-primary font-medium">
+                    ({savedPercent(before, after)}% saved)
+                  </span>
+                </div>
+              );
+            })()}
+            <div className="divide-y">
+              {stats.map((s, i) => (
+                <div key={`${s.name}-${i}`} className="py-2 text-xs">
+                  <div className="font-medium truncate">{s.name}</div>
+                  <div className="text-muted-foreground">
+                    Original {formatDimensions(s.original.width, s.original.height)} ·{" "}
+                    {formatBytes(s.original.size)} → Optimized{" "}
+                    {formatDimensions(s.optimized.width, s.optimized.height)} ·{" "}
+                    {formatBytes(s.optimized.size)}{" "}
+                    <span className="text-primary">
+                      ({savedPercent(s.original.size, s.optimized.size)}% saved)
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {batch.length > 0 && (
         <Card>
