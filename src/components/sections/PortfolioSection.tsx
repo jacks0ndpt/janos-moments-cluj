@@ -103,6 +103,7 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
   const [activeFilter, setActiveFilter] = useState<'all' | 'weddings' | 'events' | 'couples'>('all');
   const [portfolioImages, setPortfolioImages] = useState<PortfolioImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   // Load images from the active data source (JSON or DB).
   useEffect(() => {
@@ -111,10 +112,13 @@ const PortfolioSection = ({ showFilters = true, limit }: PortfolioSectionProps) 
     loader
       .then((imgs) => {
         setPortfolioImages(imgs);
+        setLoadError(false);
         setLoading(false);
       })
       .catch((err) => {
+        // Never fall back to JSON silently — surface the failure instead.
         console.error('Failed to load portfolio images:', err);
+        setLoadError(true);
         setLoading(false);
       });
   }, [showFilters, limit]);
