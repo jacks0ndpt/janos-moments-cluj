@@ -17,6 +17,7 @@
     "@fontsource/cormorant-garamond": "^5.2.11",
     "@fontsource/dm-sans": "^5.2.8",
     "@hookform/resolvers": "^3.10.0",
+    "@jsquash/jpeg": "^1.6.0",
     "@prerenderer/renderer-jsdom": "^1.1.9",
     "@prerenderer/rollup-plugin": "^0.3.12",
     "@radix-ui/react-accordion": "^1.2.11",

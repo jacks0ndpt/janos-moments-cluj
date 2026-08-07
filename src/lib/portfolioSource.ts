@@ -12,10 +12,14 @@ export type PortfolioImage = {
 const FLAG_KEY = "gallery.source";
 export type GallerySource = "json" | "db";
 
+/**
+ * The database is the default source for everyone (first visit, incognito,
+ * cleared storage). JSON is only used when an admin explicitly selects it.
+ */
 export function getGallerySource(): GallerySource {
-  if (typeof window === "undefined") return "json";
+  if (typeof window === "undefined") return "db";
   const v = window.localStorage.getItem(FLAG_KEY);
-  return v === "db" ? "db" : "json";
+  return v === "json" ? "json" : "db";
 }
 export function setGallerySource(s: GallerySource) {
   if (typeof window !== "undefined") window.localStorage.setItem(FLAG_KEY, s);

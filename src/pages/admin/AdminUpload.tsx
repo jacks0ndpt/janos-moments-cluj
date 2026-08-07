@@ -2,7 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { detectOrientation, extOf, readImageDimensions } from "@/lib/gallery";
+import {
+  formatBytes,
+  formatDimensions,
+  optimizeImage,
+  savedPercent,
+  detectOrientationFrom,
+} from "@/lib/imageOptimizer";
 import { GalleryImage } from "@/components/admin/GalleryImage";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -28,6 +34,12 @@ type ImageRow = Database["public"]["Tables"]["gallery_images"]["Row"];
 
 type StatusChoice = "draft" | "published" | "archived";
 
+type UploadStat = {
+  name: string;
+  original: { width: number; height: number; size: number };
+  optimized: { width: number; height: number; size: number };
+};
+
 export default function AdminUpload() {
   const { user } = useAdminAuth();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -42,6 +54,8 @@ export default function AdminUpload() {
   const [addToHomepage, setAddToHomepage] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [batch, setBatch] = useState<ImageRow[]>([]);
+  const [stats, setStats] = useState<UploadStat[]>([]);
+  const [progress, setProgress] = useState<{ done: number; total: number }>({ done: 0, total: 0 });
 
   useEffect(() => {
     (async () => {
@@ -120,6 +134,7 @@ export default function AdminUpload() {
     if (!files.length) return;
     if (!categoryId) return toast.error("Pick a category first");
     setUploading(true);
+    setProgress({ done: 0, total: files.length });
     try {
       const storyId = await resolveStoryId();
       // find current max position in that story
@@ -135,17 +150,18 @@ export default function AdminUpload() {
       const altRo = templateBody(altRoKey, "ro");
       const altEn = templateBody(altEnKey, "en");
       const uploadedRows: ImageRow[] = [];
+      const newStats: UploadStat[] = [];
 
       for (const file of files) {
         try {
-          const dims = await readImageDimensions(file);
-          const orientation = detectOrientation(dims.width, dims.height);
-          const ext = extOf(file.name);
-          const path = `${crypto.randomUUID()}.${ext}`;
+          // optimize first — only the optimized JPEG is ever stored
+          const opt = await optimizeImage(file, file.name);
+          const orientation = detectOrientationFrom(opt.optimized.width, opt.optimized.height);
+          const path = `${crypto.randomUUID()}.jpg`;
 
           const up = await supabase.storage
             .from("gallery")
-            .upload(path, file, { contentType: file.type });
+            .upload(path, opt.blob, { contentType: "image/jpeg" });
           if (up.error) throw up.error;
 
           const { data: row, error: insErr } = await supabase
@@ -154,10 +170,11 @@ export default function AdminUpload() {
               story_id: storyId,
               storage_path: path,
               original_filename: file.name,
-              width: dims.width,
-              height: dims.height,
+              width: opt.optimized.width,
+              height: opt.optimized.height,
               orientation,
-              file_size: file.size,
+              file_size: opt.optimized.size,
+              mime_type: "image/jpeg",
               position: pos,
               status,
               alt_ro: altRo,
@@ -168,6 +185,11 @@ export default function AdminUpload() {
             .single();
           if (insErr) throw insErr;
           uploadedRows.push(row);
+          newStats.push({
+            name: file.name,
+            original: { ...opt.original, size: file.size },
+            optimized: opt.optimized,
+          });
           pos += 1000;
 
           if (addToHomepage) {
@@ -178,9 +200,12 @@ export default function AdminUpload() {
           }
         } catch (err: any) {
           toast.error(`Failed: ${file.name} — ${err.message ?? err}`);
+        } finally {
+          setProgress((p) => ({ ...p, done: p.done + 1 }));
         }
       }
       setBatch((prev) => [...uploadedRows, ...prev]);
+      setStats((prev) => [...newStats, ...prev]);
       toast.success(`Uploaded ${uploadedRows.length} image(s)`);
     } catch (err: any) {
       toast.error(err.message ?? "Upload failed");
@@ -191,7 +216,7 @@ export default function AdminUpload() {
 
   const dz = useDropzone({
     onDrop,
-    accept: { "image/*": [] },
+    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] },
     disabled: uploading,
   });
 
@@ -316,13 +341,56 @@ export default function AdminUpload() {
           >
             <input {...dz.getInputProps()} />
             {uploading
-              ? "Uploading…"
+              ? `Optimizing & uploading… ${progress.done}/${progress.total}`
               : dz.isDragActive
               ? "Drop the images here"
               : "Drag & drop images, or click to select"}
+            <div className="mt-2 text-xs text-muted-foreground">
+              JPEG / PNG / WebP. Every image is resized to max 2000 px, converted to progressive
+              sRGB JPEG (quality 82) and stripped of metadata before upload. Originals are not stored.
+            </div>
           </div>
         </CardContent>
       </Card>
+
+      {stats.length > 0 && (
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Optimization results</CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setStats([])}>Clear</Button>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {(() => {
+              const before = stats.reduce((a, s) => a + s.original.size, 0);
+              const after = stats.reduce((a, s) => a + s.optimized.size, 0);
+              return (
+                <div className="text-sm">
+                  Total: {formatBytes(before)} → {formatBytes(after)}{" "}
+                  <span className="text-primary font-medium">
+                    ({savedPercent(before, after)}% saved)
+                  </span>
+                </div>
+              );
+            })()}
+            <div className="divide-y">
+              {stats.map((s, i) => (
+                <div key={`${s.name}-${i}`} className="py-2 text-xs">
+                  <div className="font-medium truncate">{s.name}</div>
+                  <div className="text-muted-foreground">
+                    Original {formatDimensions(s.original.width, s.original.height)} ·{" "}
+                    {formatBytes(s.original.size)} → Optimized{" "}
+                    {formatDimensions(s.optimized.width, s.optimized.height)} ·{" "}
+                    {formatBytes(s.optimized.size)}{" "}
+                    <span className="text-primary">
+                      ({savedPercent(s.original.size, s.optimized.size)}% saved)
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {batch.length > 0 && (
         <Card>
