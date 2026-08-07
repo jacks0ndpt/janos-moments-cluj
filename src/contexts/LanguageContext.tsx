@@ -35,6 +35,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.filter.events': 'Baptisms',
     'portfolio.filter.couples': 'Couples',
     'portfolio.noImages': 'No images available in this category yet.',
+    'portfolio.loadError': 'The gallery could not be loaded right now. Please try again shortly.',
     
     // Portfolio Weddings
     'portfolio.weddings.title': 'Wedding Photography',
@@ -145,6 +146,7 @@ const translations: Record<Language, Record<string, string>> = {
     'portfolio.imageAlt': 'Fotografie de nuntă în Cluj-Napoca',
     'portfolio.backToTop': 'La început',
     'portfolio.noImages': 'Nu există imagini disponibile în această categorie momentan.',
+    'portfolio.loadError': 'Galeria nu a putut fi încărcată momentan. Te rugăm să încerci din nou în scurt timp.',
     
     // Portfolio Weddings
     'portfolio.weddings.title': 'Fotografie de Nuntă',
