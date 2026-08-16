@@ -137,6 +137,23 @@
     text-wrap: balance;
   }
 
+  /* Same Day Preview: an intimate, near-black editorial theme scoped to the
+     preview route only — it does not affect the rest of the site. */
+  .preview-theme {
+    --background: 28 8% 5%;
+    --foreground: 40 20% 96%;
+    --card: 28 8% 8%;
+    --card-foreground: 40 20% 96%;
+    --muted: 28 6% 12%;
+    --muted-foreground: 38 10% 68%;
+    --primary: 34 40% 68%;
+    --primary-foreground: 28 8% 5%;
+    --accent: 34 40% 68%;
+    --accent-foreground: 28 8% 5%;
+    --border: 38 8% 18%;
+    --ring: 34 40% 68%;
+  }
+
   .image-cover {
     @apply w-full h-full object-cover;
   }

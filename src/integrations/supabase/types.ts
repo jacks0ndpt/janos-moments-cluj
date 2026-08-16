@@ -314,6 +314,100 @@ export type Database = {
         }
         Relationships: []
       }
+      same_day_preview_images: {
+        Row: {
+          created_at: string
+          file_size: number | null
+          height: number | null
+          id: string
+          orientation: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename: string | null
+          position: number
+          preview_id: string
+          storage_path: string
+          width: number | null
+        }
+        Insert: {
+          created_at?: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          orientation?: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename?: string | null
+          position?: number
+          preview_id: string
+          storage_path: string
+          width?: number | null
+        }
+        Update: {
+          created_at?: string
+          file_size?: number | null
+          height?: number | null
+          id?: string
+          orientation?: Database["public"]["Enums"]["image_orientation"] | null
+          original_filename?: string | null
+          position?: number
+          preview_id?: string
+          storage_path?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "same_day_preview_images_preview_id_fkey"
+            columns: ["preview_id"]
+            isOneToOne: false
+            referencedRelation: "same_day_previews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      same_day_previews: {
+        Row: {
+          couple_names: string
+          cover_image_id: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_published: boolean
+          message: string | null
+          slug: string
+          updated_at: string
+          wedding_date: string
+        }
+        Insert: {
+          couple_names: string
+          cover_image_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          message?: string | null
+          slug: string
+          updated_at?: string
+          wedding_date: string
+        }
+        Update: {
+          couple_names?: string
+          cover_image_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean
+          message?: string | null
+          slug?: string
+          updated_at?: string
+          wedding_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "same_day_previews_cover_image_fk"
+            columns: ["cover_image_id"]
+            isOneToOne: false
+            referencedRelation: "same_day_preview_images"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services_page: {
         Row: {
           content: Json
