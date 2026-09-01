@@ -175,7 +175,6 @@ export default function Preview() {
                 alt={`${ready.preview.couple_names} — cover photograph`}
                 width={cover.width ?? undefined}
                 height={cover.height ?? undefined}
-                fetchPriority="high"
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-center"
               />
