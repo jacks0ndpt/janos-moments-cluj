@@ -18,6 +18,7 @@ import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Experience from "./pages/Experience";
 import ServicesPreview from "./pages/ServicesPreview";
+import Preview from "./pages/Preview";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -30,6 +31,8 @@ import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
 import AdminImport from "./pages/admin/AdminImport";
 import AdminExperience from "./pages/admin/AdminExperience";
 import AdminServices from "./pages/admin/AdminServices";
+import AdminPreviews from "./pages/admin/AdminPreviews";
+import AdminPreviewEdit from "./pages/admin/AdminPreviewEdit";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
@@ -75,6 +78,8 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/experience" element={<Experience />} />
+                {/* Same Day Preview — private unlisted link, noindex */}
+                <Route path="/preview/:slug" element={<Preview />} />
                 {/* Hidden preview of the redesigned Services page (noindex, unlinked) */}
                 <Route path="/services-preview" element={<ServicesPreview />} />
                 <Route path="/servicii-preview" element={<ServicesPreview />} />
@@ -92,6 +97,8 @@ const App = () => {
                   <Route path="homepage" element={<AdminHomepage />} />
                   <Route path="experience" element={<AdminExperience />} />
                   <Route path="services" element={<AdminServices />} />
+                  <Route path="previews" element={<AdminPreviews />} />
+                  <Route path="previews/:id" element={<AdminPreviewEdit />} />
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />
