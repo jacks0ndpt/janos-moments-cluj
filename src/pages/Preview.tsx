@@ -136,6 +136,50 @@ export default function Preview() {
     if (i >= 0) setLightbox(i);
   };
 
+  async function downloadAll() {
+    if (!ready || zipping || images.length === 0) return;
+    const base = slugifyNames(ready.preview.couple_names) || "same-day";
+    setZipping(true);
+    setZipDone(0);
+    const files: Record<string, Uint8Array> = {};
+    let failed = 0;
+    try {
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const res = await fetch(previewImageUrl(images[i].storage_path));
+          if (!res.ok) throw new Error(String(res.status));
+          const buf = new Uint8Array(await res.arrayBuffer());
+          files[`${base}-${String(i + 1).padStart(2, "0")}.jpg`] = buf;
+        } catch {
+          failed += 1;
+        }
+        setZipDone(i + 1);
+      }
+      const names = Object.keys(files);
+      if (names.length === 0) {
+        toast.error("Could not prepare the download");
+        return;
+      }
+      const zipped = zipSync(files, { level: 0 });
+      const blob = new Blob([zipped as unknown as BlobPart], { type: "application/zip" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${base}-same-day-preview.zip`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      if (failed > 0) toast.warning(`${failed} photo(s) could not be included`);
+    } catch (err) {
+      console.error("Download all failed", err);
+      toast.error("Could not prepare the download");
+    } finally {
+      setZipping(false);
+      setZipDone(0);
+    }
+  }
+
+
+
 
   return (
     <div className="preview-theme min-h-screen bg-background text-foreground font-body antialiased">
