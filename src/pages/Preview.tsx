@@ -309,7 +309,7 @@ export default function Preview() {
         </main>
       )}
 
-      {ready && Lightbox && lightbox !== null && (
+      {ready && Lightbox && lightbox !== null && images[lightbox] && (
         <Lightbox
           images={images}
           index={lightbox}
