@@ -125,7 +125,7 @@ export default function Preview() {
       </Helmet>
 
       {/* Restrained branding */}
-      <header className="fixed inset-x-0 top-0 z-30 flex items-center justify-between px-5 py-4 sm:px-8">
+      <header className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-5 py-4 sm:px-8">
         <span className="font-heading text-lg tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
           Jimmy Hada
         </span>
@@ -166,7 +166,7 @@ export default function Preview() {
       )}
 
       {ready && (
-        <main>
+        <main className="relative">
           {/* Hero */}
           <section className="relative flex h-[100svh] min-h-[560px] w-full items-end overflow-hidden">
             {cover && (
