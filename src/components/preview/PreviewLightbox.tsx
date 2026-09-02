@@ -25,13 +25,14 @@ export default function PreviewLightbox(props: Props) {
 
 
   const next = useCallback(
-    () => onIndexChange((index + 1) % images.length),
+    () => images.length && onIndexChange((index + 1) % images.length),
     [index, images.length, onIndexChange],
   );
   const prev = useCallback(
-    () => onIndexChange((index - 1 + images.length) % images.length),
+    () => images.length && onIndexChange((index - 1 + images.length) % images.length),
     [index, images.length, onIndexChange],
   );
+
 
   useEffect(() => {
     closeRef.current?.focus();
