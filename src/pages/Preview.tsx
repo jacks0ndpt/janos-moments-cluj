@@ -208,12 +208,15 @@ export default function Preview() {
         <span className="font-heading text-lg tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
           Jimmy Hada
         </span>
-        <Link
-          to="/"
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-[11px] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
           Back to website
-        </Link>
+        </a>
+
       </header>
 
       {state.status === "loading" && (
