@@ -69,10 +69,19 @@ export default function Preview() {
 
   useEffect(() => {
     if (lightbox === null || Lightbox) return;
-    import("@/components/preview/PreviewLightbox").then((m) =>
-      setLightboxComponent(m.default),
-    );
+    let active = true;
+    import("@/components/preview/PreviewLightbox")
+      .then((m) => {
+        // Wrap in a factory: passing a component to setState would be treated
+        // as a state updater and invoked with the previous state.
+        if (active) setLightboxComponent(() => m.default);
+      })
+      .catch((err) => console.error("Lightbox failed to load", err));
+    return () => {
+      active = false;
+    };
   }, [lightbox, Lightbox]);
+
 
   const ready = state.status === "ready" ? state : null;
   const images = ready?.images ?? [];
@@ -111,8 +120,11 @@ export default function Preview() {
     }
   }
 
-  const openAt = (image: PreviewImageRow) =>
-    setLightbox(images.findIndex((i) => i.id === image.id));
+  const openAt = (image: PreviewImageRow) => {
+    const i = images.findIndex((x) => x.id === image.id);
+    if (i >= 0) setLightbox(i);
+  };
+
 
   return (
     <div className="preview-theme min-h-screen bg-background text-foreground font-body antialiased">
@@ -297,7 +309,7 @@ export default function Preview() {
         </main>
       )}
 
-      {ready && Lightbox && lightbox !== null && (
+      {ready && Lightbox && lightbox !== null && images[lightbox] && (
         <Lightbox
           images={images}
           index={lightbox}

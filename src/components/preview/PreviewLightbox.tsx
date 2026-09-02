@@ -10,26 +10,29 @@ type Props = {
   onIndexChange: (i: number) => void;
 };
 
-export default function PreviewLightbox({
-  images,
-  index,
-  coupleNames,
-  onClose,
-  onIndexChange,
-}: Props) {
+export default function PreviewLightbox(props: Props) {
+  const {
+    images = [],
+    index = 0,
+    coupleNames = "",
+    onClose = () => undefined,
+    onIndexChange = () => undefined,
+  } = props ?? ({} as Props);
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [downloading, setDownloading] = useState(false);
   const image = images[index];
 
+
   const next = useCallback(
-    () => onIndexChange((index + 1) % images.length),
+    () => images.length && onIndexChange((index + 1) % images.length),
     [index, images.length, onIndexChange],
   );
   const prev = useCallback(
-    () => onIndexChange((index - 1 + images.length) % images.length),
+    () => images.length && onIndexChange((index - 1 + images.length) % images.length),
     [index, images.length, onIndexChange],
   );
+
 
   useEffect(() => {
     closeRef.current?.focus();
