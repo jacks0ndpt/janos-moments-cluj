@@ -120,8 +120,11 @@ export default function Preview() {
     }
   }
 
-  const openAt = (image: PreviewImageRow) =>
-    setLightbox(images.findIndex((i) => i.id === image.id));
+  const openAt = (image: PreviewImageRow) => {
+    const i = images.findIndex((x) => x.id === image.id);
+    if (i >= 0) setLightbox(i);
+  };
+
 
   return (
     <div className="preview-theme min-h-screen bg-background text-foreground font-body antialiased">
