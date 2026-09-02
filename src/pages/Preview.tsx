@@ -1,16 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, ChevronDown, Instagram, Link2, Share2 } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUp,
+  ChevronDown,
+  Download,
+  Instagram,
+  Link2,
+  Share2,
+} from "lucide-react";
 import { toast } from "sonner";
+import { zipSync } from "fflate";
 import {
   fetchPublishedPreview,
   formatWeddingDate,
   previewImageUrl,
   previewPublicUrl,
+  slugifyNames,
   type PreviewImageRow,
   type PreviewRow,
 } from "@/lib/samedayPreview";
+
 
 type Group =
   | { kind: "single"; images: [PreviewImageRow] }
@@ -48,6 +59,18 @@ export default function Preview() {
   const [Lightbox, setLightboxComponent] = useState<
     null | typeof import("@/components/preview/PreviewLightbox").default
   >(null);
+  const [zipping, setZipping] = useState(false);
+  const [zipDone, setZipDone] = useState(0);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > window.innerHeight * 0.9);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+
 
   useEffect(() => {
     let active = true;
@@ -125,6 +148,50 @@ export default function Preview() {
     if (i >= 0) setLightbox(i);
   };
 
+  async function downloadAll() {
+    if (!ready || zipping || images.length === 0) return;
+    const base = slugifyNames(ready.preview.couple_names) || "same-day";
+    setZipping(true);
+    setZipDone(0);
+    const files: Record<string, Uint8Array> = {};
+    let failed = 0;
+    try {
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const res = await fetch(previewImageUrl(images[i].storage_path));
+          if (!res.ok) throw new Error(String(res.status));
+          const buf = new Uint8Array(await res.arrayBuffer());
+          files[`${base}-${String(i + 1).padStart(2, "0")}.jpg`] = buf;
+        } catch {
+          failed += 1;
+        }
+        setZipDone(i + 1);
+      }
+      const names = Object.keys(files);
+      if (names.length === 0) {
+        toast.error("Could not prepare the download");
+        return;
+      }
+      const zipped = zipSync(files, { level: 0 });
+      const blob = new Blob([zipped as unknown as BlobPart], { type: "application/zip" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${base}-same-day-preview.zip`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      if (failed > 0) toast.warning(`${failed} photo(s) could not be included`);
+    } catch (err) {
+      console.error("Download all failed", err);
+      toast.error("Could not prepare the download");
+    } finally {
+      setZipping(false);
+      setZipDone(0);
+    }
+  }
+
+
+
 
   return (
     <div className="preview-theme min-h-screen bg-background text-foreground font-body antialiased">
@@ -141,12 +208,15 @@ export default function Preview() {
         <span className="font-heading text-lg tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
           Jimmy Hada
         </span>
-        <Link
-          to="/"
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-[11px] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
           Back to website
-        </Link>
+        </a>
+
       </header>
 
       {state.status === "loading" && (
@@ -282,18 +352,31 @@ export default function Preview() {
               >
                 WhatsApp
               </a>
+              <button
+                type="button"
+                onClick={downloadAll}
+                disabled={zipping || images.length === 0}
+                aria-label="Download all photos as a ZIP archive"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Download size={15} aria-hidden="true" />
+                {zipping ? `Preparing ${zipDone} of ${images.length}…` : "Download all"}
+              </button>
             </div>
           </section>
 
           {/* Brand connection */}
           <footer className="border-t border-border px-6 py-16 text-center">
             <p className="font-heading text-2xl sm:text-3xl">Like the way this story feels?</p>
-            <Link
-              to="/portfolio/weddings"
+            <a
+              href="/portfolio/weddings"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-5 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary transition-opacity hover:opacity-80"
             >
               Explore more weddings <ArrowRight size={14} aria-hidden="true" />
-            </Link>
+            </a>
+
             <div className="mt-12 flex flex-col items-center gap-3 text-muted-foreground">
               <span className="font-heading text-base tracking-wide">Jimmy Hada Photography</span>
               <a
