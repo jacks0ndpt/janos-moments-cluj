@@ -69,10 +69,19 @@ export default function Preview() {
 
   useEffect(() => {
     if (lightbox === null || Lightbox) return;
-    import("@/components/preview/PreviewLightbox").then((m) =>
-      setLightboxComponent(m.default),
-    );
+    let active = true;
+    import("@/components/preview/PreviewLightbox")
+      .then((m) => {
+        // Wrap in a factory: passing a component to setState would be treated
+        // as a state updater and invoked with the previous state.
+        if (active) setLightboxComponent(() => m.default);
+      })
+      .catch((err) => console.error("Lightbox failed to load", err));
+    return () => {
+      active = false;
+    };
   }, [lightbox, Lightbox]);
+
 
   const ready = state.status === "ready" ? state : null;
   const images = ready?.images ?? [];
