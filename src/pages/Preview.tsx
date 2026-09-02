@@ -59,6 +59,18 @@ export default function Preview() {
   const [Lightbox, setLightboxComponent] = useState<
     null | typeof import("@/components/preview/PreviewLightbox").default
   >(null);
+  const [zipping, setZipping] = useState(false);
+  const [zipDone, setZipDone] = useState(0);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > window.innerHeight * 0.9);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+
 
   useEffect(() => {
     let active = true;
