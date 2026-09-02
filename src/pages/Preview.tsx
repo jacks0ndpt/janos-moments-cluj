@@ -1,16 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, ChevronDown, Instagram, Link2, Share2 } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUp,
+  ChevronDown,
+  Download,
+  Instagram,
+  Link2,
+  Share2,
+} from "lucide-react";
 import { toast } from "sonner";
+import { zipSync } from "fflate";
 import {
   fetchPublishedPreview,
   formatWeddingDate,
   previewImageUrl,
   previewPublicUrl,
+  slugifyNames,
   type PreviewImageRow,
   type PreviewRow,
 } from "@/lib/samedayPreview";
+
 
 type Group =
   | { kind: "single"; images: [PreviewImageRow] }
