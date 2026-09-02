@@ -352,18 +352,31 @@ export default function Preview() {
               >
                 WhatsApp
               </a>
+              <button
+                type="button"
+                onClick={downloadAll}
+                disabled={zipping || images.length === 0}
+                aria-label="Download all photos as a ZIP archive"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Download size={15} aria-hidden="true" />
+                {zipping ? `Preparing ${zipDone} of ${images.length}…` : "Download all"}
+              </button>
             </div>
           </section>
 
           {/* Brand connection */}
           <footer className="border-t border-border px-6 py-16 text-center">
             <p className="font-heading text-2xl sm:text-3xl">Like the way this story feels?</p>
-            <Link
-              to="/portfolio/weddings"
+            <a
+              href="/portfolio/weddings"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-5 inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary transition-opacity hover:opacity-80"
             >
               Explore more weddings <ArrowRight size={14} aria-hidden="true" />
-            </Link>
+            </a>
+
             <div className="mt-12 flex flex-col items-center gap-3 text-muted-foreground">
               <span className="font-heading text-base tracking-wide">Jimmy Hada Photography</span>
               <a
