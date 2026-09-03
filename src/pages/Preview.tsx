@@ -392,6 +392,18 @@ export default function Preview() {
         </main>
       )}
 
+      {ready && showTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Back to top"
+          className="fixed bottom-5 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/80 text-foreground/80 backdrop-blur-sm transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
+          <ArrowUp size={18} aria-hidden="true" />
+        </button>
+      )}
+
+
       {ready && Lightbox && lightbox !== null && images[lightbox] && (
         <Lightbox
           images={images}
