@@ -205,20 +205,20 @@ export default function AdminPreviewEdit() {
     );
 
   return (
-    <div className="max-w-5xl space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+    <div className="w-full min-w-0 max-w-5xl space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <Button asChild variant="ghost" size="sm">
             <Link to="/admin/previews">
               <ArrowLeft size={16} />
             </Link>
           </Button>
-          <h1 className="text-2xl font-serif">{preview.couple_names}</h1>
+          <h1 className="min-w-0 break-words text-xl font-serif sm:text-2xl">{preview.couple_names}</h1>
           <Badge variant={preview.is_published ? "default" : "secondary"}>
             {preview.is_published ? "Published" : "Draft"}
           </Badge>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="outline" size="sm">
             <Link to={previewPublicPath(preview.slug)} target="_blank">
               <ExternalLink size={14} className="mr-1.5" /> View
@@ -245,11 +245,13 @@ export default function AdminPreviewEdit() {
         <CardHeader>
           <CardTitle>Details</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
-          <div>
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+          <div className="min-w-0">
             <Label htmlFor="names">Couple names</Label>
             <Input
               id="names"
+              className="w-full"
               defaultValue={preview.couple_names}
               onBlur={(e) => {
                 const v = e.target.value.trim();
@@ -257,11 +259,12 @@ export default function AdminPreviewEdit() {
               }}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <Label htmlFor="date">Wedding date</Label>
             <Input
               id="date"
               type="date"
+              className="w-full"
               defaultValue={preview.wedding_date}
               onBlur={(e) => {
                 if (e.target.value && e.target.value !== preview.wedding_date)
@@ -269,30 +272,35 @@ export default function AdminPreviewEdit() {
               }}
             />
           </div>
-          <div className="md:col-span-2">
+          <div className="min-w-0 md:col-span-2">
             <Label htmlFor="msg">Short message</Label>
             <Textarea
               id="msg"
               rows={2}
+              className="w-full"
               defaultValue={preview.message ?? ""}
               onBlur={(e) => patch({ message: e.target.value.trim() || null })}
             />
           </div>
-          <div className="md:col-span-2">
+          <div className="min-w-0 md:col-span-2">
             <Label>Public URL</Label>
             <p className="mt-1 break-all text-sm text-muted-foreground">
               {previewPublicUrl(preview.slug)}
             </p>
           </div>
-          <div className="flex items-center gap-3 md:col-span-2">
+          <div className="flex items-start gap-3 md:col-span-2">
             <Switch
               id="pub"
+              className="mt-0.5 shrink-0"
               checked={preview.is_published}
               onCheckedChange={(v) => patch({ is_published: v })}
               disabled={saving}
             />
-            <Label htmlFor="pub">Published (the link works for the couple)</Label>
+            <Label htmlFor="pub" className="min-w-0 leading-snug">
+              Published (the link works for the couple)
+            </Label>
           </div>
+
         </CardContent>
       </Card>
 
@@ -303,8 +311,9 @@ export default function AdminPreviewEdit() {
         <CardContent className="space-y-4">
           <div
             {...dz.getRootProps()}
-            className="cursor-pointer rounded border border-dashed p-8 text-center text-sm text-muted-foreground hover:border-primary"
+            className="w-full cursor-pointer rounded border border-dashed p-6 text-center text-sm text-muted-foreground hover:border-primary sm:p-8"
           >
+
             <input {...dz.getInputProps()} />
             {uploading
               ? `Optimizing & uploading… ${progress.done}/${progress.total}`
@@ -351,7 +360,7 @@ export default function AdminPreviewEdit() {
 
           <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
             <SortableContext items={images.map((i) => i.id)} strategy={rectSortingStrategy}>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-1 gap-3 min-[340px]:grid-cols-2 sm:grid-cols-4">
                 {images.map((img) => (
                   <SortablePhoto
                     key={img.id}
