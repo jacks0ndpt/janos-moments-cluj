@@ -360,7 +360,7 @@ export default function AdminPreviewEdit() {
 
           <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
             <SortableContext items={images.map((i) => i.id)} strategy={rectSortingStrategy}>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-1 gap-3 min-[340px]:grid-cols-2 sm:grid-cols-4">
                 {images.map((img) => (
                   <SortablePhoto
                     key={img.id}
