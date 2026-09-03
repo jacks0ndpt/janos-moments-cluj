@@ -311,8 +311,9 @@ export default function AdminPreviewEdit() {
         <CardContent className="space-y-4">
           <div
             {...dz.getRootProps()}
-            className="cursor-pointer rounded border border-dashed p-8 text-center text-sm text-muted-foreground hover:border-primary"
+            className="w-full cursor-pointer rounded border border-dashed p-6 text-center text-sm text-muted-foreground hover:border-primary sm:p-8"
           >
+
             <input {...dz.getInputProps()} />
             {uploading
               ? `Optimizing & uploading… ${progress.done}/${progress.total}`
