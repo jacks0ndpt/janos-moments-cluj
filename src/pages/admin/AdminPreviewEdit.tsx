@@ -205,20 +205,20 @@ export default function AdminPreviewEdit() {
     );
 
   return (
-    <div className="max-w-5xl space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+    <div className="w-full min-w-0 max-w-5xl space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <Button asChild variant="ghost" size="sm">
             <Link to="/admin/previews">
               <ArrowLeft size={16} />
             </Link>
           </Button>
-          <h1 className="text-2xl font-serif">{preview.couple_names}</h1>
+          <h1 className="min-w-0 break-words text-xl font-serif sm:text-2xl">{preview.couple_names}</h1>
           <Badge variant={preview.is_published ? "default" : "secondary"}>
             {preview.is_published ? "Published" : "Draft"}
           </Badge>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="outline" size="sm">
             <Link to={previewPublicPath(preview.slug)} target="_blank">
               <ExternalLink size={14} className="mr-1.5" /> View
@@ -245,7 +245,8 @@ export default function AdminPreviewEdit() {
         <CardHeader>
           <CardTitle>Details</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+
           <div>
             <Label htmlFor="names">Couple names</Label>
             <Input
