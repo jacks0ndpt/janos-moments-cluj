@@ -113,13 +113,14 @@ export default function AdminPreviews() {
   }
 
   return (
-    <div className="max-w-5xl space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-serif">Same Day Previews</h1>
-        <Button onClick={() => setCreateOpen(true)}>
+    <div className="w-full min-w-0 max-w-5xl space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-xl font-serif sm:text-2xl">Same Day Previews</h1>
+        <Button onClick={() => setCreateOpen(true)} className="w-full sm:w-auto">
           <Plus size={16} className="mr-2" /> Create Preview
         </Button>
       </div>
+
 
       {loading && <p className="text-sm text-muted-foreground">Loading…</p>}
 
