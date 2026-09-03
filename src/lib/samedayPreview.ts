@@ -45,8 +45,7 @@ export function previewPublicPath(slug: string) {
 }
 
 export function previewPublicUrl(slug: string) {
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  return `${origin}${previewPublicPath(slug)}`;
+  return `${PREVIEW_CANONICAL_ORIGIN}${previewPublicPath(slug)}`;
 }
 
 export function formatWeddingDate(date: string, locale = "en-GB"): string {
