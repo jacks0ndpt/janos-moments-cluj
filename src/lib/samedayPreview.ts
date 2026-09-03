@@ -8,6 +8,7 @@ export type PreviewImageRow =
 
 export const PREVIEW_PREFIX = "previews";
 export const DEFAULT_PREVIEW_MESSAGE = "A first glimpse of your day.";
+export const PREVIEW_CANONICAL_ORIGIN = "https://jimmyhada.com";
 
 export function previewImageUrl(storagePath: string) {
   return publicUrl(storagePath);
