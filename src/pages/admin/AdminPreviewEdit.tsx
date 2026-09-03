@@ -247,10 +247,11 @@ export default function AdminPreviewEdit() {
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
-          <div>
+          <div className="min-w-0">
             <Label htmlFor="names">Couple names</Label>
             <Input
               id="names"
+              className="w-full"
               defaultValue={preview.couple_names}
               onBlur={(e) => {
                 const v = e.target.value.trim();
@@ -258,11 +259,12 @@ export default function AdminPreviewEdit() {
               }}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <Label htmlFor="date">Wedding date</Label>
             <Input
               id="date"
               type="date"
+              className="w-full"
               defaultValue={preview.wedding_date}
               onBlur={(e) => {
                 if (e.target.value && e.target.value !== preview.wedding_date)
@@ -270,30 +272,35 @@ export default function AdminPreviewEdit() {
               }}
             />
           </div>
-          <div className="md:col-span-2">
+          <div className="min-w-0 md:col-span-2">
             <Label htmlFor="msg">Short message</Label>
             <Textarea
               id="msg"
               rows={2}
+              className="w-full"
               defaultValue={preview.message ?? ""}
               onBlur={(e) => patch({ message: e.target.value.trim() || null })}
             />
           </div>
-          <div className="md:col-span-2">
+          <div className="min-w-0 md:col-span-2">
             <Label>Public URL</Label>
             <p className="mt-1 break-all text-sm text-muted-foreground">
               {previewPublicUrl(preview.slug)}
             </p>
           </div>
-          <div className="flex items-center gap-3 md:col-span-2">
+          <div className="flex items-start gap-3 md:col-span-2">
             <Switch
               id="pub"
+              className="mt-0.5 shrink-0"
               checked={preview.is_published}
               onCheckedChange={(v) => patch({ is_published: v })}
               disabled={saving}
             />
-            <Label htmlFor="pub">Published (the link works for the couple)</Label>
+            <Label htmlFor="pub" className="min-w-0 leading-snug">
+              Published (the link works for the couple)
+            </Label>
           </div>
+
         </CardContent>
       </Card>
 
