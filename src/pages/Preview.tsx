@@ -486,7 +486,7 @@ function PreviewPhoto({
     >
       <img
         src={previewImageUrl(image.storage_path)}
-        alt={`${coupleNames} — wedding photograph`}
+        alt={`${coupleNames} — photograph`}
         width={image.width ?? undefined}
         height={image.height ?? undefined}
         loading="lazy"
