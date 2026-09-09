@@ -276,7 +276,9 @@ export default function Preview() {
             />
             <div className="relative z-10 w-full px-6 pb-20 text-center sm:pb-24">
               <p className="text-[10px] uppercase tracking-[0.35em] text-primary sm:text-[11px]">
-                Same Day Preview
+                {showPreviewContent
+                  ? previewOverline(ready.preview.project_type)
+                  : projectTypeLabel(ready.preview.project_type).toUpperCase()}
               </p>
               <h1 className="mt-5 font-heading text-4xl font-light leading-tight sm:text-6xl lg:text-7xl">
                 {ready.preview.couple_names}
