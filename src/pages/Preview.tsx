@@ -207,7 +207,9 @@ export default function Preview() {
     <div className="preview-theme min-h-screen bg-background text-foreground font-body antialiased">
       <Helmet>
         <title>
-          {ready ? `${ready.preview.couple_names} — Same Day Preview` : "Same Day Preview"}
+          {ready
+            ? `${ready.preview.couple_names} — Jimmy Hada Photography`
+            : "Jimmy Hada Photography"}
         </title>
         <meta name="robots" content="noindex, nofollow" />
         <meta name="googlebot" content="noindex, nofollow" />
