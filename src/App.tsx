@@ -78,7 +78,9 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/experience" element={<Experience />} />
-                {/* Same Day Preview — private unlisted link, noindex */}
+                {/* Client Deliveries — private unlisted links, noindex */}
+                <Route path="/delivery/:slug" element={<Preview />} />
+                {/* Legacy route kept working for links already sent out */}
                 <Route path="/preview/:slug" element={<Preview />} />
                 {/* Hidden preview of the redesigned Services page (noindex, unlinked) */}
                 <Route path="/services-preview" element={<ServicesPreview />} />

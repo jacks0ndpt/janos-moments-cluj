@@ -363,37 +363,52 @@ export type Database = {
       }
       same_day_previews: {
         Row: {
+          available_until: string | null
           couple_names: string
           cover_image_id: string | null
           created_at: string
           created_by: string | null
+          cta_label: string | null
+          delivery_mode: Database["public"]["Enums"]["delivery_mode"]
+          full_gallery_url: string | null
           id: string
           is_published: boolean
           message: string | null
+          project_type: Database["public"]["Enums"]["project_type"]
           slug: string
           updated_at: string
           wedding_date: string
         }
         Insert: {
+          available_until?: string | null
           couple_names: string
           cover_image_id?: string | null
           created_at?: string
           created_by?: string | null
+          cta_label?: string | null
+          delivery_mode?: Database["public"]["Enums"]["delivery_mode"]
+          full_gallery_url?: string | null
           id?: string
           is_published?: boolean
           message?: string | null
+          project_type?: Database["public"]["Enums"]["project_type"]
           slug: string
           updated_at?: string
           wedding_date: string
         }
         Update: {
+          available_until?: string | null
           couple_names?: string
           cover_image_id?: string | null
           created_at?: string
           created_by?: string | null
+          cta_label?: string | null
+          delivery_mode?: Database["public"]["Enums"]["delivery_mode"]
+          full_gallery_url?: string | null
           id?: string
           is_published?: boolean
           message?: string | null
+          project_type?: Database["public"]["Enums"]["project_type"]
           slug?: string
           updated_at?: string
           wedding_date?: string
@@ -489,8 +504,10 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      delivery_mode: "preview" | "full" | "both"
       gallery_status: "draft" | "published" | "archived"
       image_orientation: "landscape" | "portrait" | "square"
+      project_type: "wedding" | "baptism" | "event" | "portrait" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -619,8 +636,10 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      delivery_mode: ["preview", "full", "both"],
       gallery_status: ["draft", "published", "archived"],
       image_orientation: ["landscape", "portrait", "square"],
+      project_type: ["wedding", "baptism", "event", "portrait", "other"],
     },
   },
 } as const

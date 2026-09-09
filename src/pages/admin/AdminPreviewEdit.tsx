@@ -27,14 +27,27 @@ import {
   savedPercent,
 } from "@/lib/imageOptimizer";
 import {
+  DEFAULT_CTA_LABEL,
+  DELIVERY_MODES,
   PREVIEW_PREFIX,
+  PROJECT_TYPES,
+  isValidHttpsUrl,
   previewImageUrl,
   previewPublicPath,
   previewPublicUrl,
   removePreviewFiles,
+  type DeliveryMode,
   type PreviewImageRow,
   type PreviewRow,
+  type ProjectType,
 } from "@/lib/samedayPreview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Failed = { file: File; reason: string };
 type Stat = {
@@ -248,7 +261,7 @@ export default function AdminPreviewEdit() {
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
           <div className="min-w-0">
-            <Label htmlFor="names">Couple names</Label>
+            <Label htmlFor="names">Project title</Label>
             <Input
               id="names"
               className="w-full"
@@ -260,7 +273,7 @@ export default function AdminPreviewEdit() {
             />
           </div>
           <div className="min-w-0">
-            <Label htmlFor="date">Wedding date</Label>
+            <Label htmlFor="date">Project date</Label>
             <Input
               id="date"
               type="date"
@@ -271,6 +284,42 @@ export default function AdminPreviewEdit() {
                   patch({ wedding_date: e.target.value });
               }}
             />
+          </div>
+          <div className="min-w-0">
+            <Label>Project type</Label>
+            <Select
+              value={preview.project_type}
+              onValueChange={(v) => patch({ project_type: v as ProjectType })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PROJECT_TYPES.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="min-w-0">
+            <Label>Delivery content</Label>
+            <Select
+              value={preview.delivery_mode}
+              onValueChange={(v) => patch({ delivery_mode: v as DeliveryMode })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {DELIVERY_MODES.map((d) => (
+                  <SelectItem key={d.value} value={d.value}>
+                    {d.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="min-w-0 md:col-span-2">
             <Label htmlFor="msg">Short message</Label>
