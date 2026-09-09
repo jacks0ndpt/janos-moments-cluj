@@ -261,7 +261,7 @@ export default function AdminPreviewEdit() {
         <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
           <div className="min-w-0">
-            <Label htmlFor="names">Couple names</Label>
+            <Label htmlFor="names">Project title</Label>
             <Input
               id="names"
               className="w-full"
@@ -273,7 +273,7 @@ export default function AdminPreviewEdit() {
             />
           </div>
           <div className="min-w-0">
-            <Label htmlFor="date">Wedding date</Label>
+            <Label htmlFor="date">Project date</Label>
             <Input
               id="date"
               type="date"
