@@ -285,6 +285,42 @@ export default function AdminPreviewEdit() {
               }}
             />
           </div>
+          <div className="min-w-0">
+            <Label>Project type</Label>
+            <Select
+              value={preview.project_type}
+              onValueChange={(v) => patch({ project_type: v as ProjectType })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PROJECT_TYPES.map((p) => (
+                  <SelectItem key={p.value} value={p.value}>
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="min-w-0">
+            <Label>Delivery content</Label>
+            <Select
+              value={preview.delivery_mode}
+              onValueChange={(v) => patch({ delivery_mode: v as DeliveryMode })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {DELIVERY_MODES.map((d) => (
+                  <SelectItem key={d.value} value={d.value}>
+                    {d.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div className="min-w-0 md:col-span-2">
             <Label htmlFor="msg">Short message</Label>
             <Textarea
