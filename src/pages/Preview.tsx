@@ -289,46 +289,76 @@ export default function Preview() {
           </section>
 
           {/* Gallery */}
-          <section
-            aria-label="Photographs"
-            className="mx-auto max-w-6xl px-3 py-12 sm:px-6 sm:py-20"
-          >
-            <div className="space-y-4 sm:space-y-8">
-              {groups.map((group, gi) =>
-                group.kind === "pair" ? (
-                  <div key={gi} className="grid grid-cols-2 gap-3 sm:gap-6">
-                    {group.images.map((img) => (
-                      <PreviewPhoto
-                        key={img.id}
-                        image={img}
-                        coupleNames={ready.preview.couple_names}
-                        onOpen={openAt}
-                        sizes="(max-width: 640px) 50vw, 45vw"
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <PreviewPhoto
-                    key={group.images[0].id}
-                    image={group.images[0]}
-                    coupleNames={ready.preview.couple_names}
-                    onOpen={openAt}
-                    sizes="(max-width: 640px) 100vw, 90vw"
-                  />
-                ),
-              )}
-            </div>
+          {showPreviewContent && (
+            <section
+              aria-label="Photographs"
+              className="mx-auto max-w-6xl px-3 py-12 sm:px-6 sm:py-20"
+            >
+              <div className="space-y-4 sm:space-y-8">
+                {groups.map((group, gi) =>
+                  group.kind === "pair" ? (
+                    <div key={gi} className="grid grid-cols-2 gap-3 sm:gap-6">
+                      {group.images.map((img) => (
+                        <PreviewPhoto
+                          key={img.id}
+                          image={img}
+                          coupleNames={ready.preview.couple_names}
+                          onOpen={openAt}
+                          sizes="(max-width: 640px) 50vw, 45vw"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <PreviewPhoto
+                      key={group.images[0].id}
+                      image={group.images[0]}
+                      coupleNames={ready.preview.couple_names}
+                      onOpen={openAt}
+                      sizes="(max-width: 640px) 100vw, 90vw"
+                    />
+                  ),
+                )}
+              </div>
 
-            {galleryImages.length === 0 && (
-              <p className="py-16 text-center text-sm text-muted-foreground">
-                More photographs are on their way.
+              {galleryImages.length === 0 && (
+                <p className="py-16 text-center text-sm text-muted-foreground">
+                  More photographs are on their way.
+                </p>
+              )}
+            </section>
+          )}
+
+          {/* Final delivery */}
+          {showDelivery && ready.preview.full_gallery_url && (
+            <section className="border-t border-border px-6 py-16 text-center sm:py-20">
+              <h2 className="mx-auto max-w-2xl font-heading text-3xl font-light sm:text-4xl">
+                {showPreviewContent
+                  ? "Your complete gallery is ready"
+                  : deliveryHeading(ready.preview.project_type)}
+              </h2>
+              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
+                Your complete photo collection is available below.
               </p>
-            )}
-          </section>
+              <a
+                href={ready.preview.full_gallery_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-8 py-3 text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              >
+                {ready.preview.cta_label?.trim() || DEFAULT_CTA_LABEL}
+                <ArrowRight size={14} aria-hidden="true" />
+              </a>
+              {ready.preview.available_until && (
+                <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Available until {formatAvailableUntil(ready.preview.available_until)}
+                </p>
+              )}
+            </section>
+          )}
 
           {/* Share */}
           <section className="border-t border-border px-6 py-14 text-center">
-            <h2 className="font-heading text-2xl">Share this preview</h2>
+            <h2 className="font-heading text-2xl">Share this page</h2>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <button
                 type="button"
@@ -352,16 +382,18 @@ export default function Preview() {
               >
                 WhatsApp
               </a>
-              <button
-                type="button"
-                onClick={downloadAll}
-                disabled={zipping || images.length === 0}
-                aria-label="Download all photos as a ZIP archive"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <Download size={15} aria-hidden="true" />
-                {zipping ? `Preparing ${zipDone} of ${images.length}…` : "Download all"}
-              </button>
+              {showPreviewContent && images.length > 0 && (
+                <button
+                  type="button"
+                  onClick={downloadAll}
+                  disabled={zipping}
+                  aria-label="Download all photos as a ZIP archive"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Download size={15} aria-hidden="true" />
+                  {zipping ? `Preparing ${zipDone} of ${images.length}…` : "Download all"}
+                </button>
+              )}
             </div>
           </section>
 
