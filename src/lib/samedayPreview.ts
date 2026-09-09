@@ -111,7 +111,13 @@ export function buildSlug(coupleNames: string): string {
   return `${base}-${randomSuffix()}`;
 }
 
+/** Canonical client-facing path (new deliveries route). */
 export function previewPublicPath(slug: string) {
+  return `/delivery/${slug}`;
+}
+
+/** Legacy route, kept working for links already sent out. */
+export function legacyPreviewPath(slug: string) {
   return `/preview/${slug}`;
 }
 
