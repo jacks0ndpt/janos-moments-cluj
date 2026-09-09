@@ -21,6 +21,7 @@ import {
   previewImageUrl,
   previewOverline,
   previewPublicUrl,
+  projectTypeLabel,
   slugifyNames,
   type PreviewImageRow,
   type PreviewRow,
