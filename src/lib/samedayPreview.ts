@@ -7,8 +7,79 @@ export type PreviewImageRow =
   Database["public"]["Tables"]["same_day_preview_images"]["Row"];
 
 export const PREVIEW_PREFIX = "previews";
-export const DEFAULT_PREVIEW_MESSAGE = "A first glimpse of your day.";
+export const DEFAULT_PREVIEW_MESSAGE = "A first look at your photographs.";
 export const PREVIEW_CANONICAL_ORIGIN = "https://jimmyhada.com";
+export const DEFAULT_CTA_LABEL = "Download photos";
+
+export type ProjectType = Database["public"]["Enums"]["project_type"];
+export type DeliveryMode = Database["public"]["Enums"]["delivery_mode"];
+
+export const PROJECT_TYPES: { value: ProjectType; label: string }[] = [
+  { value: "wedding", label: "Wedding" },
+  { value: "baptism", label: "Baptism" },
+  { value: "event", label: "Event / Corporate" },
+  { value: "portrait", label: "Portrait / Family" },
+  { value: "other", label: "Other" },
+];
+
+export const DELIVERY_MODES: { value: DeliveryMode; label: string }[] = [
+  { value: "preview", label: "Preview only" },
+  { value: "full", label: "Full gallery only" },
+  { value: "both", label: "Preview + Full gallery" },
+];
+
+export function projectTypeLabel(t: ProjectType | null | undefined) {
+  return PROJECT_TYPES.find((p) => p.value === t)?.label ?? "Wedding";
+}
+
+export function deliveryModeLabel(m: DeliveryMode | null | undefined) {
+  return DELIVERY_MODES.find((d) => d.value === m)?.label ?? "Preview only";
+}
+
+/** Small contextual overline shown on the public preview hero. */
+export function previewOverline(t: ProjectType | null | undefined) {
+  switch (t) {
+    case "baptism":
+      return "BAPTISM PREVIEW";
+    case "event":
+      return "EVENT PREVIEW";
+    case "portrait":
+      return "SESSION PREVIEW";
+    case "other":
+      return "PHOTO PREVIEW";
+    default:
+      return "WEDDING PREVIEW";
+  }
+}
+
+/** Heading of the full-delivery section. */
+export function deliveryHeading(t: ProjectType | null | undefined) {
+  switch (t) {
+    case "baptism":
+      return "Your baptism photographs are ready.";
+    case "event":
+      return "Your event photographs are ready.";
+    case "wedding":
+      return "Your wedding photographs are ready.";
+    default:
+      return "Your photographs are ready.";
+  }
+}
+
+export function formatAvailableUntil(date: string, locale = "en-GB") {
+  const d = new Date(`${date}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return date;
+  return d.toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" });
+}
+
+export function isValidHttpsUrl(value: string) {
+  try {
+    const u = new URL(value.trim());
+    return u.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 export function previewImageUrl(storagePath: string) {
   return publicUrl(storagePath);
