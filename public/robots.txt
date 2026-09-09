@@ -21,5 +21,6 @@ Sitemap: https://jimmyhada.com/sitemap.xml
 # Disallow admin and private paths
 Disallow: /api/
 
-# Same Day Previews are private client links
+# Client deliveries are private client links
 Disallow: /preview/
+Disallow: /delivery/
