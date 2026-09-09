@@ -27,14 +27,27 @@ import {
   savedPercent,
 } from "@/lib/imageOptimizer";
 import {
+  DEFAULT_CTA_LABEL,
+  DELIVERY_MODES,
   PREVIEW_PREFIX,
+  PROJECT_TYPES,
+  isValidHttpsUrl,
   previewImageUrl,
   previewPublicPath,
   previewPublicUrl,
   removePreviewFiles,
+  type DeliveryMode,
   type PreviewImageRow,
   type PreviewRow,
+  type ProjectType,
 } from "@/lib/samedayPreview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Failed = { file: File; reason: string };
 type Stat = {
