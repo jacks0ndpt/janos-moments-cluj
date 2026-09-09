@@ -124,9 +124,14 @@ export default function Preview() {
   );
   const groups = useMemo(() => groupImages(galleryImages), [galleryImages]);
   const shareUrl = previewPublicUrl(slug);
+  const mode = ready?.preview.delivery_mode ?? "preview";
+  const showPreviewContent = mode !== "full";
+  const showDelivery = mode !== "preview";
 
   async function share() {
-    const title = ready ? `${ready.preview.couple_names} — Same Day Preview` : "Same Day Preview";
+    const title = ready
+      ? `${ready.preview.couple_names} — Jimmy Hada Photography`
+      : "Jimmy Hada Photography";
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({ title, url: shareUrl });
