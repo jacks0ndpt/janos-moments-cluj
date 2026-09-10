@@ -423,10 +423,17 @@ export default function AdminPreviewEdit() {
         </CardContent>
       </Card>
 
-      {showPreviewPhotos && (
+      {(
       <Card>
         <CardHeader>
-          <CardTitle>Photos ({images.length})</CardTitle>
+          <CardTitle>
+            {showPreviewPhotos ? `Photos (${images.length})` : "Cover image (optional)"}
+          </CardTitle>
+          {!showPreviewPhotos && (
+            <p className="text-sm text-muted-foreground">
+              Only the starred cover photo is shown on a full-gallery-only page.
+            </p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           <div
