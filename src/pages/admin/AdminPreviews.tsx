@@ -83,8 +83,8 @@ export default function AdminPreviews() {
 
   async function create() {
     const coupleNames = names.trim();
-    if (!coupleNames) return toast.error("Couple names are required");
-    if (!date) return toast.error("Wedding date is required");
+    if (!coupleNames) return toast.error("Project title is required");
+    if (!date) return toast.error("Project date is required");
     setSaving(true);
     const { data, error } = await supabase
       .from("same_day_previews")
@@ -93,6 +93,8 @@ export default function AdminPreviews() {
         wedding_date: date,
         message: message.trim() || null,
         slug: buildSlug(coupleNames),
+        project_type: projectType,
+        delivery_mode: deliveryMode,
         created_by: user?.id ?? null,
       })
       .select("*")
