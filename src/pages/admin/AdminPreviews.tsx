@@ -175,8 +175,10 @@ export default function AdminPreviews() {
                     </Badge>
                   </div>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {row.wedding_date} · {row.images.length} photo
-                    {row.images.length === 1 ? "" : "s"}
+                    {row.wedding_date} · {projectTypeLabel(row.project_type)} ·{" "}
+                    {deliveryModeLabel(row.delivery_mode)}
+                    {row.delivery_mode !== "full" &&
+                      ` · ${row.images.length} photo${row.images.length === 1 ? "" : "s"}`}
                   </p>
                   <p className="mt-1 truncate text-xs text-muted-foreground">
                     {previewPublicUrl(row.slug)}
