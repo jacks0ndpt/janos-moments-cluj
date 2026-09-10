@@ -210,12 +210,28 @@ export default function AdminPreviewEdit() {
   if (!preview)
     return (
       <div className="space-y-4">
-        <p className="text-muted-foreground">This preview no longer exists.</p>
+        <p className="text-muted-foreground">This delivery no longer exists.</p>
         <Button variant="outline" onClick={() => navigate("/admin/previews")}>
-          Back to previews
+          Back to deliveries
         </Button>
       </div>
     );
+
+  const needsFullGallery = preview.delivery_mode !== "preview";
+  const showPreviewPhotos = preview.delivery_mode !== "full";
+
+  async function togglePublish(v: boolean) {
+    if (v && needsFullGallery && !preview?.full_gallery_url?.trim()) {
+      toast.error("Add a full gallery URL before publishing");
+      return;
+    }
+    if (v && showPreviewPhotos && images.length === 0) {
+      toast.error("Add at least one photo before publishing");
+      return;
+    }
+    await patch({ is_published: v });
+  }
+
 
   return (
     <div className="w-full min-w-0 max-w-5xl space-y-6">
@@ -331,6 +347,55 @@ export default function AdminPreviewEdit() {
               onBlur={(e) => patch({ message: e.target.value.trim() || null })}
             />
           </div>
+          {needsFullGallery && (
+            <>
+              <div className="min-w-0 md:col-span-2">
+                <Label htmlFor="fullurl">Full gallery URL</Label>
+                <Input
+                  id="fullurl"
+                  className="w-full"
+                  placeholder="https://drive.google.com/..."
+                  defaultValue={preview.full_gallery_url ?? ""}
+                  onBlur={(e) => {
+                    const v = e.target.value.trim();
+                    if (v && !isValidHttpsUrl(v))
+                      return toast.error("Enter a valid https:// link");
+                    if (v !== (preview.full_gallery_url ?? ""))
+                      patch({ full_gallery_url: v || null });
+                  }}
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Google Drive, Dropbox, WeTransfer, OneDrive or any other https link.
+                </p>
+              </div>
+              <div className="min-w-0">
+                <Label htmlFor="cta">Button label</Label>
+                <Input
+                  id="cta"
+                  className="w-full"
+                  placeholder={DEFAULT_CTA_LABEL}
+                  defaultValue={preview.cta_label ?? ""}
+                  onBlur={(e) => {
+                    const v = e.target.value.trim();
+                    if (v !== (preview.cta_label ?? "")) patch({ cta_label: v || null });
+                  }}
+                />
+              </div>
+              <div className="min-w-0">
+                <Label htmlFor="until">Available until (optional)</Label>
+                <Input
+                  id="until"
+                  type="date"
+                  className="w-full"
+                  defaultValue={preview.available_until ?? ""}
+                  onBlur={(e) => {
+                    if (e.target.value !== (preview.available_until ?? ""))
+                      patch({ available_until: e.target.value || null });
+                  }}
+                />
+              </div>
+            </>
+          )}
           <div className="min-w-0 md:col-span-2">
             <Label>Public URL</Label>
             <p className="mt-1 break-all text-sm text-muted-foreground">
@@ -342,20 +407,33 @@ export default function AdminPreviewEdit() {
               id="pub"
               className="mt-0.5 shrink-0"
               checked={preview.is_published}
-              onCheckedChange={(v) => patch({ is_published: v })}
+              onCheckedChange={togglePublish}
               disabled={saving}
             />
             <Label htmlFor="pub" className="min-w-0 leading-snug">
-              Published (the link works for the couple)
+              Published (the link works for the client)
             </Label>
           </div>
+          {needsFullGallery && !preview.full_gallery_url && (
+            <p className="text-sm text-destructive md:col-span-2">
+              A full gallery URL is required before this delivery can be published.
+            </p>
+          )}
 
         </CardContent>
       </Card>
 
+      {(
       <Card>
         <CardHeader>
-          <CardTitle>Photos ({images.length})</CardTitle>
+          <CardTitle>
+            {showPreviewPhotos ? `Photos (${images.length})` : "Cover image (optional)"}
+          </CardTitle>
+          {!showPreviewPhotos && (
+            <p className="text-sm text-muted-foreground">
+              Only the starred cover photo is shown on a full-gallery-only page.
+            </p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           <div
@@ -428,6 +506,7 @@ export default function AdminPreviewEdit() {
           )}
         </CardContent>
       </Card>
+      )}
     </div>
   );
 }

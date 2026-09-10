@@ -243,12 +243,12 @@ export default function Preview() {
             Jimmy Hada Photography
           </p>
           <h1 className="mt-6 font-heading text-3xl sm:text-4xl">
-            {state.status === "missing" ? "This preview is not available" : "Something went wrong"}
+            {state.status === "missing" ? "This page is not available" : "Something went wrong"}
           </h1>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
             {state.status === "missing"
-              ? "The link may have changed or the preview is no longer published. Please check with us and we will send it again."
-              : "We could not load this preview right now. Please try again in a moment."}
+              ? "The link may have changed or the page is no longer published. Please check with us and we will send it again."
+              : "We could not load this page right now. Please try again in a moment."}
           </p>
           <Link
             to="/"

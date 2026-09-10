@@ -19,14 +19,27 @@ import { toast } from "sonner";
 import { Copy, ExternalLink, Pencil, Plus, Trash2 } from "lucide-react";
 import {
   DEFAULT_PREVIEW_MESSAGE,
+  DELIVERY_MODES,
+  PROJECT_TYPES,
   buildSlug,
   deletePreview,
+  deliveryModeLabel,
   previewImageUrl,
   previewPublicPath,
   previewPublicUrl,
+  projectTypeLabel,
+  type DeliveryMode,
   type PreviewImageRow,
   type PreviewRow,
+  type ProjectType,
 } from "@/lib/samedayPreview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Row = PreviewRow & { images: PreviewImageRow[] };
 
@@ -39,6 +52,8 @@ export default function AdminPreviews() {
   const [names, setNames] = useState("");
   const [date, setDate] = useState("");
   const [message, setMessage] = useState(DEFAULT_PREVIEW_MESSAGE);
+  const [projectType, setProjectType] = useState<ProjectType>("wedding");
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("preview");
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Row | null>(null);
 
@@ -68,8 +83,8 @@ export default function AdminPreviews() {
 
   async function create() {
     const coupleNames = names.trim();
-    if (!coupleNames) return toast.error("Couple names are required");
-    if (!date) return toast.error("Wedding date is required");
+    if (!coupleNames) return toast.error("Project title is required");
+    if (!date) return toast.error("Project date is required");
     setSaving(true);
     const { data, error } = await supabase
       .from("same_day_previews")
@@ -78,6 +93,8 @@ export default function AdminPreviews() {
         wedding_date: date,
         message: message.trim() || null,
         slug: buildSlug(coupleNames),
+        project_type: projectType,
+        delivery_mode: deliveryMode,
         created_by: user?.id ?? null,
       })
       .select("*")
@@ -115,9 +132,9 @@ export default function AdminPreviews() {
   return (
     <div className="w-full min-w-0 max-w-5xl space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-serif sm:text-2xl">Same Day Previews</h1>
+        <h1 className="text-xl font-serif sm:text-2xl">Client Deliveries</h1>
         <Button onClick={() => setCreateOpen(true)} className="w-full sm:w-auto">
-          <Plus size={16} className="mr-2" /> Create Preview
+          <Plus size={16} className="mr-2" /> Create Delivery
         </Button>
       </div>
 
@@ -127,8 +144,8 @@ export default function AdminPreviews() {
       {!loading && rows.length === 0 && (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-            <p className="text-muted-foreground">No Same Day Previews yet.</p>
-            <Button onClick={() => setCreateOpen(true)}>Create your first preview</Button>
+            <p className="text-muted-foreground">No client deliveries yet.</p>
+            <Button onClick={() => setCreateOpen(true)}>Create your first delivery</Button>
           </CardContent>
         </Card>
       )}
@@ -158,8 +175,10 @@ export default function AdminPreviews() {
                     </Badge>
                   </div>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {row.wedding_date} · {row.images.length} photo
-                    {row.images.length === 1 ? "" : "s"}
+                    {row.wedding_date} · {projectTypeLabel(row.project_type)} ·{" "}
+                    {deliveryModeLabel(row.delivery_mode)}
+                    {row.delivery_mode !== "full" &&
+                      ` · ${row.images.length} photo${row.images.length === 1 ? "" : "s"}`}
                   </p>
                   <p className="mt-1 truncate text-xs text-muted-foreground">
                     {previewPublicUrl(row.slug)}
@@ -197,11 +216,11 @@ export default function AdminPreviews() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create preview</DialogTitle>
+            <DialogTitle>Create delivery</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="names">Couple names</Label>
+              <Label htmlFor="names">Project title</Label>
               <Input
                 id="names"
                 value={names}
@@ -210,13 +229,46 @@ export default function AdminPreviews() {
               />
             </div>
             <div>
-              <Label htmlFor="date">Wedding date</Label>
+              <Label htmlFor="date">Project date</Label>
               <Input
                 id="date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />
+            </div>
+            <div>
+              <Label>Project type</Label>
+              <Select value={projectType} onValueChange={(v) => setProjectType(v as ProjectType)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {PROJECT_TYPES.map((p) => (
+                    <SelectItem key={p.value} value={p.value}>
+                      {p.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Delivery content</Label>
+              <Select
+                value={deliveryMode}
+                onValueChange={(v) => setDeliveryMode(v as DeliveryMode)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {DELIVERY_MODES.map((d) => (
+                    <SelectItem key={d.value} value={d.value}>
+                      {d.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <Label htmlFor="msg">Short message (optional)</Label>
