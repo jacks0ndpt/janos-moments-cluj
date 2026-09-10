@@ -218,7 +218,7 @@ export default function AdminPreviews() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="names">Couple names</Label>
+              <Label htmlFor="names">Project title</Label>
               <Input
                 id="names"
                 value={names}
@@ -227,13 +227,46 @@ export default function AdminPreviews() {
               />
             </div>
             <div>
-              <Label htmlFor="date">Wedding date</Label>
+              <Label htmlFor="date">Project date</Label>
               <Input
                 id="date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />
+            </div>
+            <div>
+              <Label>Project type</Label>
+              <Select value={projectType} onValueChange={(v) => setProjectType(v as ProjectType)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {PROJECT_TYPES.map((p) => (
+                    <SelectItem key={p.value} value={p.value}>
+                      {p.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Delivery content</Label>
+              <Select
+                value={deliveryMode}
+                onValueChange={(v) => setDeliveryMode(v as DeliveryMode)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {DELIVERY_MODES.map((d) => (
+                    <SelectItem key={d.value} value={d.value}>
+                      {d.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <Label htmlFor="msg">Short message (optional)</Label>
