@@ -216,7 +216,7 @@ export default function AdminPreviews() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create preview</DialogTitle>
+            <DialogTitle>Create delivery</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
