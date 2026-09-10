@@ -331,6 +331,55 @@ export default function AdminPreviewEdit() {
               onBlur={(e) => patch({ message: e.target.value.trim() || null })}
             />
           </div>
+          {needsFullGallery && (
+            <>
+              <div className="min-w-0 md:col-span-2">
+                <Label htmlFor="fullurl">Full gallery URL</Label>
+                <Input
+                  id="fullurl"
+                  className="w-full"
+                  placeholder="https://drive.google.com/..."
+                  defaultValue={preview.full_gallery_url ?? ""}
+                  onBlur={(e) => {
+                    const v = e.target.value.trim();
+                    if (v && !isValidHttpsUrl(v))
+                      return toast.error("Enter a valid https:// link");
+                    if (v !== (preview.full_gallery_url ?? ""))
+                      patch({ full_gallery_url: v || null });
+                  }}
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Google Drive, Dropbox, WeTransfer, OneDrive or any other https link.
+                </p>
+              </div>
+              <div className="min-w-0">
+                <Label htmlFor="cta">Button label</Label>
+                <Input
+                  id="cta"
+                  className="w-full"
+                  placeholder={DEFAULT_CTA_LABEL}
+                  defaultValue={preview.cta_label ?? ""}
+                  onBlur={(e) => {
+                    const v = e.target.value.trim();
+                    if (v !== (preview.cta_label ?? "")) patch({ cta_label: v || null });
+                  }}
+                />
+              </div>
+              <div className="min-w-0">
+                <Label htmlFor="until">Available until (optional)</Label>
+                <Input
+                  id="until"
+                  type="date"
+                  className="w-full"
+                  defaultValue={preview.available_until ?? ""}
+                  onBlur={(e) => {
+                    if (e.target.value !== (preview.available_until ?? ""))
+                      patch({ available_until: e.target.value || null });
+                  }}
+                />
+              </div>
+            </>
+          )}
           <div className="min-w-0 md:col-span-2">
             <Label>Public URL</Label>
             <p className="mt-1 break-all text-sm text-muted-foreground">
@@ -342,13 +391,18 @@ export default function AdminPreviewEdit() {
               id="pub"
               className="mt-0.5 shrink-0"
               checked={preview.is_published}
-              onCheckedChange={(v) => patch({ is_published: v })}
+              onCheckedChange={togglePublish}
               disabled={saving}
             />
             <Label htmlFor="pub" className="min-w-0 leading-snug">
-              Published (the link works for the couple)
+              Published (the link works for the client)
             </Label>
           </div>
+          {needsFullGallery && !preview.full_gallery_url && (
+            <p className="text-sm text-destructive md:col-span-2">
+              A full gallery URL is required before this delivery can be published.
+            </p>
+          )}
 
         </CardContent>
       </Card>
