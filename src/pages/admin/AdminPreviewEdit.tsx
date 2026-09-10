@@ -423,6 +423,7 @@ export default function AdminPreviewEdit() {
         </CardContent>
       </Card>
 
+      {showPreviewPhotos && (
       <Card>
         <CardHeader>
           <CardTitle>Photos ({images.length})</CardTitle>
