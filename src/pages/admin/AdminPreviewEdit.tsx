@@ -210,12 +210,28 @@ export default function AdminPreviewEdit() {
   if (!preview)
     return (
       <div className="space-y-4">
-        <p className="text-muted-foreground">This preview no longer exists.</p>
+        <p className="text-muted-foreground">This delivery no longer exists.</p>
         <Button variant="outline" onClick={() => navigate("/admin/previews")}>
-          Back to previews
+          Back to deliveries
         </Button>
       </div>
     );
+
+  const needsFullGallery = preview.delivery_mode !== "preview";
+  const showPreviewPhotos = preview.delivery_mode !== "full";
+
+  async function togglePublish(v: boolean) {
+    if (v && needsFullGallery && !preview?.full_gallery_url?.trim()) {
+      toast.error("Add a full gallery URL before publishing");
+      return;
+    }
+    if (v && showPreviewPhotos && images.length === 0) {
+      toast.error("Add at least one photo before publishing");
+      return;
+    }
+    await patch({ is_published: v });
+  }
+
 
   return (
     <div className="w-full min-w-0 max-w-5xl space-y-6">
