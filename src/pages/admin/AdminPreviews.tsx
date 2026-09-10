@@ -132,9 +132,9 @@ export default function AdminPreviews() {
   return (
     <div className="w-full min-w-0 max-w-5xl space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-serif sm:text-2xl">Same Day Previews</h1>
+        <h1 className="text-xl font-serif sm:text-2xl">Client Deliveries</h1>
         <Button onClick={() => setCreateOpen(true)} className="w-full sm:w-auto">
-          <Plus size={16} className="mr-2" /> Create Preview
+          <Plus size={16} className="mr-2" /> Create Delivery
         </Button>
       </div>
 
@@ -144,8 +144,8 @@ export default function AdminPreviews() {
       {!loading && rows.length === 0 && (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 py-16 text-center">
-            <p className="text-muted-foreground">No Same Day Previews yet.</p>
-            <Button onClick={() => setCreateOpen(true)}>Create your first preview</Button>
+            <p className="text-muted-foreground">No client deliveries yet.</p>
+            <Button onClick={() => setCreateOpen(true)}>Create your first delivery</Button>
           </CardContent>
         </Card>
       )}
