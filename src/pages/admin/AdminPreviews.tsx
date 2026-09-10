@@ -19,14 +19,27 @@ import { toast } from "sonner";
 import { Copy, ExternalLink, Pencil, Plus, Trash2 } from "lucide-react";
 import {
   DEFAULT_PREVIEW_MESSAGE,
+  DELIVERY_MODES,
+  PROJECT_TYPES,
   buildSlug,
   deletePreview,
+  deliveryModeLabel,
   previewImageUrl,
   previewPublicPath,
   previewPublicUrl,
+  projectTypeLabel,
+  type DeliveryMode,
   type PreviewImageRow,
   type PreviewRow,
+  type ProjectType,
 } from "@/lib/samedayPreview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Row = PreviewRow & { images: PreviewImageRow[] };
 
