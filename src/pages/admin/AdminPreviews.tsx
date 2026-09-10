@@ -52,6 +52,8 @@ export default function AdminPreviews() {
   const [names, setNames] = useState("");
   const [date, setDate] = useState("");
   const [message, setMessage] = useState(DEFAULT_PREVIEW_MESSAGE);
+  const [projectType, setProjectType] = useState<ProjectType>("wedding");
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("preview");
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Row | null>(null);
 
