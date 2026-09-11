@@ -24,6 +24,9 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  const isHome = location.pathname === '/';
+  const overHero = isHome && !isScrolled;
+
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/portfolio', label: t('nav.portfolio') },
@@ -39,13 +42,13 @@ const Header = () => {
         isScrolled
           ? 'bg-background/95 backdrop-blur-md shadow-sm py-3'
           : 'bg-transparent py-5'
-      }`}
+      } ${overHero ? 'nav-over-hero' : ''}`}
     >
       {/* Subtle scrim so nav stays readable over any hero photograph */}
       <div
         aria-hidden="true"
         className={`pointer-events-none absolute inset-x-0 top-0 h-[110px] transition-opacity duration-500 ${
-          isScrolled ? 'opacity-0' : 'opacity-100'
+          overHero ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
           background:
