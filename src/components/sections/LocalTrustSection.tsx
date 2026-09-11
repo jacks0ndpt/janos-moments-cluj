@@ -4,8 +4,8 @@ const LocalTrustSection = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-12 bg-background">
-      <div className="container-wide px-6 lg:px-12 text-center">
+    <section className="py-12 px-6 md:px-12 lg:px-20 bg-background">
+      <div className="container-wide text-center">
         <p className="text-muted-foreground text-sm leading-relaxed">
           {t('footer.location.based')}
           <br />
