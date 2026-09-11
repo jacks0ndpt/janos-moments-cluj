@@ -154,6 +154,14 @@
     --ring: 34 40% 68%;
   }
 
+  /* Scoped token override so the transparent header stays readable
+     over the hero photograph, bright or dark. */
+  .nav-over-hero {
+    --foreground: 40 30% 98%;
+    --muted-foreground: 40 20% 88%;
+    --border: 40 20% 80%;
+  }
+
   .image-cover {
     @apply w-full h-full object-cover;
   }

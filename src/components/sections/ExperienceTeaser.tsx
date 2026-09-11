@@ -67,8 +67,11 @@ const ExperienceTeaser = () => {
       };
 
   return (
-    <section className="py-20 md:py-32 bg-card" aria-labelledby="experience-teaser-heading">
-      <div className="container-wide px-6 lg:px-12">
+    <section
+      className="py-20 md:py-32 px-6 md:px-12 lg:px-20 bg-card"
+      aria-labelledby="experience-teaser-heading"
+    >
+      <div className="container-wide">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-x-16 md:gap-y-8 md:items-center">
           {/* Image — desktop left column, mobile after the paragraph */}
           <motion.div {...fade} className="order-2 md:order-none md:col-span-6 md:row-span-2 md:self-center">

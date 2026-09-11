@@ -24,6 +24,9 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  const isHome = location.pathname === '/';
+  const overHero = isHome && !isScrolled;
+
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/portfolio', label: t('nav.portfolio') },
@@ -39,9 +42,20 @@ const Header = () => {
         isScrolled
           ? 'bg-background/95 backdrop-blur-md shadow-sm py-3'
           : 'bg-transparent py-5'
-      }`}
+      } ${overHero ? 'nav-over-hero' : ''}`}
     >
-      <div className="container-wide px-6 lg:px-12">
+      {/* Subtle scrim so nav stays readable over any hero photograph */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-x-0 top-0 h-[110px] transition-opacity duration-500 ${
+          overHero ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          background:
+            'linear-gradient(180deg, hsl(30 10% 8% / 0.55) 0%, hsl(30 10% 8% / 0.28) 55%, hsl(30 10% 8% / 0) 100%)',
+        }}
+      />
+      <div className="relative container-wide px-6 md:px-12 lg:px-20">
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Link
