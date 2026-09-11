@@ -57,7 +57,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.body': "I observe and let the day unfold naturally, stepping in when it matters. The most meaningful images often appear between the planned moments.",
     'about.philosophy.title': 'How I Work',
     'about.philosophy.body': 'I stay present throughout the day, stepping in when needed, without being intrusive. I focus on laughter, tears, and small gestures that often go unnoticed, but end up meaning the most.',
-    'about.cta': 'See my work',
+    'about.cta': 'Learn more about me',
 
     // Services
     'services.title': 'Services & Pricing',
@@ -166,7 +166,7 @@ const translations: Record<Language, Record<string, string>> = {
     'about.body': 'Observ și las ziua să se desfășoare natural. Cele mai puternice imagini apar, de multe ori, între momentele planificate.',
     'about.philosophy.title': 'Abordarea mea',
     'about.philosophy.body': 'Sunt prezent pe tot parcursul zilei și mă adaptez fiecărui moment, cu discreție. Mă concentrez pe râsete, emoții și gesturi mici care trec adesea neobservate, dar ajung să conteze cel mai mult.',
-    'about.cta': 'Vezi portofoliul',
+    'about.cta': 'Află mai multe despre mine',
 
     // Services
     'services.title': 'Servicii & Prețuri',
