@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ type EventRow = {
   event_type: string;
   other_event_type: string | null;
   price: number | null;
+  event_date: string | null;
   created_at: string;
 };
 
@@ -30,7 +31,15 @@ const emptyForm = {
   event_type: "Wedding",
   other_event_type: "",
   price: "",
+  event_date: "",
 };
+
+const SORT_OPTIONS = [
+  { value: "dateNewest", label: "Date newest first" },
+  { value: "dateOldest", label: "Date oldest first" },
+  { value: "name", label: "Name" },
+  { value: "price", label: "Price" },
+] as const;
 
 export default function AdminEvents() {
   const { toast } = useToast();
@@ -39,6 +48,8 @@ export default function AdminEvents() {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+  const [filterType, setFilterType] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<string>("dateNewest");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -76,6 +87,7 @@ export default function AdminEvents() {
       event_type: form.event_type,
       other_event_type: form.event_type === "Other" ? form.other_event_type.trim() || null : null,
       price: form.price.trim() === "" ? null : Number(form.price),
+      event_date: form.event_date.trim() === "" ? null : form.event_date.trim(),
     };
     const { error } = editingId
       ? await supabase.from("events").update(payload).eq("id", editingId)
@@ -100,6 +112,7 @@ export default function AdminEvents() {
         : "Other",
       other_event_type: ev.other_event_type ?? "",
       price: ev.price === null ? "" : String(ev.price),
+      event_date: ev.event_date ?? "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -120,6 +133,46 @@ export default function AdminEvents() {
     ev.event_type === "Other" && ev.other_event_type
       ? ev.other_event_type
       : ev.event_type;
+
+  const formatEventDate = (d: string) =>
+    new Date(`${d}T00:00:00`).toLocaleDateString("ro-RO", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+
+  const filteredEvents = useMemo(() => {
+    const filtered =
+      filterType === "All"
+        ? events
+        : events.filter((ev) => ev.event_type === filterType);
+
+    return [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case "dateNewest": {
+          if (!a.event_date && !b.event_date) return 0;
+          if (!a.event_date) return 1;
+          if (!b.event_date) return -1;
+          return new Date(b.event_date).getTime() - new Date(a.event_date).getTime();
+        }
+        case "dateOldest": {
+          if (!a.event_date && !b.event_date) return 0;
+          if (!a.event_date) return 1;
+          if (!b.event_date) return -1;
+          return new Date(a.event_date).getTime() - new Date(b.event_date).getTime();
+        }
+        case "name":
+          return a.name.localeCompare(b.name);
+        case "price": {
+          const ap = a.price ?? Infinity;
+          const bp = b.price ?? Infinity;
+          return ap - bp;
+        }
+        default:
+          return 0;
+      }
+    });
+  }, [events, filterType, sortBy]);
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -195,6 +248,16 @@ export default function AdminEvents() {
               className="w-full"
             />
           </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="ev-date">Event date</Label>
+            <Input
+              id="ev-date"
+              type="date"
+              value={form.event_date}
+              onChange={(e) => setForm({ ...form, event_date: e.target.value })}
+              className="w-full"
+            />
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button type="submit" disabled={saving}>
@@ -210,16 +273,52 @@ export default function AdminEvents() {
 
       {/* List */}
       <div className="space-y-3">
-        <h2 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-          Saved events
-        </h2>
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+          <h2 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            Saved events
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm text-muted-foreground whitespace-nowrap">Filter</Label>
+              <Select value={filterType} onValueChange={setFilterType}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All</SelectItem>
+                  {EVENT_TYPES.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Label className="text-sm text-muted-foreground whitespace-nowrap">Sort</Label>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SORT_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
         {loading ? (
           <p className="text-sm text-muted-foreground">Loading…</p>
-        ) : events.length === 0 ? (
+        ) : filteredEvents.length === 0 ? (
           <p className="text-sm text-muted-foreground">No events yet.</p>
         ) : (
           <ul className="divide-y border rounded-lg overflow-hidden">
-            {events.map((ev) => (
+            {filteredEvents.map((ev) => (
               <li
                 key={ev.id}
                 className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-4 py-3 bg-card"
@@ -228,6 +327,7 @@ export default function AdminEvents() {
                   <div className="font-medium truncate">{ev.name}</div>
                   <div className="text-sm text-muted-foreground break-words">
                     {ev.location || "—"} · {typeLabel(ev)}
+                    {ev.event_date && ` · ${formatEventDate(ev.event_date)}`}
                     {ev.price !== null && ` · ${ev.price}€`}
                   </div>
                 </div>
