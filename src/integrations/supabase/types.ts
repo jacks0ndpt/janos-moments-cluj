@@ -58,6 +58,7 @@ export type Database = {
       events: {
         Row: {
           created_at: string
+          event_date: string | null
           event_type: string
           id: string
           location: string | null
@@ -68,6 +69,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          event_date?: string | null
           event_type?: string
           id?: string
           location?: string | null
@@ -78,6 +80,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          event_date?: string | null
           event_type?: string
           id?: string
           location?: string | null
