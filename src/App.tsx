@@ -103,6 +103,7 @@ const App = () => {
                   <Route path="services" element={<AdminServices />} />
                   <Route path="previews" element={<AdminPreviews />} />
                   <Route path="previews/:id" element={<AdminPreviewEdit />} />
+                  <Route path="events" element={<AdminEvents />} />
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />
