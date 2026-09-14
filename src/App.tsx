@@ -33,6 +33,7 @@ import AdminExperience from "./pages/admin/AdminExperience";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminPreviews from "./pages/admin/AdminPreviews";
 import AdminPreviewEdit from "./pages/admin/AdminPreviewEdit";
+import AdminEvents from "./pages/admin/AdminEvents";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
@@ -102,6 +103,7 @@ const App = () => {
                   <Route path="services" element={<AdminServices />} />
                   <Route path="previews" element={<AdminPreviews />} />
                   <Route path="previews/:id" element={<AdminPreviewEdit />} />
+                  <Route path="events" element={<AdminEvents />} />
                   <Route path="stories" element={<AdminStories />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />

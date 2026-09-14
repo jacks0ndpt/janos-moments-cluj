@@ -55,6 +55,39 @@ export type Database = {
           },
         ]
       }
+      events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          location: string | null
+          name: string
+          other_event_type: string | null
+          price: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          location?: string | null
+          name: string
+          other_event_type?: string | null
+          price?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          location?: string | null
+          name?: string
+          other_event_type?: string | null
+          price?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       experience_page: {
         Row: {
           content: Json
