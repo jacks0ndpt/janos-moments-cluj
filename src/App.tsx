@@ -33,6 +33,7 @@ import AdminExperience from "./pages/admin/AdminExperience";
 import AdminServices from "./pages/admin/AdminServices";
 import AdminPreviews from "./pages/admin/AdminPreviews";
 import AdminPreviewEdit from "./pages/admin/AdminPreviewEdit";
+import AdminEvents from "./pages/admin/AdminEvents";
 import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient({
