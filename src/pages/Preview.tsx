@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -67,6 +67,8 @@ export default function Preview() {
   const [zipping, setZipping] = useState(false);
   const [zipDone, setZipDone] = useState(0);
   const [showTop, setShowTop] = useState(false);
+  const [shareInView, setShareInView] = useState(false);
+  const shareSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > window.innerHeight * 0.9);
@@ -76,6 +78,16 @@ export default function Preview() {
   }, []);
 
 
+
+  useEffect(() => {
+    const el = shareSectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setShareInView(e.isIntersecting), {
+      rootMargin: "0px 0px 80px 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [state.status]);
 
   useEffect(() => {
     let active = true;
@@ -124,6 +136,12 @@ export default function Preview() {
     [images, cover],
   );
   const groups = useMemo(() => groupImages(galleryImages), [galleryImages]);
+  // Single ordered collection for lightbox + Download All: hero first, then
+  // the remaining gallery images. Each image appears exactly once.
+  const allImages = useMemo(
+    () => (cover ? [cover, ...galleryImages] : galleryImages),
+    [cover, galleryImages],
+  );
   const shareUrl = previewPublicUrl(slug);
   const mode = ready?.preview.delivery_mode ?? "preview";
   const showPreviewContent = mode !== "full";
@@ -154,21 +172,21 @@ export default function Preview() {
   }
 
   const openAt = (image: PreviewImageRow) => {
-    const i = images.findIndex((x) => x.id === image.id);
+    const i = allImages.findIndex((x) => x.id === image.id);
     if (i >= 0) setLightbox(i);
   };
 
   async function downloadAll() {
-    if (!ready || zipping || images.length === 0) return;
+    if (!ready || zipping || allImages.length === 0) return;
     const base = slugifyNames(ready.preview.couple_names) || "same-day";
     setZipping(true);
     setZipDone(0);
     const files: Record<string, Uint8Array> = {};
     let failed = 0;
     try {
-      for (let i = 0; i < images.length; i++) {
+      for (let i = 0; i < allImages.length; i++) {
         try {
-          const res = await fetch(previewImageUrl(images[i].storage_path));
+          const res = await fetch(previewImageUrl(allImages[i].storage_path));
           if (!res.ok) throw new Error(String(res.status));
           const buf = new Uint8Array(await res.arrayBuffer());
           files[`${base}-${String(i + 1).padStart(2, "0")}.jpg`] = buf;
@@ -213,20 +231,28 @@ export default function Preview() {
         </title>
         <meta name="robots" content="noindex, nofollow" />
         <meta name="googlebot" content="noindex, nofollow" />
+        <link rel="canonical" href={shareUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Jimmy Hada Photography" />
+        <meta property="og:url" content={shareUrl} />
+        <meta
+          property="og:title"
+          content={ready ? ready.preview.couple_names : "Jimmy Hada Photography"}
+        />
+        <meta property="og:description" content="Photography by Jimmy Hada" />
+        {cover && <meta property="og:image" content={previewImageUrl(cover.storage_path)} />}
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       {/* Restrained branding */}
       <header className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-5 py-4 sm:px-8">
-        <span className="font-heading text-lg tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
-          Jimmy Hada
-        </span>
         <a
-          href="/"
+          href="https://jimmyhada.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[11px] uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="font-heading text-lg tracking-wide text-foreground drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)] transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
-          Back to website
+          Jimmy Hada
         </a>
 
       </header>
@@ -263,6 +289,14 @@ export default function Preview() {
         <main className="relative">
           {/* Hero */}
           <section className="relative flex h-[100svh] min-h-[560px] w-full items-end overflow-hidden">
+            {cover && showPreviewContent && (
+              <button
+                type="button"
+                onClick={() => setLightbox(0)}
+                aria-label="Open cover photograph"
+                className="absolute inset-0 z-[5] cursor-zoom-in focus:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring"
+              />
+            )}
             {cover && (
               <img
                 src={previewImageUrl(cover.storage_path)}
@@ -277,7 +311,7 @@ export default function Preview() {
               aria-hidden="true"
               className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/85"
             />
-            <div className="relative z-10 w-full px-6 pb-20 text-center sm:pb-24">
+            <div className="pointer-events-none relative z-10 w-full px-6 pb-20 text-center sm:pb-24">
               <p className="text-[10px] uppercase tracking-[0.35em] text-primary sm:text-[11px]">
                 {showPreviewContent
                   ? previewOverline(ready.preview.project_type)
@@ -371,7 +405,7 @@ export default function Preview() {
           )}
 
           {/* Share */}
-          <section className="border-t border-border px-6 py-14 text-center">
+          <section ref={shareSectionRef} className="border-t border-border px-6 py-14 text-center">
             <h2 className="font-heading text-2xl">Share this page</h2>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <button
@@ -396,7 +430,7 @@ export default function Preview() {
               >
                 WhatsApp
               </a>
-              {showPreviewContent && images.length > 0 && (
+              {showPreviewContent && allImages.length > 0 && (
                 <button
                   type="button"
                   onClick={downloadAll}
@@ -405,7 +439,7 @@ export default function Preview() {
                   className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] transition-colors hover:border-primary hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Download size={15} aria-hidden="true" />
-                  {zipping ? `Preparing ${zipDone} of ${images.length}…` : "Download all"}
+                  {zipping ? `Preparing ${zipDone} of ${allImages.length}…` : "Download all"}
                 </button>
               )}
             </div>
@@ -424,7 +458,14 @@ export default function Preview() {
             </a>
 
             <div className="mt-12 flex flex-col items-center gap-3 text-muted-foreground">
-              <span className="font-heading text-base tracking-wide">Jimmy Hada Photography</span>
+              <a
+                href="https://jimmyhada.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-heading text-base tracking-wide transition-colors hover:text-primary"
+              >
+                Jimmy Hada Photography
+              </a>
               <a
                 href="https://instagram.com/jimmyhada.studio"
                 target="_blank"
@@ -450,9 +491,48 @@ export default function Preview() {
       )}
 
 
-      {ready && Lightbox && lightbox !== null && images[lightbox] && (
+      {ready && (
+        <div
+          aria-hidden={!(showTop && !shareInView && lightbox === null)}
+          className={`fixed inset-x-0 z-40 flex justify-center transition-opacity duration-300 sm:hidden ${
+            showTop && !shareInView && lightbox === null
+              ? "opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
+          style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 20px)" }}
+        >
+          <div className="flex items-center rounded-full border border-foreground/15 bg-background/85 p-1 shadow-lg backdrop-blur-md">
+            <button
+              type="button"
+              onClick={share}
+              tabIndex={showTop && !shareInView && lightbox === null ? 0 : -1}
+              className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-[11px] uppercase tracking-[0.16em] text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              <Share2 size={15} aria-hidden="true" /> Share
+            </button>
+            {showPreviewContent && allImages.length > 0 && (
+              <>
+                <span aria-hidden="true" className="h-5 w-px bg-foreground/20" />
+                <button
+                  type="button"
+                  onClick={downloadAll}
+                  disabled={zipping}
+                  tabIndex={showTop && !shareInView && lightbox === null ? 0 : -1}
+                  className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-[11px] uppercase tracking-[0.16em] text-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-60"
+                >
+                  <Download size={15} aria-hidden="true" />
+                  {zipping ? `${zipDone} / ${allImages.length}` : "Download all"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {ready && Lightbox && lightbox !== null && allImages[lightbox] && (
         <Lightbox
-          images={images}
+          images={allImages}
+          shareUrl={shareUrl}
           index={lightbox}
           coupleNames={ready.preview.couple_names}
           onClose={() => setLightbox(null)}

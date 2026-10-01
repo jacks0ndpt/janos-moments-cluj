@@ -1,28 +1,38 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Share2, X } from "lucide-react";
+import { toast } from "sonner";
 import { previewImageUrl, type PreviewImageRow } from "@/lib/samedayPreview";
 
 type Props = {
   images: PreviewImageRow[];
   index: number;
   coupleNames: string;
+  shareUrl?: string;
   onClose: () => void;
   onIndexChange: (i: number) => void;
 };
+
+// Swipe hint is shown only on the first open during a page visit.
+let hintShown = false;
+
+const ctrl =
+  "flex h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-white/10 px-3 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 disabled:opacity-60";
 
 export default function PreviewLightbox(props: Props) {
   const {
     images = [],
     index = 0,
     coupleNames = "",
+    shareUrl = typeof window !== "undefined" ? window.location.href : "",
     onClose = () => undefined,
     onIndexChange = () => undefined,
   } = props ?? ({} as Props);
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [downloading, setDownloading] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [showHint, setShowHint] = useState(() => !hintShown && images.length > 1);
   const image = images[index];
-
 
   const next = useCallback(
     () => images.length && onIndexChange((index + 1) % images.length),
@@ -33,6 +43,12 @@ export default function PreviewLightbox(props: Props) {
     [index, images.length, onIndexChange],
   );
 
+  useEffect(() => {
+    if (!showHint) return;
+    hintShown = true;
+    const t = setTimeout(() => setShowHint(false), 1800);
+    return () => clearTimeout(t);
+  }, [showHint]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -50,18 +66,20 @@ export default function PreviewLightbox(props: Props) {
     };
   }, [next, prev, onClose]);
 
+  const fileName = () =>
+    `${coupleNames.replace(/[^\w]+/g, "-").toLowerCase()}-${index + 1}.jpg`;
+
   async function download() {
     if (!image || downloading) return;
     setDownloading(true);
     const url = previewImageUrl(image.storage_path);
-    const name = `${coupleNames.replace(/[^\w]+/g, "-").toLowerCase()}-${index + 1}.jpg`;
     try {
       const res = await fetch(url);
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = objectUrl;
-      a.download = name;
+      a.download = fileName();
       a.click();
       setTimeout(() => URL.revokeObjectURL(objectUrl), 2000);
     } catch {
@@ -71,14 +89,55 @@ export default function PreviewLightbox(props: Props) {
     }
   }
 
+  async function share() {
+    if (!image || sharing) return;
+    setSharing(true);
+    const title = `${coupleNames} — Jimmy Hada Photography`;
+    try {
+      if (navigator.share) {
+        // Try sharing the actual photo file first.
+        try {
+          if (navigator.canShare) {
+            const res = await fetch(previewImageUrl(image.storage_path));
+            const blob = await res.blob();
+            const file = new File([blob], fileName(), { type: blob.type || "image/jpeg" });
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({ files: [file], title });
+              return;
+            }
+          }
+        } catch (err) {
+          if ((err as DOMException)?.name === "AbortError") return;
+        }
+        try {
+          await navigator.share({ title, url: shareUrl });
+          return;
+        } catch (err) {
+          if ((err as DOMException)?.name === "AbortError") return;
+        }
+      }
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success("Link copied");
+    } catch {
+      toast.error("Could not share this photo");
+    } finally {
+      setSharing(false);
+    }
+  }
+
   if (!image) return null;
+
+  const closeIfBackdrop = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) onClose();
+  };
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={`${coupleNames} — photo ${index + 1} of ${images.length}`}
-      className="fixed inset-0 z-50 flex flex-col bg-background/98 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
+      className="fixed inset-0 z-50 flex flex-col bg-[hsl(28_8%_3%)] animate-[fadeIn_0.2s_ease-out]"
+      onClick={closeIfBackdrop}
       onTouchStart={(e) => {
         const t = e.touches[0];
         touchStart.current = { x: t.clientX, y: t.clientY };
@@ -96,35 +155,40 @@ export default function PreviewLightbox(props: Props) {
         }
       }}
     >
-      <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-        <span className="text-xs tracking-[0.2em] text-muted-foreground">
+      <div
+        className="flex items-center justify-between gap-2 px-3 py-3 sm:px-6"
+        onClick={closeIfBackdrop}
+      >
+        <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs tracking-[0.18em] text-white">
           {index + 1} / {images.length}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={share} aria-label="Share this photo" className={ctrl} disabled={sharing}>
+            <Share2 size={18} aria-hidden="true" />
+            <span className="hidden text-xs tracking-wide sm:inline">Share</span>
+          </button>
           <button
             type="button"
             onClick={download}
             aria-label="Download this photo"
-            className="flex items-center gap-2 rounded-full px-3 py-2 text-xs tracking-wide text-foreground/80 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className={ctrl}
+            disabled={downloading}
           >
-            <Download size={16} aria-hidden="true" />
-            <span className="hidden sm:inline">
-              {downloading ? "Preparing…" : "Download this photo"}
+            <Download size={18} aria-hidden="true" />
+            <span className="hidden text-xs tracking-wide sm:inline">
+              {downloading ? "Preparing…" : "Download"}
             </span>
           </button>
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="rounded-full p-2 text-foreground/80 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          >
+          <button ref={closeRef} type="button" onClick={onClose} aria-label="Close" className={ctrl}>
             <X size={20} aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <div className="relative flex flex-1 items-center justify-center overflow-hidden px-2 pb-6 sm:px-16">
+      <div
+        className="relative flex flex-1 items-center justify-center overflow-hidden px-2 pb-6 sm:px-20"
+        onClick={closeIfBackdrop}
+      >
         <img
           key={image.id}
           src={previewImageUrl(image.storage_path)}
@@ -139,19 +203,29 @@ export default function PreviewLightbox(props: Props) {
               type="button"
               onClick={prev}
               aria-label="Previous photo"
-              className="absolute left-1 hidden rounded-full p-3 text-foreground/70 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:block"
+              className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white/90 transition-colors hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:left-4"
             >
-              <ChevronLeft size={28} aria-hidden="true" />
+              <ChevronLeft size={24} aria-hidden="true" />
             </button>
             <button
               type="button"
               onClick={next}
               aria-label="Next photo"
-              className="absolute right-1 hidden rounded-full p-3 text-foreground/70 transition-colors hover:text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:block"
+              className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white/90 transition-colors hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 sm:right-4"
             >
-              <ChevronRight size={28} aria-hidden="true" />
+              <ChevronRight size={24} aria-hidden="true" />
             </button>
           </>
+        )}
+        {images.length > 1 && (
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-4 py-2 text-xs tracking-[0.2em] text-white transition-opacity duration-500 ${
+              showHint ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            ‹ Swipe ›
+          </div>
         )}
       </div>
     </div>
