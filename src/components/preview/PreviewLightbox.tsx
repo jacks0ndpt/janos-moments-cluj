@@ -45,7 +45,6 @@ export default function PreviewLightbox(props: Props) {
     onIndexChange = () => undefined,
   } = props ?? ({} as Props);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const pointers = useRef(new Map<number, Point>());
   const gestureStart = useRef<{
@@ -322,22 +321,6 @@ export default function PreviewLightbox(props: Props) {
       aria-label={`${coupleNames} — photo ${index + 1} of ${images.length}`}
       className="fixed inset-0 z-50 flex flex-col bg-[hsl(28_8%_3%)] animate-[fadeIn_0.2s_ease-out]"
       onClick={closeIfBackdrop}
-      onTouchStart={(e) => {
-        const t = e.touches[0];
-        touchStart.current = { x: t.clientX, y: t.clientY };
-      }}
-      onTouchEnd={(e) => {
-        const start = touchStart.current;
-        if (!start) return;
-        const t = e.changedTouches[0];
-        const dx = t.clientX - start.x;
-        const dy = t.clientY - start.y;
-        touchStart.current = null;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-          if (dx < 0) next();
-          else prev();
-        }
-      }}
     >
       <div
         className="flex items-center justify-between gap-2 px-3 py-3 sm:px-6"
