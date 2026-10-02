@@ -3,6 +3,23 @@ import { ChevronLeft, ChevronRight, Download, Share2, X } from "lucide-react";
 import { toast } from "sonner";
 import { previewImageUrl, type PreviewImageRow } from "@/lib/samedayPreview";
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 4;
+const DOUBLE_TAP_ZOOM = 2;
+
+type Point = { x: number; y: number };
+type Transform = Point & { scale: number };
+
+const initialTransform: Transform = { scale: MIN_ZOOM, x: 0, y: 0 };
+
+function distance(a: Point, b: Point) {
+  return Math.hypot(b.x - a.x, b.y - a.y);
+}
+
+function midpoint(a: Point, b: Point): Point {
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+
 type Props = {
   images: PreviewImageRow[];
   index: number;
@@ -28,11 +45,56 @@ export default function PreviewLightbox(props: Props) {
     onIndexChange = () => undefined,
   } = props ?? ({} as Props);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const pointers = useRef(new Map<number, Point>());
+  const gestureStart = useRef<{
+    distance: number;
+    midpoint: Point;
+    transform: Transform;
+  } | null>(null);
+  const dragStart = useRef<{ point: Point; transform: Transform } | null>(null);
+  const swipeStart = useRef<Point | null>(null);
+  const hadPinch = useRef(false);
+  const moved = useRef(false);
+  const lastTap = useRef<{ time: number; point: Point } | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [showHint, setShowHint] = useState(() => !hintShown && images.length > 1);
+  const [transform, setTransform] = useState<Transform>(initialTransform);
+  const transformRef = useRef<Transform>(initialTransform);
   const image = images[index];
+
+  const updateTransform = useCallback((next: Transform) => {
+    const scale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, next.scale));
+    if (scale <= MIN_ZOOM + 0.01) {
+      transformRef.current = initialTransform;
+      setTransform(initialTransform);
+      return;
+    }
+
+    const imageElement = imageRef.current;
+    const maxX = imageElement ? (imageElement.offsetWidth * (scale - 1)) / 2 : 0;
+    const maxY = imageElement ? (imageElement.offsetHeight * (scale - 1)) / 2 : 0;
+    const bounded = {
+      scale,
+      x: Math.min(maxX, Math.max(-maxX, next.x)),
+      y: Math.min(maxY, Math.max(-maxY, next.y)),
+    };
+    transformRef.current = bounded;
+    setTransform(bounded);
+  }, []);
+
+  const resetZoom = useCallback(() => {
+    pointers.current.clear();
+    gestureStart.current = null;
+    dragStart.current = null;
+    swipeStart.current = null;
+    hadPinch.current = false;
+    moved.current = false;
+    lastTap.current = null;
+    transformRef.current = initialTransform;
+    setTransform(initialTransform);
+  }, []);
 
   const next = useCallback(
     () => images.length && onIndexChange((index + 1) % images.length),
@@ -49,6 +111,10 @@ export default function PreviewLightbox(props: Props) {
     const t = setTimeout(() => setShowHint(false), 1800);
     return () => clearTimeout(t);
   }, [showHint]);
+
+  useEffect(() => {
+    resetZoom();
+  }, [image?.id, resetZoom]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -131,6 +197,123 @@ export default function PreviewLightbox(props: Props) {
     if (e.target === e.currentTarget) onClose();
   };
 
+  const onImagePointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (e.pointerType !== "touch") return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const point = { x: e.clientX, y: e.clientY };
+    pointers.current.set(e.pointerId, point);
+
+    if (pointers.current.size === 1) {
+      dragStart.current = { point, transform: transformRef.current };
+      swipeStart.current = point;
+      moved.current = false;
+      hadPinch.current = false;
+    } else if (pointers.current.size === 2) {
+      const [a, b] = Array.from(pointers.current.values());
+      gestureStart.current = {
+        distance: Math.max(1, distance(a, b)),
+        midpoint: midpoint(a, b),
+        transform: transformRef.current,
+      };
+      hadPinch.current = true;
+      moved.current = true;
+    }
+  };
+
+  const onImagePointerMove = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (e.pointerType !== "touch" || !pointers.current.has(e.pointerId)) return;
+    const point = { x: e.clientX, y: e.clientY };
+    pointers.current.set(e.pointerId, point);
+
+    if (pointers.current.size === 2 && gestureStart.current) {
+      const [a, b] = Array.from(pointers.current.values());
+      const start = gestureStart.current;
+      const currentMidpoint = midpoint(a, b);
+      const scale = start.transform.scale * (distance(a, b) / start.distance);
+      updateTransform({
+        scale,
+        x: start.transform.x + currentMidpoint.x - start.midpoint.x,
+        y: start.transform.y + currentMidpoint.y - start.midpoint.y,
+      });
+      return;
+    }
+
+    const start = dragStart.current;
+    if (!start) return;
+    const dx = point.x - start.point.x;
+    const dy = point.y - start.point.y;
+    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved.current = true;
+    if (transformRef.current.scale > MIN_ZOOM) {
+      updateTransform({
+        scale: start.transform.scale,
+        x: start.transform.x + dx,
+        y: start.transform.y + dy,
+      });
+    }
+  };
+
+  const onImagePointerUp = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (e.pointerType !== "touch") return;
+    const point = pointers.current.get(e.pointerId) ?? { x: e.clientX, y: e.clientY };
+    const wasPinch = hadPinch.current;
+    pointers.current.delete(e.pointerId);
+
+    if (pointers.current.size === 1) {
+      const remaining = Array.from(pointers.current.values())[0];
+      dragStart.current = { point: remaining, transform: transformRef.current };
+      gestureStart.current = null;
+      return;
+    }
+
+    if (pointers.current.size > 0) return;
+    gestureStart.current = null;
+
+    if (transformRef.current.scale <= MIN_ZOOM + 0.01) {
+      updateTransform(initialTransform);
+      const start = swipeStart.current;
+      if (!wasPinch && start) {
+        const dx = point.x - start.x;
+        const dy = point.y - start.y;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          lastTap.current = null;
+          if (dx < 0) next();
+          else prev();
+        } else if (!moved.current) {
+          const now = Date.now();
+          const previousTap = lastTap.current;
+          if (
+            previousTap &&
+            now - previousTap.time < 320 &&
+            distance(previousTap.point, point) < 30
+          ) {
+            updateTransform({ scale: DOUBLE_TAP_ZOOM, x: 0, y: 0 });
+            lastTap.current = null;
+          } else {
+            lastTap.current = { time: now, point };
+          }
+        }
+      }
+    } else if (!wasPinch && !moved.current) {
+      const now = Date.now();
+      const previousTap = lastTap.current;
+      if (
+        previousTap &&
+        now - previousTap.time < 320 &&
+        distance(previousTap.point, point) < 30
+      ) {
+        updateTransform(initialTransform);
+        lastTap.current = null;
+      } else {
+        lastTap.current = { time: now, point };
+      }
+    }
+
+    dragStart.current = null;
+    swipeStart.current = null;
+    hadPinch.current = false;
+    moved.current = false;
+  };
+
   return (
     <div
       role="dialog"
@@ -138,22 +321,6 @@ export default function PreviewLightbox(props: Props) {
       aria-label={`${coupleNames} — photo ${index + 1} of ${images.length}`}
       className="fixed inset-0 z-50 flex flex-col bg-[hsl(28_8%_3%)] animate-[fadeIn_0.2s_ease-out]"
       onClick={closeIfBackdrop}
-      onTouchStart={(e) => {
-        const t = e.touches[0];
-        touchStart.current = { x: t.clientX, y: t.clientY };
-      }}
-      onTouchEnd={(e) => {
-        const start = touchStart.current;
-        if (!start) return;
-        const t = e.changedTouches[0];
-        const dx = t.clientX - start.x;
-        const dy = t.clientY - start.y;
-        touchStart.current = null;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-          if (dx < 0) next();
-          else prev();
-        }
-      }}
     >
       <div
         className="flex items-center justify-between gap-2 px-3 py-3 sm:px-6"
@@ -190,12 +357,25 @@ export default function PreviewLightbox(props: Props) {
         onClick={closeIfBackdrop}
       >
         <img
+          ref={imageRef}
           key={image.id}
           src={previewImageUrl(image.storage_path)}
           alt={`${coupleNames} — photo ${index + 1}`}
           width={image.width ?? undefined}
           height={image.height ?? undefined}
-          className="max-h-full max-w-full object-contain animate-[fadeIn_0.25s_ease-out]"
+          draggable={false}
+          className="max-h-full max-w-full touch-none select-none object-contain animate-[fadeIn_0.25s_ease-out]"
+          style={{
+            transform: `translate3d(${transform.x}px, ${transform.y}px, 0) scale(${transform.scale})`,
+            transformOrigin: "center",
+            willChange: transform.scale > MIN_ZOOM ? "transform" : "auto",
+          }}
+          onPointerDown={onImagePointerDown}
+          onPointerMove={onImagePointerMove}
+          onPointerUp={onImagePointerUp}
+          onPointerCancel={onImagePointerUp}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
         />
         {images.length > 1 && (
           <>
