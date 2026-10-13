@@ -17,6 +17,7 @@ export const GOOGLE_REVIEW_URL = "https://g.page/r/jimmyhada/review";
 export const INSTAGRAM_URL = "https://instagram.com/jimmyhada.studio";
 export const DEFAULT_POST_DOWNLOAD_MESSAGE =
   "Thank you for trusting me with these memories.";
+export const DEFAULT_POST_DOWNLOAD_HEADING = "Your photos are ready";
 export type PostDownloadCta = "off" | "google_review" | "instagram";
 export const POST_DOWNLOAD_CTAS: { value: PostDownloadCta; label: string }[] = [
   { value: "off", label: "Off" },
