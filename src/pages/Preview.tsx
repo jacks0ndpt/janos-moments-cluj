@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { zipSync } from "fflate";
 import {
   DEFAULT_CTA_LABEL,
+  DEFAULT_POST_DOWNLOAD_HEADING,
   DEFAULT_POST_DOWNLOAD_MESSAGE,
   GOOGLE_REVIEW_URL,
   INSTAGRAM_URL,
@@ -572,7 +573,8 @@ export default function Preview() {
           >
             <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border" aria-hidden="true" />
             <h2 id="post-sheet-title" className="font-heading text-2xl sm:text-3xl">
-              {postSheet === "zip" ? "Your photos are downloading" : "Your photos are ready"}
+              {ready.preview.post_download_heading?.trim() ||
+                (postSheet === "zip" ? "Your photos are downloading" : DEFAULT_POST_DOWNLOAD_HEADING)}
             </h2>
             <p className="mx-auto mt-3 max-w-sm whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
               {ready.preview.post_download_message?.trim() || DEFAULT_POST_DOWNLOAD_MESSAGE}
