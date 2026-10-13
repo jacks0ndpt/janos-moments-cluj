@@ -1,0 +1,2 @@
+ALTER TABLE public.same_day_previews ADD COLUMN post_download_heading text DEFAULT 'Your photos are ready';
+COMMENT ON COLUMN public.same_day_previews.post_download_heading IS 'Optional heading shown in the post-download bottom sheet; falls back to the default when empty.';
