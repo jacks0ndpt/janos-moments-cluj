@@ -410,6 +410,8 @@ export type Database = {
           id: string
           is_published: boolean
           message: string | null
+          post_download_cta: string
+          post_download_message: string | null
           project_type: Database["public"]["Enums"]["project_type"]
           slug: string
           updated_at: string
@@ -427,6 +429,8 @@ export type Database = {
           id?: string
           is_published?: boolean
           message?: string | null
+          post_download_cta?: string
+          post_download_message?: string | null
           project_type?: Database["public"]["Enums"]["project_type"]
           slug: string
           updated_at?: string
@@ -444,6 +448,8 @@ export type Database = {
           id?: string
           is_published?: boolean
           message?: string | null
+          post_download_cta?: string
+          post_download_message?: string | null
           project_type?: Database["public"]["Enums"]["project_type"]
           slug?: string
           updated_at?: string
