@@ -417,6 +417,18 @@ export default function AdminPreviewEdit() {
               </SelectContent>
             </Select>
           </div>
+          <div className="min-w-0">
+            <Label>Post-download heading</Label>
+            <Input
+              key={`pdh-${preview.id}`}
+              defaultValue={preview.post_download_heading ?? DEFAULT_POST_DOWNLOAD_HEADING}
+              onBlur={(e) => {
+                const v = e.target.value.trim();
+                if (v !== (preview.post_download_heading ?? ""))
+                  patch({ post_download_heading: v || null });
+              }}
+            />
+          </div>
           <div className="min-w-0 md:col-span-2">
             <Label>Post-download message</Label>
             <Textarea
