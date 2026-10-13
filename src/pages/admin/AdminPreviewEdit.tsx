@@ -28,6 +28,8 @@ import {
 } from "@/lib/imageOptimizer";
 import {
   DEFAULT_CTA_LABEL,
+  DEFAULT_POST_DOWNLOAD_MESSAGE,
+  POST_DOWNLOAD_CTAS,
   DELIVERY_MODES,
   PREVIEW_PREFIX,
   PROJECT_TYPES,
@@ -396,6 +398,38 @@ export default function AdminPreviewEdit() {
               </div>
             </>
           )}
+          <div className="min-w-0">
+            <Label>Post-download CTA</Label>
+            <Select
+              value={preview.post_download_cta}
+              onValueChange={(v) => patch({ post_download_cta: v })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {POST_DOWNLOAD_CTAS.map((c) => (
+                  <SelectItem key={c.value} value={c.value}>
+                    {c.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="min-w-0 md:col-span-2">
+            <Label>Post-download message</Label>
+            <Textarea
+              className="w-full"
+              rows={2}
+              key={`pdm-${preview.id}`}
+              defaultValue={preview.post_download_message ?? DEFAULT_POST_DOWNLOAD_MESSAGE}
+              onBlur={(e) => {
+                const v = e.target.value.trim();
+                if (v !== (preview.post_download_message ?? ""))
+                  patch({ post_download_message: v || null });
+              }}
+            />
+          </div>
           <div className="min-w-0 md:col-span-2">
             <Label>Public URL</Label>
             <p className="mt-1 break-all text-sm text-muted-foreground">

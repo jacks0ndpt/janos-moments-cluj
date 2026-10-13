@@ -14,6 +14,9 @@ import { toast } from "sonner";
 import { zipSync } from "fflate";
 import {
   DEFAULT_CTA_LABEL,
+  DEFAULT_POST_DOWNLOAD_MESSAGE,
+  GOOGLE_REVIEW_URL,
+  INSTAGRAM_URL,
   deliveryHeading,
   fetchPublishedPreview,
   formatAvailableUntil,
@@ -176,6 +179,20 @@ export default function Preview() {
     if (i >= 0) setLightbox(i);
   };
 
+  // Post-download sheet: shown at most once per delivery per browser.
+  const [postSheet, setPostSheet] = useState<"zip" | "gallery" | null>(null);
+  function triggerPostSheet(kind: "zip" | "gallery") {
+    if (!ready || ready.preview.post_download_cta === "off") return;
+    const key = `delivery-post-sheet:${ready.preview.id}`;
+    try {
+      if (localStorage.getItem(key)) return;
+      localStorage.setItem(key, "1");
+    } catch {
+      /* storage unavailable — still show once this session */
+    }
+    setPostSheet(kind);
+  }
+
   async function downloadAll() {
     if (!ready || zipping || allImages.length === 0) return;
     const base = slugifyNames(ready.preview.couple_names) || "same-day";
@@ -209,6 +226,7 @@ export default function Preview() {
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
       if (failed > 0) toast.warning(`${failed} photo(s) could not be included`);
+      triggerPostSheet("zip");
     } catch (err) {
       console.error("Download all failed", err);
       toast.error("Could not prepare the download");
@@ -391,6 +409,7 @@ export default function Preview() {
                 href={ready.preview.full_gallery_url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => triggerPostSheet("gallery")}
                 className="mt-8 inline-flex items-center gap-2 rounded-full border border-primary bg-primary/10 px-8 py-3 text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               >
                 {ready.preview.cta_label?.trim() || DEFAULT_CTA_LABEL}
@@ -538,6 +557,45 @@ export default function Preview() {
           onClose={() => setLightbox(null)}
           onIndexChange={setLightbox}
         />
+      )}
+
+      {ready && postSheet && ready.preview.post_download_cta !== "off" && (
+        <div
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-background/60"
+          onClick={(e) => e.target === e.currentTarget && setPostSheet(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="post-sheet-title"
+            className="w-full max-w-lg rounded-t-2xl border border-border bg-card px-6 pb-8 pt-6 text-center shadow-2xl animate-[fadeIn_0.25s_ease-out]"
+          >
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border" aria-hidden="true" />
+            <h2 id="post-sheet-title" className="font-heading text-2xl sm:text-3xl">
+              {postSheet === "zip" ? "Your photos are downloading" : "Your photos are ready"}
+            </h2>
+            <p className="mx-auto mt-3 max-w-sm whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+              {ready.preview.post_download_message?.trim() || DEFAULT_POST_DOWNLOAD_MESSAGE}
+            </p>
+            <a
+              href={ready.preview.post_download_cta === "google_review" ? GOOGLE_REVIEW_URL : INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-primary bg-primary/10 px-6 py-3 text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:w-auto"
+            >
+              {ready.preview.post_download_cta === "google_review"
+                ? "Leave a Google review"
+                : "Follow @jimmyhada.studio"}
+            </a>
+            <button
+              type="button"
+              onClick={() => setPostSheet(null)}
+              className="mt-4 block w-full text-xs tracking-wide text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            >
+              Continue viewing gallery
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

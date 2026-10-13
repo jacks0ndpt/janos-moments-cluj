@@ -11,6 +11,19 @@ export const DEFAULT_PREVIEW_MESSAGE = "A first look at your photographs.";
 export const PREVIEW_CANONICAL_ORIGIN = "https://jimmyhada.com";
 export const DEFAULT_CTA_LABEL = "Download photos";
 
+// Post-download CTA (single source for destination URLs).
+// TODO: replace with the real Google Business "write a review" link.
+export const GOOGLE_REVIEW_URL = "https://g.page/r/jimmyhada/review";
+export const INSTAGRAM_URL = "https://instagram.com/jimmyhada.studio";
+export const DEFAULT_POST_DOWNLOAD_MESSAGE =
+  "Thank you for trusting me with these memories.";
+export type PostDownloadCta = "off" | "google_review" | "instagram";
+export const POST_DOWNLOAD_CTAS: { value: PostDownloadCta; label: string }[] = [
+  { value: "off", label: "Off" },
+  { value: "google_review", label: "Google review" },
+  { value: "instagram", label: "Instagram follow" },
+];
+
 export type ProjectType = Database["public"]["Enums"]["project_type"];
 export type DeliveryMode = Database["public"]["Enums"]["delivery_mode"];
 
