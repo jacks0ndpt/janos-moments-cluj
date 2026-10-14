@@ -180,19 +180,23 @@ export default function Preview() {
     if (i >= 0) setLightbox(i);
   };
 
-  // Post-download sheet: shown at most once per delivery per browser.
-  const [postSheet, setPostSheet] = useState<"zip" | "gallery" | null>(null);
-  function triggerPostSheet(kind: "zip" | "gallery") {
-    if (!ready || ready.preview.post_download_cta === "off") return;
-    const key = `delivery-post-sheet:${ready.preview.id}`;
-    try {
-      if (localStorage.getItem(key)) return;
-      localStorage.setItem(key, "1");
-    } catch {
-      /* storage unavailable — still show once this session */
-    }
-    setPostSheet(kind);
+// Post-download sheet: shown at most once per delivery per browser session.
+const [postSheet, setPostSheet] = useState<"zip" | "gallery" | null>(null);
+
+function triggerPostSheet(kind: "zip" | "gallery") {
+  if (!ready || ready.preview.post_download_cta === "off") return;
+
+  const key = `delivery-post-sheet:${ready.preview.id}`;
+
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    // storage unavailable - still show once this session
   }
+
+  setPostSheet(kind);
+}
 
   async function downloadAll() {
     if (!ready || zipping || allImages.length === 0) return;
