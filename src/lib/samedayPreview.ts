@@ -13,7 +13,7 @@ export const DEFAULT_CTA_LABEL = "Download photos";
 
 // Post-download CTA (single source for destination URLs).
 // TODO: replace with the real Google Business "write a review" link.
-export const GOOGLE_REVIEW_URL = "https://g.page/r/jimmyhada/review";
+export const GOOGLE_REVIEW_URL = "https://g.page/r/CQ4Xk8NCzTvsEAE/review";
 export const INSTAGRAM_URL = "https://instagram.com/jimmyhada.studio";
 export const DEFAULT_POST_DOWNLOAD_MESSAGE =
   "Thank you for trusting me with these memories.";
