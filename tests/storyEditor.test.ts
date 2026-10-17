@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { canUseStoryCover, storyEditorialPatch, type StoryRow } from "./storyEditor";
+import { canUseStoryCover, storyEditorialPatch, type StoryRow } from "../src/lib/storyEditor";
 
 describe("existing Story preservation", () => {
   test("covers use an existing image from the same story", () => {
