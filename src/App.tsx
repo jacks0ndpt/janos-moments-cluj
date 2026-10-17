@@ -26,6 +26,7 @@ import AdminUpload from "./pages/admin/AdminUpload";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminHomepage from "./pages/admin/AdminHomepage";
 import AdminStories from "./pages/admin/AdminStories";
+import AdminStoryEdit from "./pages/admin/AdminStoryEdit";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminAltTemplates from "./pages/admin/AdminAltTemplates";
 import AdminImport from "./pages/admin/AdminImport";
@@ -105,6 +106,7 @@ const App = () => {
                   <Route path="previews/:id" element={<AdminPreviewEdit />} />
                   <Route path="events" element={<AdminEvents />} />
                   <Route path="stories" element={<AdminStories />} />
+                   <Route path="stories/:id" element={<AdminStoryEdit />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="alt-templates" element={<AdminAltTemplates />} />
                   <Route path="import" element={<AdminImport />} />
