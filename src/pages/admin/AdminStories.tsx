@@ -1,77 +1,58 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
-import type { Database } from "@/integrations/supabase/types";
-
-type Story = Database["public"]["Tables"]["gallery_stories"]["Row"];
-type Category = Database["public"]["Tables"]["gallery_categories"]["Row"];
-type GalleryStatus = Database["public"]["Enums"]["gallery_status"];
+import { GalleryImage } from "@/components/admin/GalleryImage";
+import { useLanguage } from "@/contexts/LanguageContext";
+import type { StoryRow } from "@/lib/storyEditor";
 
 export default function AdminStories() {
-  const [stories, setStories] = useState<Story[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { language } = useLanguage();
+  const text = (en: string, ro: string) => language === "ro" ? ro : en;
+  const [stories, setStories] = useState<StoryRow[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name_en: string; name_ro: string }[]>([]);
+  const [covers, setCovers] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  async function load() {
-    const [s, c] = await Promise.all([
-      supabase.from("gallery_stories").select("*").order("position"),
-      supabase.from("gallery_categories").select("*").order("position"),
-    ]);
-    if (s.data) setStories(s.data);
-    if (c.data) setCategories(c.data);
-  }
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const [s, c] = await Promise.all([
+        supabase.from("gallery_stories").select("*").order("position"),
+        supabase.from("gallery_categories").select("id, name_en, name_ro").order("position"),
+      ]);
+      if (cancelled) return;
+      if (s.error || c.error) { setError(s.error?.message ?? c.error?.message ?? ""); setLoading(false); return; }
+      setStories(s.data ?? []);
+      setCategories(c.data ?? []);
+      const ids = (s.data ?? []).flatMap((story) => story.cover_image_id ? [story.cover_image_id] : []);
+      if (ids.length) {
+        const result = await supabase.from("gallery_images").select("id, storage_path").in("id", ids);
+        if (cancelled) return;
+        setCovers(Object.fromEntries((result.data ?? []).map((image) => [image.id, image.storage_path])));
+      }
+      setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
-  async function updateStory(id: string, patch: Partial<Story>) {
-    const { error } = await supabase.from("gallery_stories").update(patch).eq("id", id);
-    if (error) return toast.error(error.message);
-    load();
-  }
-
-  async function publishAllInStory(storyId: string, status: GalleryStatus) {
-    const { error } = await supabase.from("gallery_images").update({ status }).eq("story_id", storyId);
-    if (error) return toast.error(error.message);
-    toast.success(`All images set to ${status}`);
-  }
-
-  const catName = (id: string) => categories.find((c) => c.id === id)?.name_en ?? "—";
-
-  return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-serif">Stories</h1>
-      <div className="space-y-2">
-        {stories.map((s) => (
-          <div key={s.id} className={`border rounded p-3 flex flex-wrap items-center gap-3 ${s.is_system ? "opacity-70" : ""}`}>
-            <Input
-              defaultValue={s.title_en}
-              className="max-w-xs"
-              onBlur={(e) => e.target.value !== s.title_en && updateStory(s.id, { title_en: e.target.value })}
-            />
-            <Input
-              defaultValue={s.title_ro}
-              className="max-w-xs"
-              onBlur={(e) => e.target.value !== s.title_ro && updateStory(s.id, { title_ro: e.target.value })}
-            />
-            <span className="text-sm text-muted-foreground">{catName(s.category_id)}</span>
-            {s.is_system && <Badge variant="outline">default</Badge>}
-            <Select value={s.status} onValueChange={(v) => updateStory(s.id, { status: v as GalleryStatus })}>
-              <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="ml-auto flex gap-2">
-              <Button size="sm" variant="outline" onClick={() => publishAllInStory(s.id, "published")}>Publish all images</Button>
-              <Button size="sm" variant="outline" onClick={() => publishAllInStory(s.id, "archived")}>Archive all images</Button>
-            </div>
-          </div>
-        ))}
-      </div>
+  return <div className="max-w-5xl space-y-4 min-w-0">
+    <h1 className="text-2xl font-serif">{text("Stories", "Povești")}</h1>
+    {loading && <p className="text-muted-foreground">{text("Loading…", "Se încarcă…")}</p>}
+    {error && <p role="alert" className="text-destructive">{error}</p>}
+    {!loading && !error && !stories.length && <p className="text-muted-foreground">{text("No stories yet.", "Nu există povești încă.")}</p>}
+    <div className="divide-y border-y">
+      {stories.map((story) => {
+        const cat = categories.find((category) => category.id === story.category_id);
+        const coverPath = story.cover_image_id ? covers[story.cover_image_id] : undefined;
+        return <Link key={story.id} to={`/admin/stories/${story.id}`} className="flex items-center gap-3 py-4 hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring">
+          {coverPath && <GalleryImage path={coverPath} alt="" className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded shrink-0" />}
+          <div className="min-w-0 flex-1 space-y-1"><h2 className="text-xl break-words">{language === "ro" ? story.title_ro : story.title_en}</h2><div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground"><span>{cat ? (language === "ro" ? cat.name_ro : cat.name_en) : "—"}</span>{story.event_date && <span>{new Date(`${story.event_date}T12:00:00`).toLocaleDateString(language === "ro" ? "ro-RO" : "en-GB")}</span>}<Badge variant="outline">{story.status === "published" ? text("Published", "Publicat") : story.status === "archived" ? text("Archived", "Arhivat") : text("Draft", "Ciornă")}</Badge>{story.is_system && <Badge variant="outline">{text("default", "implicită")}</Badge>}</div></div>
+          <ArrowRight size={18} className="shrink-0 text-muted-foreground" />
+        </Link>;
+      })}
     </div>
-  );
+  </div>;
 }

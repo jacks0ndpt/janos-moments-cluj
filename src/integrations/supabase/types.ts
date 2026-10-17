@@ -238,6 +238,8 @@ export type Database = {
           created_at: string
           event_date: string | null
           id: string
+          intro_en: string | null
+          intro_ro: string | null
           is_featured: boolean
           is_system: boolean
           location: string | null
@@ -247,6 +249,7 @@ export type Database = {
           title_en: string
           title_ro: string
           updated_at: string
+          venue: string | null
         }
         Insert: {
           category_id: string
@@ -254,6 +257,8 @@ export type Database = {
           created_at?: string
           event_date?: string | null
           id?: string
+          intro_en?: string | null
+          intro_ro?: string | null
           is_featured?: boolean
           is_system?: boolean
           location?: string | null
@@ -263,6 +268,7 @@ export type Database = {
           title_en: string
           title_ro: string
           updated_at?: string
+          venue?: string | null
         }
         Update: {
           category_id?: string
@@ -270,6 +276,8 @@ export type Database = {
           created_at?: string
           event_date?: string | null
           id?: string
+          intro_en?: string | null
+          intro_ro?: string | null
           is_featured?: boolean
           is_system?: boolean
           location?: string | null
@@ -279,6 +287,7 @@ export type Database = {
           title_en?: string
           title_ro?: string
           updated_at?: string
+          venue?: string | null
         }
         Relationships: [
           {

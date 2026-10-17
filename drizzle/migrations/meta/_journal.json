@@ -15,6 +15,13 @@
       "when": 1791927820181,
       "tag": "0001_add_post_download_heading",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792257186944,
+      "tag": "0002_add_story_editorial_fields",
+      "breakpoints": true
     }
   ]
 }
