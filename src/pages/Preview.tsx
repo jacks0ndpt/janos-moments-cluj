@@ -566,16 +566,16 @@ function triggerPostSheet(kind: "zip" | "gallery") {
 
       {ready && postSheet && ready.preview.post_download_cta !== "off" && (
         <div
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-background/60"
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-background/60 md:items-center md:p-6"
           onClick={(e) => e.target === e.currentTarget && setPostSheet(null)}
         >
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="post-sheet-title"
-            className="w-full max-w-lg rounded-t-2xl border border-border bg-card px-6 pb-8 pt-6 text-center shadow-2xl animate-[fadeIn_0.25s_ease-out]"
+            className="w-full max-w-lg rounded-t-2xl border border-border bg-card px-6 pb-8 pt-6 text-center shadow-2xl animate-[fadeIn_0.25s_ease-out] md:rounded-2xl md:px-10 md:py-10"
           >
-            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border" aria-hidden="true" />
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border md:hidden" aria-hidden="true" />
             <h2 id="post-sheet-title" className="font-heading text-2xl sm:text-3xl">
               {ready.preview.post_download_heading?.trim() ||
                 (postSheet === "zip" ? "Your photos are downloading" : DEFAULT_POST_DOWNLOAD_HEADING)}
