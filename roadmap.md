@@ -7,6 +7,6 @@
 
 # Public Stories overview
 
-- [ ] Add bilingual /stories overview using published existing Stories and covers.
-- [ ] Verify public visibility, card destinations and layout at 390px and desktop.
-- [ ] Report changed files and Phase 3 prerequisites.
+- [x] Add bilingual /stories overview using published existing Stories and covers.
+- [x] Verify public visibility, card destinations and layout at 390px and desktop.
+- [x] Report changed files and Phase 3 prerequisites.
