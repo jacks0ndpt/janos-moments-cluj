@@ -10,3 +10,8 @@
 - [x] Add bilingual /stories overview using published existing Stories and covers.
 - [x] Verify public visibility, card destinations and layout at 390px and desktop.
 - [x] Report changed files and Phase 3 prerequisites.
+# Public Story page
+
+- [x] Add bilingual /stories/:slug with hero, intro, editorial gallery, lightbox and ending CTA.
+- [x] Verify desktop, 390px, RO/EN, direct refresh, lightbox and not-found states.
+- [x] Report changed files and Phase 4 prerequisites.
