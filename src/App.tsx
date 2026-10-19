@@ -10,6 +10,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import Stories from "./pages/Stories";
+import Story from "./pages/Story";
 import PortfolioWeddings from "./pages/PortfolioWeddings";
 import PortfolioEvents from "./pages/PortfolioEvents";
 import About from "./pages/About";
