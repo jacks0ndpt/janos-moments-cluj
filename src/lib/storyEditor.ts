@@ -3,6 +3,15 @@ import type { Database } from "@/integrations/supabase/types";
 export type StoryRow = Database["public"]["Tables"]["gallery_stories"]["Row"];
 export type StoryImageRow = Database["public"]["Tables"]["gallery_images"]["Row"];
 
+/** Creating a draft does not attach, move or copy any existing photos. */
+export function emptyStoryPatch(categoryId: string, slug: string, position: number) {
+  return {
+    category_id: categoryId, slug, position,
+    title_en: "New Story", title_ro: "Poveste nouă",
+    status: "draft" as const, is_system: false, cover_image_id: null,
+  };
+}
+
 export function canUseStoryCover(storyId: string, image: Pick<StoryImageRow, "story_id">): boolean {
   return image.story_id === storyId;
 }

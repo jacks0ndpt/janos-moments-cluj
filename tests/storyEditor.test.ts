@@ -1,7 +1,15 @@
 import { describe, expect, test } from "bun:test";
-import { canUseStoryCover, storyEditorialPatch, type StoryRow } from "../src/lib/storyEditor";
+import { canUseStoryCover, emptyStoryPatch, storyEditorialPatch, type StoryRow } from "../src/lib/storyEditor";
 
 describe("existing Story preservation", () => {
+  test("new Stories are empty drafts using the chosen existing category", () => {
+    const story = emptyStoryPatch("category-weddings", "new-story", 4000);
+    expect(story.category_id).toBe("category-weddings");
+    expect(story.status).toBe("draft");
+    expect(story.cover_image_id).toBeNull();
+    expect(story.is_system).toBe(false);
+    expect(Object.hasOwn(story, "images")).toBe(false);
+  });
   test("covers use an existing image from the same story", () => {
     expect(canUseStoryCover("story-a", { story_id: "story-a" })).toBe(true);
     expect(canUseStoryCover("story-a", { story_id: "story-b" })).toBe(false);
