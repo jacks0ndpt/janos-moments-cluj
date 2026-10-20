@@ -15,3 +15,9 @@
 - [x] Add bilingual /stories/:slug with hero, intro, editorial gallery, lightbox and ending CTA.
 - [x] Verify desktop, 390px, RO/EN, direct refresh, lightbox and not-found states.
 - [x] Report changed files and Phase 4 prerequisites.
+
+# Independent Stories admin workflow
+
+- [ ] Add empty Story creation and confirmed deletion without changing existing Stories.
+- [ ] Add direct optimized photo upload and individual deletion in the Story editor.
+- [ ] Verify creation, upload, cover, deletion and existing compatibility.
