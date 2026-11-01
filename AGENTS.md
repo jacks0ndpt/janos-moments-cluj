@@ -1,5 +1,7 @@
 # Project architecture
 
+- Keep the JPEG encoder binary in `public/wasm` and load it by URL only during browser optimization; source WASM imports and eager initialization break deployment bundles.
+
 - Stories editing uses the existing `gallery_stories` records and a nested admin editor route; this preserves category, image and publishing relationships instead of introducing a parallel content system.
 - Story covers reference existing `gallery_images` IDs from the same story; selecting a cover never uploads or copies storage objects.
 - Story-specific uploads and deletion use `storyManagement` with the existing optimizer and Storage-first deletion; this keeps file handling consistent without modifying the main Gallery. System default Stories remain protected because Gallery uploads depend on them.
