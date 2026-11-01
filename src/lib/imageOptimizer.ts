@@ -1,4 +1,8 @@
-import encode from "@jsquash/jpeg/encode";
+import encode, { init } from "@jsquash/jpeg/encode";
+import encoderWasmUrl from "@jsquash/jpeg/codec/enc/mozjpeg_enc.wasm?url";
+
+// Let Vite serve/package the encoder instead of fetching from its dependency cache.
+const encoderReady = init({ locateFile: () => encoderWasmUrl });
 
 /** Optimization contract for every image stored in the gallery bucket. */
 export const MAX_LONG_EDGE = 2000;
@@ -107,6 +111,7 @@ export async function optimizeImage(
   if (!(source instanceof HTMLImageElement)) source.close?.();
 
   const imageData = ctx.getImageData(0, 0, width, height);
+  await encoderReady;
   const buffer = await encode(imageData, {
     quality: JPEG_QUALITY,
     baseline: false,
