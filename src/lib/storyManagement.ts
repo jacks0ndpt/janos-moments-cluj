@@ -32,6 +32,9 @@ export async function deleteStoryPhoto(image: Pick<StoryImageRow, "id" | "storag
 }
 
 export async function deleteStory(storyId: string) {
+  const story = await supabase.from("gallery_stories").select("is_system").eq("id", storyId).single();
+  if (story.error) throw story.error;
+  if (story.data.is_system) throw new Error("Default Stories must be preserved / Poveștile implicite trebuie păstrate");
   const photos = await supabase.from("gallery_images").select("id, storage_path, story_id").eq("story_id", storyId);
   if (photos.error) throw photos.error;
   for (const image of photos.data ?? []) await deleteStoryPhoto(image);
