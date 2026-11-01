@@ -40,7 +40,8 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, rectSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { SortableContext, rectSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { galleryOrderMove } from "@/lib/galleryOrdering";
 import { CSS } from "@dnd-kit/utilities";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -51,8 +52,6 @@ type Template = Database["public"]["Tables"]["alt_templates"]["Row"];
 
 type StatusFilter = "all" | "draft" | "published" | "archived";
 type SortMode = "custom" | "newest" | "oldest" | "filename";
-
-const MIN_GAP = 0.001;
 
 export default function AdminGallery() {
   const [images, setImages] = useState<ImageRow[]>([]);
@@ -276,28 +275,12 @@ export default function AdminGallery() {
     }
 
     const previous = images;
-    const next = arrayMove(filtered, oldIndex, newIndex);
-
-    const before = next[newIndex - 1];
-    const after = next[newIndex + 1];
-    const lo = before ? before.position : (after ? after.position - 2000 : 0);
-    const hi = after ? after.position : (before ? before.position + 2000 : 1000);
-    const midpoint = (lo + hi) / 2;
-    const needsRebalance = hi - lo < MIN_GAP * 2;
-
-    let ids: string[];
-    let positions: number[];
-    if (needsRebalance) {
-      ids = next.map((i) => i.id);
-      positions = next.map((_, idx) => (idx + 1) * 1000);
-    } else {
-      ids = [moved.id];
-      positions = [midpoint];
-    }
-
+    const order = galleryOrderMove(filtered, oldIndex, newIndex);
+    if (!order) return;
+    const { ids, positions } = order;
     const posById = new Map(ids.map((id, idx) => [id, positions[idx]]));
     setImages((prev) =>
-      prev.map((img) => (posById.has(img.id) ? { ...img, position: posById.get(img.id)! } : img)),
+      prev.map((img) => ({ ...img, position: posById.get(img.id) ?? img.position })),
     );
 
     const { error } = await supabase.rpc("set_image_positions", {

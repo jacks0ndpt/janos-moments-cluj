@@ -14,6 +14,10 @@ import { canUseStoryCover, storyEditorialPatch, type StoryRow, type StoryImageRo
 import { toast } from "sonner";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { deleteStoryPhoto, uploadStoryPhoto } from "@/lib/storyManagement";
+import { DndContext, PointerSensor, KeyboardSensor, closestCenter, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { SortableStoryPhoto } from "@/components/admin/SortableStoryPhoto";
+import { galleryOrderMove } from "@/lib/galleryOrdering";
 
 export default function AdminStoryEdit() {
   const { id } = useParams();
@@ -29,6 +33,24 @@ export default function AdminStoryEdit() {
   const [bulkBusy, setBulkBusy] = useState(false);
   const [photoBusy, setPhotoBusy] = useState(false);
   const [progress, setProgress] = useState("");
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+
+  async function reorderPhotos({ active, over }: DragEndEvent) {
+    if (!over || photoBusy || bulkBusy || saving) return;
+    const order = galleryOrderMove(images, images.findIndex((image) => image.id === active.id), images.findIndex((image) => image.id === over.id));
+    if (!order) return;
+    const previous = images;
+    setPhotoBusy(true);
+    setImages(order.images);
+    try {
+      const result = await supabase.rpc("set_image_positions", { _ids: order.ids, _positions: order.positions });
+      if (result.error) throw result.error;
+      toast.success(text("Photo order saved", "Ordinea fotografiilor salvată"));
+    } catch (failure) {
+      setImages(previous);
+      toast.error(failure instanceof Error ? failure.message : String(failure));
+    } finally { setPhotoBusy(false); }
+  }
 
   useEffect(() => {
     if (!id) return;
@@ -147,6 +169,8 @@ export default function AdminStoryEdit() {
           {progress && <p role="status" className="text-sm text-muted-foreground">{progress}</p>}
         </div>
         {!images.length && <p className="text-sm text-muted-foreground">{text("No images in this story.", "Această poveste nu are fotografii.")}</p>}
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={reorderPhotos}>
+        <SortableContext items={images.map((image) => image.id)} strategy={rectSortingStrategy}>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {images.map((image) => <div key={image.id} className="min-w-0 space-y-2"><Button type="button" variant="ghost" className="relative p-0 w-full h-auto aspect-square overflow-hidden border rounded" aria-label={`${text("Use as cover", "Folosește drept copertă")}: ${image.original_filename ?? image.id}`} aria-pressed={story.cover_image_id === image.id} onClick={() => { if (canUseStoryCover(story.id, image)) edit({ cover_image_id: image.id }); }}><GalleryImage path={image.storage_path} alt={(language === "ro" ? image.alt_ro : image.alt_en) ?? image.original_filename ?? ""} className="h-full w-full object-cover" />{story.cover_image_id === image.id && <span className="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1"><Check size={16} /></span>}</Button><div className="flex flex-wrap gap-1 items-center"><Badge variant="outline">{image.status === "published" ? text("Published", "Publicat") : image.status === "archived" ? text("Archived", "Arhivat") : text("Draft", "Ciornă")}</Badge>{story.cover_image_id === image.id && <span className="text-xs text-muted-foreground">{text("Cover", "Copertă")}</span>}<Button type="button" variant="ghost" size="icon" className="ml-auto shrink-0" disabled={photoBusy || bulkBusy || saving} aria-label={`${text("Delete photo", "Șterge fotografia")}: ${image.original_filename ?? image.id}`} title={text("Delete photo", "Șterge fotografia")} onClick={() => removePhoto(image)}><Trash2 size={16} className="text-destructive" /></Button></div></div>)}
         </div>
