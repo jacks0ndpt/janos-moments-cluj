@@ -18,6 +18,6 @@
 
 # Independent Stories admin workflow
 
-- [ ] Add empty Story creation and confirmed deletion without changing existing Stories.
-- [ ] Add direct optimized photo upload and individual deletion in the Story editor.
-- [ ] Verify creation, upload, cover, deletion and existing compatibility.
+- [x] Add empty Story creation and confirmed deletion without changing existing Stories.
+- [x] Add direct optimized photo upload and individual deletion in the Story editor.
+- [x] Verify creation, upload, cover, deletion and existing compatibility.

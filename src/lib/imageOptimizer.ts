@@ -1,4 +1,21 @@
-import encode from "@jsquash/jpeg/encode";
+let encoderReady: Promise<typeof import("@jsquash/jpeg/encode")> | undefined;
+
+/** Load only on a browser upload, never during server rendering or module evaluation. */
+function loadEncoder() {
+  if (typeof window === "undefined") throw new Error("Image optimization requires a browser.");
+  if (!encoderReady) {
+    encoderReady = import("@jsquash/jpeg/encode").then(async (encoder) => {
+      const response = await fetch(`${import.meta.env.BASE_URL}wasm/mozjpeg_enc.wasm`);
+      if (!response.ok) throw new Error("Could not load the photo encoder.");
+      await encoder.init({ wasmBinary: await response.arrayBuffer() });
+      return encoder;
+    }).catch((error) => {
+      encoderReady = undefined;
+      throw error;
+    });
+  }
+  return encoderReady;
+}
 
 /** Optimization contract for every image stored in the gallery bucket. */
 export const MAX_LONG_EDGE = 2000;
@@ -107,7 +124,8 @@ export async function optimizeImage(
   if (!(source instanceof HTMLImageElement)) source.close?.();
 
   const imageData = ctx.getImageData(0, 0, width, height);
-  const buffer = await encode(imageData, {
+  const encoder = await loadEncoder();
+  const buffer = await encoder.default(imageData, {
     quality: JPEG_QUALITY,
     baseline: false,
     progressive: true,
