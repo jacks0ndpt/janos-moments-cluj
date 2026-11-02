@@ -24,14 +24,18 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  const isHome = location.pathname === '/';
-  const overHero = isHome && !isScrolled;
+  // Pages whose header sits directly over a hero photograph.
+  const isHeroPage =
+    location.pathname === '/' ||
+    location.pathname === '/experience' ||
+    location.pathname.startsWith('/stories/');
+  const overHero = isHeroPage && !isScrolled && !isMobileMenuOpen;
 
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/portfolio', label: t('nav.portfolio') },
+    { to: '/stories', label: t('nav.stories') },
     { to: '/experience', label: t('nav.experience') },
-    { to: '/about', label: t('nav.about') },
     { to: '/services', label: t('nav.services') },
     { to: '/contact', label: t('nav.contact') },
   ];
