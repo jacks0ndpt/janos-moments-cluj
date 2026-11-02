@@ -25,5 +25,5 @@
 # Story photo ordering
 
 - [x] Reuse Gallery drag/drop and fractional image positions in Story editor.
-- [ ] Verify reorder, reload and public order on desktop and mobile.
-- [ ] Check ordering tests and automated TypeScript/build results.
+- [x] Verify reorder, reload and public order on desktop and mobile; restore original photo positions after testing.
+- [x] Check ordering tests and automated TypeScript/build results (8 tests pass; automated build OK).
