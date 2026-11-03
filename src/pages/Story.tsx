@@ -118,7 +118,7 @@ export default function Story() {
             {/* Intro */}
             {intro && (
               <section className="section-padding container-wide">
-                <p className="max-w-2xl text-lg leading-relaxed text-left">{intro}</p>
+                <p className="max-w-2xl whitespace-pre-line text-lg leading-relaxed text-left">{intro}</p>
               </section>
             )}
 
