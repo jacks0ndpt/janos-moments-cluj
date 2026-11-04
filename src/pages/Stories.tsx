@@ -12,7 +12,7 @@ export default function Stories() {
   const text = (en: string, ro: string) => language === "ro" ? ro : en;
   const { data: stories = [], isPending, isError } = useQuery({ queryKey: ["public-stories"], queryFn: loadPublicStories });
   const title = text("Wedding Stories", "Povești de nuntă");
-  const intro = text("Real days, honest emotions, stories told through photographs.", "Zile autentice, emoții sincere, povești spuse prin fotografii.");
+  const intro = text("Good people, great energy, and the moments that shape their story.", "Oameni faini, energie bună și momentele care dau ritm poveștii lor.");
 
   return <>
     <Helmet>
