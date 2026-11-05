@@ -176,6 +176,7 @@ export type Database = {
           orientation: Database["public"]["Enums"]["image_orientation"] | null
           original_filename: string | null
           position: number
+          show_in_portfolio: boolean
           status: Database["public"]["Enums"]["gallery_status"]
           storage_path: string
           story_id: string
@@ -195,6 +196,7 @@ export type Database = {
           orientation?: Database["public"]["Enums"]["image_orientation"] | null
           original_filename?: string | null
           position?: number
+          show_in_portfolio?: boolean
           status?: Database["public"]["Enums"]["gallery_status"]
           storage_path: string
           story_id: string
@@ -214,6 +216,7 @@ export type Database = {
           orientation?: Database["public"]["Enums"]["image_orientation"] | null
           original_filename?: string | null
           position?: number
+          show_in_portfolio?: boolean
           status?: Database["public"]["Enums"]["gallery_status"]
           storage_path?: string
           story_id?: string

@@ -1,0 +1,2 @@
+ALTER TABLE public.gallery_images ADD COLUMN show_in_portfolio boolean NOT NULL DEFAULT true;
+UPDATE public.gallery_images i SET show_in_portfolio = false FROM public.gallery_stories s WHERE s.id = i.story_id AND s.is_system = false;
