@@ -93,6 +93,7 @@ async function loadDbAll(): Promise<PortfolioImage[]> {
       "id, storage_path, alt_ro, alt_en, width, height, position, gallery_stories!gallery_images_story_id_fkey!inner(position, status, gallery_categories!inner(slug, status, position))"
     )
     .eq("status", "published")
+    .eq("show_in_portfolio", true)
     .eq("gallery_stories.status", "published")
     .eq("gallery_stories.gallery_categories.status", "published");
   if (error) throw error;
