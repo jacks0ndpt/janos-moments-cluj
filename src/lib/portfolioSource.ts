@@ -71,7 +71,7 @@ function aspectFromDims(w?: number | null, h?: number | null): "portrait" | "lan
   return h > w ? "portrait" : "landscape";
 }
 
-type DbRow = {
+type _DbRow = {
   id: string;
   storage_path: string;
   alt_ro: string | null;
@@ -87,31 +87,31 @@ type DbRow = {
 };
 
 async function loadDbAll(): Promise<PortfolioImage[]> {
-  const { data, error } = await supabase
-    .from("gallery_images")
-    .select(
-      "id, storage_path, alt_ro, alt_en, width, height, position, gallery_stories!gallery_images_story_id_fkey!inner(position, status, gallery_categories!inner(slug, status, position))"
-    )
-    .eq("status", "published")
-    .eq("show_in_portfolio", true)
-    .eq("gallery_stories.status", "published")
-    .eq("gallery_stories.gallery_categories.status", "published");
-  if (error) throw error;
-  const rows = (data ?? []) as unknown as DbRow[];
+  // Portfolio membership is independent of Story publishing: published images
+  // flagged show_in_portfolio, grouped by their story's category.
+  const [imgs, meta] = await Promise.all([
+    supabase
+      .from("gallery_images")
+      .select("id, story_id, storage_path, alt_ro, alt_en, width, height, position")
+      .eq("status", "published")
+      .eq("show_in_portfolio", true),
+    supabase.rpc("portfolio_story_categories"),
+  ]);
+  if (imgs.error) throw imgs.error;
+  if (meta.error) throw meta.error;
+  const byStory = new Map((meta.data ?? []).map((m) => [m.story_id, m]));
+  const rows = (imgs.data ?? []).filter((r) => byStory.has(r.story_id));
   rows.sort((a, b) => {
-    const ca = a.gallery_stories.gallery_categories.position;
-    const cb = b.gallery_stories.gallery_categories.position;
-    if (ca !== cb) return ca - cb;
-    const sa = a.gallery_stories.position;
-    const sb = b.gallery_stories.position;
-    if (sa !== sb) return sa - sb;
+    const ma = byStory.get(a.story_id)!, mb = byStory.get(b.story_id)!;
+    if (ma.category_position !== mb.category_position) return ma.category_position - mb.category_position;
+    if (ma.story_position !== mb.story_position) return ma.story_position - mb.story_position;
     return a.position - b.position;
   });
   return rows.map((r) => ({
     id: r.id,
     src: publicUrl(r.storage_path),
     alt: r.alt_ro ?? r.alt_en ?? "",
-    category: DB_TO_UI[r.gallery_stories.gallery_categories.slug] ?? "weddings",
+    category: DB_TO_UI[byStory.get(r.story_id)!.category_slug] ?? "weddings",
     aspectRatio: aspectFromDims(r.width, r.height),
   }));
 }
