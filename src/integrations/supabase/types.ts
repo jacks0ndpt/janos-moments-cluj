@@ -554,6 +554,15 @@ export type Database = {
         Args: { _image_id: string; _new_position: number }
         Returns: undefined
       }
+      portfolio_story_categories: {
+        Args: never
+        Returns: {
+          category_position: number
+          category_slug: string
+          story_id: string
+          story_position: number
+        }[]
+      }
       set_image_positions: {
         Args: { _ids: string[]; _positions: number[] }
         Returns: undefined

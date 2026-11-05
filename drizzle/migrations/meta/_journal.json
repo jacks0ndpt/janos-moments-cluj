@@ -29,6 +29,13 @@
       "when": 1793865958690,
       "tag": "0003_add_show_in_portfolio",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793866492139,
+      "tag": "0004_portfolio_images_public_read",
+      "breakpoints": true
     }
   ]
 }
