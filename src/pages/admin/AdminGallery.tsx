@@ -588,6 +588,8 @@ export default function AdminGallery() {
             <Button size="sm" variant="outline" onClick={() => bulk({ status: "archived" })}>Archive</Button>
             <Button size="sm" variant="outline" onClick={() => bulk({ is_favorite: true })}>★ Favorite</Button>
             <Button size="sm" variant="outline" onClick={() => bulk({ is_favorite: false })}>Unfavorite</Button>
+            <Button size="sm" variant="outline" onClick={() => bulk({ show_in_portfolio: true })}>Show in Portfolio</Button>
+            <Button size="sm" variant="outline" onClick={() => bulk({ show_in_portfolio: false })}>Hide from Portfolio</Button>
             <Button size="sm" variant="outline" onClick={() => bulkHomepage(true)}>+ Homepage</Button>
             <Button size="sm" variant="outline" onClick={() => bulkHomepage(false)}>− Homepage</Button>
             <Button

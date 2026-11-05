@@ -13,7 +13,7 @@ export async function uploadStoryPhoto(storyId: string, file: File, position: nu
     width: result.optimized.width, height: result.optimized.height,
     orientation: detectOrientationFrom(result.optimized.width, result.optimized.height),
     file_size: result.optimized.size, mime_type: "image/jpeg", position,
-    status: "draft", uploaded_by: userId,
+    status: "draft", uploaded_by: userId, show_in_portfolio: false,
   }).select("*").single();
   if (insert.error) {
     const cleanup = await supabase.storage.from(GALLERY_BUCKET).remove([path]);
