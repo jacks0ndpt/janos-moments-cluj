@@ -550,6 +550,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_portfolio_story: { Args: { _story_id: string }; Returns: boolean }
       move_image: {
         Args: { _image_id: string; _new_position: number }
         Returns: undefined
