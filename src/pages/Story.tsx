@@ -9,6 +9,7 @@ import { loadPublicStory, type PublicStoryImage } from "@/lib/publicStories";
 import { publicUrl } from "@/lib/portfolioSource";
 import PreviewLightbox from "@/components/preview/PreviewLightbox";
 import type { PreviewImageRow } from "@/lib/samedayPreview";
+import { SITE_ORIGIN, storyCanonical, storyImageAlt, storySeoDescription, storySeoTitle } from "@/lib/storySeo";
 
 function isPortrait(image: PublicStoryImage) {
   return !!(image.width && image.height && image.height > image.width);
@@ -45,7 +46,13 @@ export default function Story() {
 
   const title = story ? (language === "ro" ? story.title_ro : story.title_en) : "";
   const intro = story ? (language === "ro" ? story.intro_ro : story.intro_en) : null;
-  const canonical = `https://jimmyhada.com/stories/${slug}`;
+  const canonical = storyCanonical(slug);
+  const lang = language === "ro" ? "ro" : "en";
+  const seoTitle = story ? storySeoTitle(story, lang) : text("Story not found", "Povestea nu a fost găsită") + " | Jimmy Hada";
+  const seoDescription = story ? storySeoDescription(story, lang) : "";
+  const ogImage = story?.cover ? publicUrl(story.cover.storage_path) : null;
+  const altFor = (image: PublicStoryImage, index: number) =>
+    (lang === "ro" ? image.alt_ro : image.alt_en)?.trim() || (story ? storyImageAlt(story, lang, index, story.images.length) : "");
   const meta = [story?.venue, story?.location].filter(Boolean).join(" · ");
 
   const lightboxImages = (story?.images ?? []) as unknown as PreviewImageRow[];
@@ -53,15 +60,33 @@ export default function Story() {
   return (
     <>
       <Helmet>
-        <title>{story ? `${title} | Jimmy Hada` : text("Story not found", "Povestea nu a fost găsită") + " | Jimmy Hada"}</title>
-        {story && <meta name="description" content={intro || meta || title} />}
-        <link rel="canonical" href={canonical} />
+        <title>{seoTitle}</title>
+        {story && <meta name="description" content={seoDescription} />}
+        <meta name="robots" content={story ? "index, follow" : "noindex, follow"} />
+        {story && <link rel="canonical" href={canonical} />}
         <meta property="og:type" content="article" />
         <meta property="og:url" content={canonical} />
-        <meta property="og:title" content={story ? `${title} | Jimmy Hada` : "Jimmy Hada"} />
-        {story && <meta property="og:description" content={intro || meta || title} />}
-        {story?.cover && <meta property="og:image" content={publicUrl(story.cover.storage_path)} />}
+        <meta property="og:title" content={seoTitle} />
+        {story && <meta property="og:description" content={seoDescription} />}
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        {story?.cover?.width && <meta property="og:image:width" content={String(story.cover.width)} />}
+        {story?.cover?.height && <meta property="og:image:height" content={String(story.cover.height)} />}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        {story && <meta name="twitter:description" content={seoDescription} />}
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
+        {story && (
+          <script type="application/ld+json">{JSON.stringify([
+            { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+              { "@type": "ListItem", position: 1, name: text("Home", "Acasă"), item: `${SITE_ORIGIN}/` },
+              { "@type": "ListItem", position: 2, name: text("Stories", "Povești"), item: `${SITE_ORIGIN}/stories` },
+              { "@type": "ListItem", position: 3, name: title, item: canonical },
+            ] },
+            { "@context": "https://schema.org", "@type": "Article", headline: title, description: seoDescription, url: canonical, inLanguage: lang,
+              ...(ogImage ? { image: ogImage } : {}), ...(story.event_date ? { datePublished: story.event_date } : {}),
+              author: { "@type": "Person", name: "Jimmy Hada" }, publisher: { "@type": "Organization", name: "Jimmy Hada Photography" } },
+          ])}</script>
+        )}
       </Helmet>
       <Header />
       <main className="pt-24 min-h-screen">
@@ -94,7 +119,7 @@ export default function Story() {
                 {story.cover && (
                   <img
                     src={publicUrl(story.cover.storage_path)}
-                    alt={(language === "ro" ? story.cover.alt_ro : story.cover.alt_en) || title}
+                    alt={(language === "ro" ? story.cover.alt_ro : story.cover.alt_en)?.trim() || storyImageAlt(story, lang, 0, story.images.length)}
                     className="w-full max-h-[80vh] object-cover"
                     decoding="async"
                   />
@@ -139,7 +164,7 @@ export default function Story() {
                         >
                           <img
                             src={publicUrl(image.storage_path)}
-                            alt={(language === "ro" ? image.alt_ro : image.alt_en) || `${title} — ${index + 1}`}
+                            alt={altFor(image, index)}
                             loading="lazy"
                             decoding="async"
                             className="w-full h-full object-cover"
@@ -162,7 +187,7 @@ export default function Story() {
                       >
                         <img
                           src={publicUrl(image.storage_path)}
-                          alt={(language === "ro" ? image.alt_ro : image.alt_en) || `${title} — ${index + 1}`}
+                          alt={altFor(image, index)}
                           loading="lazy"
                           decoding="async"
                           className="w-full h-auto"
