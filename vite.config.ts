@@ -18,7 +18,7 @@ const routes = [
   '/stories'
 ];
 
-/** Published, non-system Story URLs for the sitemap; build continues without them if the database is unreachable. */
+/** Published Story URLs for the sitemap; build continues without them if the database is unreachable. */
 async function storyRoutes(env: Record<string, string>): Promise<string[]> {
   const url = env.VITE_SUPABASE_URL; const key = env.VITE_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return [];
@@ -26,7 +26,7 @@ async function storyRoutes(env: Record<string, string>): Promise<string[]> {
     const res = await fetch(`${url}/rest/v1/gallery_stories?select=slug,status,is_system&status=eq.published`, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
     if (!res.ok) return [];
     const rows = (await res.json()) as { slug: string | null; status: string; is_system: boolean | null }[];
-    return rows.filter((r) => r.status === 'published' && !r.is_system && r.slug).map((r) => `/stories/${r.slug}`);
+    return rows.filter((r) => r.status === 'published' && r.slug).map((r) => `/stories/${r.slug}`);
   } catch { return []; }
 }
 

@@ -42,7 +42,7 @@ export function storyCanonical(slug: string): string {
   return `${SITE_ORIGIN}/stories/${encodeURIComponent(slug)}`;
 }
 
-/** Sitemap paths for Stories: published, non-system, with a slug. */
+/** Sitemap paths for Stories: published with a slug. */
 export function storySitemapPaths(stories: { slug: string | null; status: string; is_system?: boolean | null }[]): string[] {
-  return stories.filter((s) => s.status === "published" && !s.is_system && s.slug).map((s) => `/stories/${s.slug}`);
+  return stories.filter((s) => s.status === "published" && s.slug).map((s) => `/stories/${s.slug}`);
 }
