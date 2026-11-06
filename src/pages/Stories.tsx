@@ -34,6 +34,8 @@ export default function Stories() {
       <meta property="og:description" content={seoDescription} />
       <meta name="twitter:title" content={seoTitle} />
       <meta name="twitter:description" content={seoDescription} />
+      <meta property="og:image" content="https://jimmyhada.com/jimmy-hada-social-preview.jpg" />
+      <meta name="twitter:image" content="https://jimmyhada.com/jimmy-hada-social-preview.jpg" />
       <meta name="twitter:card" content="summary_large_image" />
     </Helmet>
     <Header />

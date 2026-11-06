@@ -51,7 +51,7 @@ export default function Story() {
   const lang = language === "ro" ? "ro" : "en";
   const seoTitle = story ? storySeoTitle(story, lang) : text("Story not found", "Povestea nu a fost găsită") + " | Jimmy Hada";
   const seoDescription = story ? storySeoDescription(story, lang) : "";
-  const ogImage = story?.cover ? publicUrl(story.cover.storage_path) : null;
+  const ogImage = story?.cover ? publicUrl(story.cover.storage_path) : `${SITE_ORIGIN}/jimmy-hada-social-preview.jpg`;
   const altFor = (image: PublicStoryImage, index: number) =>
     (lang === "ro" ? image.alt_ro : image.alt_en)?.trim() || (story ? storyImageAlt(story, lang, index, story.images.length) : "");
   const meta = [story?.venue, story?.location].filter(Boolean).join(" · ");
