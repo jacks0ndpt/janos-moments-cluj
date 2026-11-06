@@ -6,23 +6,36 @@ import Footer from "@/components/layout/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { loadPublicStories } from "@/lib/publicStories";
 import { publicUrl } from "@/lib/portfolioSource";
+import { detachStaticHeadTags } from "@/lib/storySeo";
+import { useEffect } from "react";
 
 export default function Stories() {
   const { language } = useLanguage();
+  useEffect(() => detachStaticHeadTags(), []);
   const text = (en: string, ro: string) => language === "ro" ? ro : en;
   const { data: stories = [], isPending, isError } = useQuery({ queryKey: ["public-stories"], queryFn: loadPublicStories });
   const title = text("Wedding Stories", "Povești de nuntă");
   const intro = text("Good people, great energy, and the moments that shape their story.", "Oameni faini, energie bună și momentele care dau ritm poveștii lor.");
 
+  const seoTitle = text("Wedding Stories | Cluj Wedding Photographer - Jimmy Hada", "Povești de nuntă | Fotograf nuntă Cluj - Jimmy Hada");
+  const seoDescription = text(
+    "Real wedding stories from Cluj-Napoca and across Romania, photographed in a documentary style by Jimmy Hada — good people, great energy and honest moments.",
+    "Povești de nuntă reale din Cluj-Napoca și din toată România, fotografiate documentar de Jimmy Hada — oameni faini, energie bună și momente sincere.");
+
   return <>
     <Helmet>
-      <title>{title} | Jimmy Hada</title>
-      <meta name="description" content={intro} />
+      <title>{seoTitle}</title>
+      <meta name="description" content={seoDescription} />
+      <meta name="robots" content="index, follow" />
       <link rel="canonical" href="https://jimmyhada.com/stories" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://jimmyhada.com/stories" />
-      <meta property="og:title" content={`${title} | Jimmy Hada`} />
-      <meta property="og:description" content={intro} />
+      <meta property="og:title" content={seoTitle} />
+      <meta property="og:description" content={seoDescription} />
+      <meta name="twitter:title" content={seoTitle} />
+      <meta name="twitter:description" content={seoDescription} />
+      <meta property="og:image" content="https://jimmyhada.com/jimmy-hada-social-preview.jpg" />
+      <meta name="twitter:image" content="https://jimmyhada.com/jimmy-hada-social-preview.jpg" />
       <meta name="twitter:card" content="summary_large_image" />
     </Helmet>
     <Header />
