@@ -69,8 +69,6 @@ export default function Story() {
         <meta property="og:title" content={seoTitle} />
         {story && <meta property="og:description" content={seoDescription} />}
         {ogImage && <meta property="og:image" content={ogImage} />}
-        {story?.cover?.width && <meta property="og:image:width" content={String(story.cover.width)} />}
-        {story?.cover?.height && <meta property="og:image:height" content={String(story.cover.height)} />}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoTitle} />
         {story && <meta name="twitter:description" content={seoDescription} />}
