@@ -9,7 +9,7 @@ import { loadPublicStory, type PublicStoryImage } from "@/lib/publicStories";
 import { publicUrl } from "@/lib/portfolioSource";
 import PreviewLightbox from "@/components/preview/PreviewLightbox";
 import type { PreviewImageRow } from "@/lib/samedayPreview";
-import { SITE_ORIGIN, storyCanonical, storyImageAlt, storySeoDescription, storySeoTitle } from "@/lib/storySeo";
+import { SITE_ORIGIN, storyCanonical, storyImageAlt, storySeoDescription, storySeoTitle, detachStaticHeadTags } from "@/lib/storySeo";
 
 function isPortrait(image: PublicStoryImage) {
   return !!(image.width && image.height && image.height > image.width);
@@ -36,6 +36,7 @@ function rhythm(images: PublicStoryImage[]): PublicStoryImage[][] {
 export default function Story() {
   const { slug = "" } = useParams();
   const { language } = useLanguage();
+  useEffect(() => detachStaticHeadTags(), []);
   const text = (en: string, ro: string) => (language === "ro" ? ro : en);
   const [lightbox, setLightbox] = useState<number | null>(null);
 

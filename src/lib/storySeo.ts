@@ -46,3 +46,13 @@ export function storyCanonical(slug: string): string {
 export function storySitemapPaths(stories: { slug: string | null; status: string; is_system?: boolean | null }[]): string[] {
   return stories.filter((s) => s.status === "published" && s.slug).map((s) => `/stories/${s.slug}`);
 }
+
+const STATIC_SELECTORS = 'link[rel="canonical"], meta[name="description"], meta[property="og:image"], meta[property="og:image:width"], meta[property="og:image:height"], meta[property="og:image:alt"], meta[name="twitter:image"], meta[property="og:title"], meta[property="og:description"], meta[property="og:url"], meta[name="twitter:title"], meta[name="twitter:description"]';
+
+/** Temporarily detaches the sitewide index.html head tags (not managed by Helmet) so Story pages expose a single canonical/description/image. Restored on unmount. */
+export function detachStaticHeadTags(): () => void {
+  const nodes = [...document.head.querySelectorAll<HTMLElement>(STATIC_SELECTORS)].filter((n) => !n.hasAttribute("data-rh"));
+  const marker = document.createComment("static-head");
+  const placed = nodes.map((n) => { const m = marker.cloneNode() as Comment; n.replaceWith(m); return [n, m] as const; });
+  return () => placed.forEach(([n, m]) => m.replaceWith(n));
+}

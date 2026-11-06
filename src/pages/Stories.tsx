@@ -6,9 +6,12 @@ import Footer from "@/components/layout/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { loadPublicStories } from "@/lib/publicStories";
 import { publicUrl } from "@/lib/portfolioSource";
+import { detachStaticHeadTags } from "@/lib/storySeo";
+import { useEffect } from "react";
 
 export default function Stories() {
   const { language } = useLanguage();
+  useEffect(() => detachStaticHeadTags(), []);
   const text = (en: string, ro: string) => language === "ro" ? ro : en;
   const { data: stories = [], isPending, isError } = useQuery({ queryKey: ["public-stories"], queryFn: loadPublicStories });
   const title = text("Wedding Stories", "Povești de nuntă");
