@@ -7,4 +7,5 @@
 - Gallery and Story photo ordering share `galleryOrderMove` and the existing `set_image_positions` RPC; Story reordering includes every image status to preserve a single saved order for public rendering.
 - Story-specific uploads and deletion use `storyManagement` with the existing optimizer and Storage-first deletion; this keeps file handling consistent without modifying the main Gallery. System default Stories remain protected because Gallery uploads depend on them.
 - Editorial Story text retains separate Romanian and English values to match the site's bilingual content model.
+- Story detail pages reuse the Portfolio back-to-top control with explicit visibility, preserving its mobile behavior and hiding it during lightbox viewing.
 - The public Stories overview reads published existing gallery_stories and resolves covers through gallery_images IDs and the existing public URL helper; this preserves the single content and storage system.- The sitemap is generated at build time by vite-plugin-sitemap; published Story URLs are fetched from the database during the build, so new Stories appear in the sitemap only after the next build/deploy.
