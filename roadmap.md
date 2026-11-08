@@ -31,4 +31,4 @@
 # Story detail UX polish
 
 - [x] Add bilingual hero breadcrumb and reuse Portfolio mobile back-to-top; retain existing intro paragraph breaks.
-- [ ] Verify RO/EN, desktop/390px, breadcrumb navigation, back-to-top and lightbox visibility; check automated build.
+- [x] Verified a published Story in RO/EN at desktop/390px, breadcrumb navigation, mobile back-to-top, lightbox hiding and preserved intro line breaks; automated build passed.
