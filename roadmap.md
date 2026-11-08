@@ -27,3 +27,8 @@
 - [x] Reuse Gallery drag/drop and fractional image positions in Story editor.
 - [x] Verify reorder, reload and public order on desktop and mobile; restore original photo positions after testing.
 - [x] Check ordering tests and automated TypeScript/build results (8 tests pass; automated build OK).
+
+# Story detail UX polish
+
+- [x] Add bilingual hero breadcrumb and reuse Portfolio mobile back-to-top; retain existing intro paragraph breaks.
+- [ ] Verify RO/EN, desktop/390px, breadcrumb navigation, back-to-top and lightbox visibility; check automated build.

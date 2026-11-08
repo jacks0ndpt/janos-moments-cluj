@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import BackToTopButton from "@/components/BackToTopButton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { loadPublicStory, type PublicStoryImage } from "@/lib/publicStories";
 import { publicUrl } from "@/lib/portfolioSource";
@@ -125,6 +126,13 @@ export default function Story() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-background">
+                  <nav aria-label={text("Story breadcrumb", "Navigare poveste")} className="mb-3 text-sm text-background/85">
+                    <ol className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                      <li><Link to="/stories" className="hover:underline underline-offset-4">{text("Stories", "Povești")}</Link></li>
+                      <li aria-hidden="true">/</li>
+                      <li aria-current="page" className="min-w-0 break-words">{title}</li>
+                    </ol>
+                  </nav>
                   <h1 className="text-4xl md:text-5xl lg:text-6xl leading-tight mb-3">{title}</h1>
                   <div className="text-sm md:text-base text-background/85 space-y-1">
                     {story.venue && <p>{story.venue}</p>}
@@ -227,6 +235,7 @@ export default function Story() {
           </>
         )}
       </main>
+      <BackToTopButton enabled={!!story && lightbox === null} />
       <Footer />
     </>
   );

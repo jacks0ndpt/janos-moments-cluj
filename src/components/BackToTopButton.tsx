@@ -4,17 +4,17 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ChevronUp } from 'lucide-react';
 
-const BackToTopButton = () => {
+const BackToTopButton = ({ enabled }: { enabled?: boolean }) => {
   const { t } = useLanguage();
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
   const [showButton, setShowButton] = useState(false);
 
-  // Only show on portfolio-related pages
-  const isPortfolioPage = pathname.startsWith('/portfolio');
+  // Portfolio remains the default; other pages can explicitly reuse the control.
+  const isEnabled = enabled ?? pathname.startsWith('/portfolio');
 
   useEffect(() => {
-    if (!isPortfolioPage || !isMobile) {
+    if (!isEnabled || !isMobile) {
       setShowButton(false);
       return;
     }
@@ -28,7 +28,7 @@ const BackToTopButton = () => {
     handleScroll(); // Check initial position
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isPortfolioPage, isMobile]);
+  }, [isEnabled, isMobile]);
 
   if (!showButton) return null;
 
